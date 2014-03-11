@@ -15,6 +15,7 @@ public class Client{
         String input;
         String returned;
 
+		@SuppressWarnings("resource")
 		Scanner inFromUser = new Scanner( System.in );
         Socket clientSocket = new Socket("localhost", 6789);
 

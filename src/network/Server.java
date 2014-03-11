@@ -13,11 +13,13 @@ public class Server extends Thread{
 	private static ArrayList<DataOutputStream> clientOutList;
 	
     public static void main(String argv[]) throws Exception{
-        Server svr = new Server();
+        @SuppressWarnings("unused")
+		Server svr = new Server();
     }
 	
     public Server() throws Exception{
-    	ServerSocket welcomeSocket = new ServerSocket(6789);
+    	@SuppressWarnings("resource")
+		ServerSocket welcomeSocket = new ServerSocket(6789);
 		
         Socket connectionSocket = welcomeSocket.accept();
 
