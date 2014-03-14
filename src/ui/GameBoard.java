@@ -35,7 +35,6 @@ public class GameBoard extends JPanel {
 		GameBoard.cont = new Controller();
 		cont.addGameBoard( this );
 		
-		
 		this.gameOver = false;
 		this.setPreferredSize( new Dimension( 400, 400 ) );
 		
@@ -56,6 +55,11 @@ public class GameBoard extends JPanel {
 
 	}
 	
+	/*
+	 * Param: None
+	 * Function: set indices in array
+	 * Returns: none
+	 */
 	public void makePiecesAry(){
 		piecesAry = new int[13];
 		piecesAry[1] = 1;
