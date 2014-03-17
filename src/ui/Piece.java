@@ -7,27 +7,28 @@ public class Piece {
 	private char val;
 	private int x;
 	private int y;
-	private boolean showing;
+	private int visibility;
 	private String player;
 	
 	@SuppressWarnings("unused")
 	private static Controller cont;
 	
-	public Piece( boolean showing, char val, int x, int y, String player, Controller cont ){
+	public Piece( int visibility, char val, int x, int y, String player, Controller cont ){
 		this.val = val;
 		this.x = x;
 		this.y = y;
-		this.showing = showing;
+		this.visibility = visibility;
 		this.player = player;
 		Piece.cont = cont;
 	}
 
-	public void setShowing(){
-		this.showing = true;
+	public void setShowingToBoth(){
+		this.visibility = 4;
 	}
 	
-	public boolean isShowing(){
-		return this.showing;
+	public boolean isShowing( int playerVis ){
+		if( playerVis == 2 );
+		
 	}
 	
 	public char getVal(){

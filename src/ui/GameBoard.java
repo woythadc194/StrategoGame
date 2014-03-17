@@ -79,25 +79,21 @@ public class GameBoard extends JPanel {
 	public void addPieces(){
 		String player = "NONE";
 		/*
-		 * Making every button have empty piece
+		 *  0 = Showing to neither
+		 * 	1 = Showing only to Red
+		 *  2 = Showing only to Blue
+		 *  3 = Showing to both
 		 */
 		for( int y=0; y<10; y++ )
 			for( int x=0; x<10; x++ )
-				buttonMatrix.get( x ).get( y ).setPiece( new Piece( true,  '~' , x, y, player, cont ) );
+				buttonMatrix.get( x ).get( y ).setPiece( new Piece( 3,  '~' , x, y, player, cont ) );
 
 		/*
 		 * Randomly placing pieces in the 40 spaces on both sides
 		 */
 		player = "RED";
-		boolean isOpponent = true;
 		Random rand = new Random();
-		for( int y=0; y<10; y++ ){
-			if( y == 4 ){
-				makePiecesAry();
-				y = 6;
-				player = "BLUE";
-				isOpponent = false;
-			}
+		for( int y=0; y<4; y++ ){
 			for( int x=0; x<10; x++ ){
 				int id = rand.nextInt( 12 ) + 1;
 				while( piecesAry[id] == 0 )
@@ -114,10 +110,15 @@ public class GameBoard extends JPanel {
 				} else {
 					c = ("" + id).charAt( 0 );
 				}
-				buttonMatrix.get( x ).get( y ).setPiece( new Piece( !isOpponent, c , x, y, player, cont ) );
+				buttonMatrix.get( x ).get( y ).setPiece( new Piece( 1, c , x, y, player, cont ) );
 			}
 		}
+
+/* now right blue part */
+		makePiecesAry();
+		player = "BLUE";
 		
+/* now set up neutral zone */
 		player = "NONE";
 		/*
 		 * The spaces you aren't allowed to move into
@@ -126,7 +127,7 @@ public class GameBoard extends JPanel {
 			for( int x=2; x<8; x++ ){
 				if( x==4 )
 					x = 6;
-				buttonMatrix.get( x ).get( y ).setPiece( new Piece( true, 'X', x, y, player, cont ) );
+				buttonMatrix.get( x ).get( y ).setPiece( new Piece( 3, 'X', x, y, player, cont ) );
 			}
 	}
 	
@@ -169,13 +170,6 @@ public class GameBoard extends JPanel {
 			frame.add( menus );
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.gridwidth = 1;
-		/*
-		 	SelectionPanel selectPanel = new SelectionPanel( cont );
-		 	selectPanel.setPreferredSize( new Dimension( 150, 400 ) );
-			gridbag.setConstraints( selectPanel, c );
-			frame.add( selectPanel );
-			cont.addSelectionPanel( selectPanel );
-		*/	
 			gridbag.setConstraints( this, c );
 			frame.add( this );
 		
