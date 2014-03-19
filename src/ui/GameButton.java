@@ -124,7 +124,10 @@ public class GameButton extends JButton{
 		}
 	}
 	
-	private void showPieceOptions(){		
+	private void showPieceOptions(){
+		if(this.getPiece().getVal() != '~'){
+			cont.piecesAry[this.getPiece().getVal()]++;
+		}
 		final JFrame newFrame = new JFrame();
 		JPanel pane1 = new JPanel();
 		JPanel pane2 = new JPanel();
