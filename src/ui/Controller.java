@@ -11,6 +11,7 @@ public class Controller {
 	public static SelectionPanel sp;
 	public static JFrame frame;
 	public static ArrayList<ArrayList<GameButton>> buttonMatrix;
+	public static int [] piecesAry;
 
 	public GameButton selectedButton;
 	public boolean selectionMade;

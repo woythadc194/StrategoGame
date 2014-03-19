@@ -82,6 +82,10 @@ public class GameButton extends JButton{
 	
 	public void clicked(){
 		if(!ready){
+			/*
+			 * Set up piece selection 
+			 */
+			
 			System.out.println( "PIECE NOT READY" );
 		}else if(cont.isReady()){
 			if( p.getVal() != 'X' ){

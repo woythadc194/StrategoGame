@@ -135,7 +135,7 @@ public class GameBoard extends JPanel {
 				} else {
 					c = ("" + id).charAt( 0 );
 				}
-				buttonMatrix.get( x ).get( y ).setPiece( new Piece( 1, c , x, y, player, cont ) );
+				buttonMatrix.get( x ).get( y ).setPiece( new Piece( 3, c , x, y, player, cont ) );
 			}
 		}
 
