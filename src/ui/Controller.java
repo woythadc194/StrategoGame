@@ -14,7 +14,8 @@ public class Controller {
 	public static int [] piecesAry;
 	private static int selectedPieceOpt;
 	public static PieceOptButton [] optButtonAry;
-
+	public static char [] charIndexAry;
+	
 	public GameButton selectedButton;
 	public boolean selectionMade;
 	public boolean redTurn;
@@ -23,6 +24,19 @@ public class Controller {
 	public Controller(){
 		this.redTurn = false;
 		this.setSelectedPieceOpt( 13 );
+		charIndexAry = new char[13];
+		charIndexAry[1] = '1';
+		charIndexAry[2] = '2';
+		charIndexAry[3] = '3';
+		charIndexAry[4] = '4';
+		charIndexAry[5] = '5';
+		charIndexAry[6] = '6';
+		charIndexAry[7] = '7';
+		charIndexAry[8] = '8';
+		charIndexAry[9] = '9';
+		charIndexAry[10] = 'B';
+		charIndexAry[11] = 'F';
+		charIndexAry[12] = 'S';
 	}
 	
 	public void makePiecesAry(){

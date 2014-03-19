@@ -124,7 +124,12 @@ public class GameButton extends JButton{
 		}
 	}
 	
-	private void showPieceOptions(){
+	private void showPieceOptions(){		
+		final JFrame newFrame = new JFrame();
+		JPanel pane1 = new JPanel();
+		JPanel pane2 = new JPanel();
+		JPanel pane3 = new JPanel();
+		
 		PieceOptButton [] newAry = new PieceOptButton[13];
 		PieceOptButton b1 = new PieceOptButton( 1, cont ); 		PieceOptButton b2 = new PieceOptButton( 2, cont );
 		PieceOptButton b3 = new PieceOptButton( 3, cont ); 		PieceOptButton b4 = new PieceOptButton( 4, cont );
@@ -137,18 +142,19 @@ public class GameButton extends JButton{
 		newAry[7] = b7; newAry[8] = b8; newAry[9] = b9; newAry[10] = bB; newAry[11] = bF; newAry[12] = bS;
 		cont.setOptButtonAry( newAry );
 		
+		final GameButton b = this;
 		JButton ready = new JButton("Okay!");
 	    ready.addActionListener( new ActionListener(){
 	    		public void actionPerformed( ActionEvent e ){
-	    			cont.resetSelectedPieceOpt();
+	    			if(cont.getSelectedPieceOpt() != 13){
+	    				b.setPiece( new Piece( 2, cont.charIndexAry[cont.getSelectedPieceOpt()] , b.getXLocal(), b.getYLocal(), "BLUE", cont ) );
+	    				cont.resetSelectedPieceOpt();
+	    				newFrame.dispose();
+	    			}
 	    		}
 	    	});	    	
 		
-		JFrame newFrame = new JFrame();
 		newFrame.setLayout( new GridLayout( 3, 1 ) );
-		JPanel pane1 = new JPanel();
-		JPanel pane2 = new JPanel();
-		JPanel pane3 = new JPanel();
 		pane1.add( b1 );		pane1.add( b2 );		pane1.add( b3 );		
 		pane1.add( b4 );		pane1.add( b5 );		pane1.add( b6 );		
 		pane2.add( b7 );		pane2.add( b8 );		pane2.add( b9 );		
