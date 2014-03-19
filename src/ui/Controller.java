@@ -21,6 +21,22 @@ public class Controller {
 		this.redTurn = false;
 	}
 	
+	public void makePiecesAry(){
+		piecesAry = new int[13];
+		piecesAry[1] = 1;
+		piecesAry[2] = 1;
+		piecesAry[3] = 2;
+		piecesAry[4] = 3;
+		piecesAry[5] = 4;
+		piecesAry[6] = 4;
+		piecesAry[7] = 4;
+		piecesAry[8] = 5;
+		piecesAry[9] = 8;
+		piecesAry[10] = 6;
+		piecesAry[11] = 1;
+		piecesAry[12] = 1;
+	}
+	
 	public void switchTurns(){
 		redTurn = !redTurn;
 	}

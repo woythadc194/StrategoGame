@@ -165,7 +165,9 @@ public class GameBoard extends JPanel {
 		}else{
 			;
 		}
-
+		
+		cont.makePiecesAry();
+		
 		for( int y=yMin; y<yMax; y++ )
 			for(int x=0; x<10; x++ ){
 				buttonMatrix.get( x ).get( y ).setPiece( new Piece( 3,  '~' , x, y, "NONE", cont ) );

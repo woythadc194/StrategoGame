@@ -3,10 +3,14 @@ package ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 
 @SuppressWarnings("serial")
@@ -85,7 +89,7 @@ public class GameButton extends JButton{
 			/*
 			 * Set up piece selection 
 			 */
-			
+			showPieceOptions();
 			System.out.println( "PIECE NOT READY" );
 		}else if(cont.isReady()){
 			if( p.getVal() != 'X' ){
@@ -116,6 +120,30 @@ public class GameButton extends JButton{
 		}else{
 			System.out.println( "GAME NOT READY" );
 		}
+	}
+	
+	private void showPieceOptions(){
+		PieceOptButton b1 = new PieceOptButton( 1, cont ); 		PieceOptButton b2 = new PieceOptButton( 2, cont );
+		PieceOptButton b3 = new PieceOptButton( 3, cont ); 		PieceOptButton b4 = new PieceOptButton( 4, cont );
+		PieceOptButton b5 = new PieceOptButton( 5, cont );		PieceOptButton b6 = new PieceOptButton( 6, cont );
+		PieceOptButton b7 = new PieceOptButton( 7, cont );		PieceOptButton b8 = new PieceOptButton( 8, cont );
+		PieceOptButton b9 = new PieceOptButton( 9, cont );		PieceOptButton bB = new PieceOptButton( 10, cont );
+		PieceOptButton bF = new PieceOptButton( 11, cont );		PieceOptButton bS = new PieceOptButton( 12, cont );
+		
+		JFrame newFrame = new JFrame();
+		newFrame.setLayout( new GridLayout( 2, 1 ) );
+		JPanel pane1 = new JPanel();
+		JPanel pane2 = new JPanel();
+		pane1.add( b1 );		pane1.add( b2 );		pane1.add( b3 );		
+		pane1.add( b4 );		pane1.add( b5 );		pane1.add( b6 );		
+		pane2.add( b7 );		pane2.add( b8 );		pane2.add( b9 );		
+		pane2.add( bB );		pane2.add( bF );		pane2.add( bS );
+		newFrame.add( pane1 );
+		newFrame.add( pane2 );
+		newFrame.setVisible( true );
+		newFrame.setResizable( false );
+		newFrame.setLocation( 500,  400 );
+		newFrame.pack();
 	}
 	
 	private void waitTime( long time ){
