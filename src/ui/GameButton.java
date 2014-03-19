@@ -135,12 +135,12 @@ public class GameButton extends JButton{
 		
 		newAry[1] = b1; newAry[2] = b2; newAry[3] = b3; newAry[4] = b4; newAry[5] = b5; newAry[6] = b6; 
 		newAry[7] = b7; newAry[8] = b8; newAry[9] = b9; newAry[10] = bB; newAry[11] = bF; newAry[12] = bS;
-		
+		cont.setOptButtonAry( newAry );
 		
 		JButton ready = new JButton("Okay!");
 	    ready.addActionListener( new ActionListener(){
 	    		public void actionPerformed( ActionEvent e ){
-	    			
+	    			cont.resetSelectedPieceOpt();
 	    		}
 	    	});	    	
 		

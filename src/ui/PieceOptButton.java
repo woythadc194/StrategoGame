@@ -28,7 +28,8 @@ public class PieceOptButton extends JButton {
 		PieceOptButton.cont = cont;
 		addAL();
 		if( Controller.piecesAry[typeInt] == 0)
-			this.setBackground( Color.black );
+			this.setBackground( Color.BLACK );
+		else this.setBackground( Color.WHITE );
 	}
 	
 	private void addAL(){
@@ -46,16 +47,16 @@ public class PieceOptButton extends JButton {
 	}
 	
 	private void clicked(){
-		this.setBackground( Color.RED );
 		if(cont.getSelectedPieceOpt() == 13){
 			cont.setSelectedPieceOpt(typeInt);
 			Controller.piecesAry[typeInt] --;
 		} else{
-			Controller.optButtonAry[typeInt].setBackground(null);
+			Controller.optButtonAry[cont.getSelectedPieceOpt()].setBackground( Color.WHITE );
 			Controller.piecesAry[cont.getSelectedPieceOpt()]++;
 			cont.setSelectedPieceOpt(typeInt);
 			Controller.piecesAry[typeInt]--;
 		}
+		this.setBackground( Color.RED );
 			System.out.println( "Selected " + typeChar );
 	}
 }
