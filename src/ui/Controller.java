@@ -12,13 +12,17 @@ public class Controller {
 	public static JFrame frame;
 	public static ArrayList<ArrayList<GameButton>> buttonMatrix;
 	public static int [] piecesAry;
+	private static int selectedPieceOpt;
+	public static PieceOptButton [] optButtonAry;
 
 	public GameButton selectedButton;
 	public boolean selectionMade;
 	public boolean redTurn;
 	
+	
 	public Controller(){
 		this.redTurn = false;
+		this.setSelectedPieceOpt( 13 );
 	}
 	
 	public void makePiecesAry(){
@@ -40,6 +44,23 @@ public class Controller {
 	public void switchTurns(){
 		redTurn = !redTurn;
 	}
+	
+	public void setOptButtonAry( PieceOptButton[] optButtonAry ){
+		Controller.optButtonAry = optButtonAry;
+	}
+	
+	public void setSelectedPieceOpt( int opt){
+		Controller.selectedPieceOpt = opt;
+	}
+	
+	public void resetSelectedPieceOpt(){
+		Controller.selectedPieceOpt = 13;
+	}
+	
+	public int getSelectedPieceOpt(){
+		return Controller.selectedPieceOpt;
+	}
+	
 	
 	public boolean isReady(){
 		for( int y=0; y<10; y++ )
