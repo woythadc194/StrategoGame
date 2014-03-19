@@ -6,11 +6,15 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import players.Player;
 
 
 @SuppressWarnings("serial")
@@ -130,10 +134,18 @@ public class GameButton extends JButton{
 		PieceOptButton b9 = new PieceOptButton( 9, cont );		PieceOptButton bB = new PieceOptButton( 10, cont );
 		PieceOptButton bF = new PieceOptButton( 11, cont );		PieceOptButton bS = new PieceOptButton( 12, cont );
 		
+		JButton ready = new JButton("Okay!");
+	    ready.addActionListener( new ActionListener(){
+	    		public void actionPerformed( ActionEvent e ){
+	    			
+	    		}
+	    	});	    	
+		
 		JFrame newFrame = new JFrame();
-		newFrame.setLayout( new GridLayout( 2, 1 ) );
+		newFrame.setLayout( new GridLayout( 3, 1 ) );
 		JPanel pane1 = new JPanel();
 		JPanel pane2 = new JPanel();
+		JPanel pane3 = new JPanel();
 		pane1.add( b1 );		pane1.add( b2 );		pane1.add( b3 );		
 		pane1.add( b4 );		pane1.add( b5 );		pane1.add( b6 );		
 		pane2.add( b7 );		pane2.add( b8 );		pane2.add( b9 );		
