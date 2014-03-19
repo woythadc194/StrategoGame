@@ -24,6 +24,14 @@ public class Controller {
 		redTurn = !redTurn;
 	}
 	
+	public boolean isReady(){
+		for( int y=0; y<10; y++ )
+			for( int x=0; x<10; x++ )
+				if( buttonMatrix.get( x ).get( y ).isReady() == false )
+					return false;
+		return true;
+	}
+	
 	public void highlightMoveable(){
 		if( selectedButton.getPiece().getVal() == '9' ){
 			for( int x=selectedButton.getXLocal()+1; x<10; x++ ){
@@ -120,6 +128,10 @@ public class Controller {
 	
 	public JFrame getFrame(){
 		return Controller.frame;
+	}
+	
+	public ArrayList<ArrayList<GameButton>> getButtonMatrix(){
+		return buttonMatrix;
 	}
 	
 	public void addButtonMatrix( ArrayList<ArrayList<GameButton>> buttonMatrix){

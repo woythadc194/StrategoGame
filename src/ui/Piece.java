@@ -22,12 +22,12 @@ public class Piece {
 		Piece.cont = cont;
 	}
 
-	public void setShowingToBoth(){
-		this.visibility = 4;
+	public void setVis( int vis){
+		this.visibility = vis;
 	}
 	
-	public boolean isShowing( int playerVis ){
-		if( playerVis == 2 );
+	public int visStatus( ){
+		return visibility;
 		
 	}
 	

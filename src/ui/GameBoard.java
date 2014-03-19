@@ -20,12 +20,11 @@ import javax.swing.JPanel;
 public class GameBoard extends JPanel {
 	
 	private static Controller cont;
-	private GameBoard b;
-	private JFrame frame;
-	private boolean gameOver;
-	private int [] piecesAry;
-	
-	public ArrayList<ArrayList<GameButton>> buttonMatrix;
+	private static GameBoard b;
+	private static JFrame frame;
+	private static boolean gameOver;
+	private static int [] piecesAry;
+	private static ArrayList<ArrayList<GameButton>> buttonMatrix;
 	
 	public GameBoard(){
 		super();
@@ -47,7 +46,7 @@ public class GameBoard extends JPanel {
 		frame.pack();
 		
 		cont.addFrame( frame );
-		
+				
 		addButtons();
 		addPieces();
 		cont.addButtonMatrix( buttonMatrix );
@@ -76,10 +75,36 @@ public class GameBoard extends JPanel {
 		piecesAry[12] = 1;
 	}
 	
+	public void addButtons(){
+		FlowLayout flow = new FlowLayout();
+		flow.setHgap( 0 );
+		flow.setVgap( 0 );
+		this.setLayout( flow );
+		
+		buttonMatrix = new ArrayList<ArrayList<GameButton>>();
+		for( int i=0; i<10; i++ )
+			buttonMatrix.add( new ArrayList<GameButton>() );
+		
+		for( int y=0; y<10; y++ ){
+			for( int x=0; x<10; x++ ){
+				final GameButton button = new GameButton( 40, x, y, cont );
+				button.addActionListener( new ActionListener(){
+					public void actionPerformed( ActionEvent e ){
+						button.clicked();
+					}
+				});
+				button.setBackground( Color.BLACK );
+				
+				buttonMatrix.get( x ).add( button );
+				this.add( button );
+			}
+		}
+		//this.repaint();
+	}
+	
 	public void addPieces(){
 		String player = "NONE";
 		/*
-		 *  0 = Showing to neither
 		 * 	1 = Showing only to Red
 		 *  2 = Showing only to Blue
 		 *  3 = Showing to both
@@ -117,6 +142,7 @@ public class GameBoard extends JPanel {
 /* now right blue part */
 		makePiecesAry();
 		player = "BLUE";
+		addHumanPlayer(player);
 		
 /* now set up neutral zone */
 		player = "NONE";
@@ -131,32 +157,22 @@ public class GameBoard extends JPanel {
 			}
 	}
 	
-	public void addButtons(){
-		FlowLayout flow = new FlowLayout();
-		flow.setHgap( 0 );
-		flow.setVgap( 0 );
-		this.setLayout( flow );
-		
-		buttonMatrix = new ArrayList<ArrayList<GameButton>>();
-		for( int i=0; i<10; i++ )
-			buttonMatrix.add( new ArrayList<GameButton>() );
-		
-		for( int y=0; y<10; y++ ){
-			for( int x=0; x<10; x++ ){
-				final GameButton button = new GameButton( 40, x, y, cont );
-				button.addActionListener( new ActionListener(){
-					public void actionPerformed( ActionEvent e ){
-						button.clicked();
-					}
-				});
-				button.setBackground( Color.BLACK );
-				
-				buttonMatrix.get( x ).add( button );
-				this.add( button );
-			}
+	public void addHumanPlayer(String player){
+		int yMin = 0, yMax = 0;
+		if( player.equals( "BLUE" ) ){
+			yMin = 6;
+			yMax = 10;
+		}else{
+			;
 		}
-		//this.repaint();
+
+		for( int y=yMin; y<yMax; y++ )
+			for(int x=0; x<10; x++ ){
+				buttonMatrix.get( x ).get( y ).setPiece( new Piece( 3,  '~' , x, y, "NONE", cont ) );
+				buttonMatrix.get( x ).get( y ).setReady( false );
+			}
 	}
+	
 	
 	public void setUpGridBag(){
 		GridBagLayout gridbag = new GridBagLayout();
@@ -221,7 +237,7 @@ public class GameBoard extends JPanel {
 				GameButton b = buttonMatrix.get( y ).get( x );
 				s += b.getPiece().getPlayer().charAt( 0 );
 				s += b.getPiece().getVal();
-				s += (b.getPiece().isShowing() ? 'T' : 'F' );
+				s += b.getPiece().visStatus();
 				s += ' ';
 			}
 			s += '\n';

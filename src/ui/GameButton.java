@@ -19,9 +19,11 @@ public class GameButton extends JButton{
 	private int size;
 	private static Controller cont;
 	private boolean moveToFromSelected;
+	private boolean ready;
 	
 	public GameButton( int size, int xLocal, int yLocal, Controller cont ){
 		super();
+		this.ready = true;
 		this.moveToFromSelected = false;
 		this.setPreferredSize( new Dimension( size, size ) );
 		this.size = size;
@@ -35,6 +37,14 @@ public class GameButton extends JButton{
 	public void setMovable( boolean moveable){
 		this.moveToFromSelected = moveable;
 		this.repaint();
+	}
+	
+	public void setReady( boolean ready ){
+		this.ready = ready;
+	}
+	
+	public boolean isReady(){
+		return this.ready;
 	}
 	
 	public boolean getMovable(){
@@ -71,30 +81,36 @@ public class GameButton extends JButton{
 	}
 	
 	public void clicked(){
-		if( p.getVal() != 'X' ){
-			if( cont.selectionMade == false ){
-				if( p.getVal() == '~' || p.getVal() == 'B' || p.getVal() == 'F' )
-					return;
-				if( cont.redTurn && this.getPiece().getPlayer().equals( "RED" ) )
-					cont.setSelectedButton( this );
-				else if(!cont.redTurn && this.getPiece().getPlayer().equals( "BLUE" ) )
-					cont.setSelectedButton( this );
-			}else{
-				// same button clicked twice removes it from selection
-				if( this.getXLocal()==cont.selectedButton.getXLocal() && this.getYLocal()==cont.getSelectedButton().getYLocal() )
-					cont.clearSelectedButton();
-				// highlighted in white
-				else if( this.moveToFromSelected )
-					setUpBattle();
-				// same color piece as already selected
-				else if( cont.getSelectedButton().getPiece().getPlayer().equals( this.getPiece().getPlayer() ) )
-					// but not a bomb or flag
-					if( this.getPiece().getVal() == 'B' || this.getPiece().getVal() == 'F' )
+		if(!ready){
+			System.out.println( "PIECE NOT READY" );
+		}else if(cont.isReady()){
+			if( p.getVal() != 'X' ){
+				if( cont.selectionMade == false ){
+					if( p.getVal() == '~' || p.getVal() == 'B' || p.getVal() == 'F' )
 						return;
-					else
-						//set selected button as a different one
+					if( cont.redTurn && this.getPiece().getPlayer().equals( "RED" ) )
 						cont.setSelectedButton( this );
+					else if(!cont.redTurn && this.getPiece().getPlayer().equals( "BLUE" ) )
+						cont.setSelectedButton( this );
+				}else{
+					// same button clicked twice removes it from selection
+					if( this.getXLocal()==cont.selectedButton.getXLocal() && this.getYLocal()==cont.getSelectedButton().getYLocal() )
+						cont.clearSelectedButton();
+					// highlighted in white
+					else if( this.moveToFromSelected )
+						setUpBattle();
+					// same color piece as already selected
+					else if( cont.getSelectedButton().getPiece().getPlayer().equals( this.getPiece().getPlayer() ) )
+						// but not a bomb or flag
+						if( this.getPiece().getVal() == 'B' || this.getPiece().getVal() == 'F' )
+							return;
+						else
+							//set selected button as a different one
+							cont.setSelectedButton( this );
+				}
 			}
+		}else{
+			System.out.println( "GAME NOT READY" );
 		}
 	}
 	
@@ -109,7 +125,7 @@ public class GameButton extends JButton{
 		GameButton attacker = cont.getSelectedButton();
 		attacker.repaint();
 		GameButton defender = this;
-		this.getPiece().setShowing();
+		this.getPiece().visStatus();
 		this.repaint();
 		commenceBattle(attacker, defender ); 
 	}
@@ -122,8 +138,8 @@ public class GameButton extends JButton{
 		if( result.equals( "INVALID" ) ){
 			;
 		} else if( result.equals( "NEITHER" ) ){
-			attacker.setPiece( new Piece( true, '~', attacker.getXLocal(), attacker.getYLocal(), "BLACK", cont ) );
-			defender.setPiece( new Piece( true, '~', defender.getXLocal(), defender.getYLocal(), "BLACK", cont ) );
+			attacker.setPiece( new Piece( 4, '~', attacker.getXLocal(), attacker.getYLocal(), "BLACK", cont ) );
+			defender.setPiece( new Piece( 4, '~', defender.getXLocal(), defender.getYLocal(), "BLACK", cont ) );
 		} else if( result.equals( "WIN" ) ){
 			JOptionPane.showMessageDialog( this, "GameOver!" );
 			System.exit( 0 );
@@ -132,7 +148,7 @@ public class GameButton extends JButton{
 				defender.setPiece( attacker.getPiece() );
 			}else{
 			}
-			attacker.setPiece( new Piece( true, '~', attacker.getXLocal(), attacker.getYLocal(), "BLACK", cont ) );
+			attacker.setPiece( new Piece( 4, '~', attacker.getXLocal(), attacker.getYLocal(), "BLACK", cont ) );
 
 		}
 		attacker.repaint();
@@ -182,7 +198,7 @@ public class GameButton extends JButton{
 		g.drawRect( 0, 0, 40, 40 );
 		g.drawRect( 1, 1, 38, 38 );
 		
-		if( p.isShowing() == true ){
+		if( p.visStatus() >=2 ){
 			if( this.getPiece().getVal() == '1' )
 				g.fillRect( 18, 8, 5, 25 );
 			else if( this.getPiece().getVal() == '2' ){
