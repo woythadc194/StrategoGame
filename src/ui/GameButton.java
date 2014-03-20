@@ -126,7 +126,19 @@ public class GameButton extends JButton{
 	
 	private void showPieceOptions(){
 		if(this.getPiece().getVal() != '~'){
-			cont.piecesAry[this.getPiece().getVal()]++;
+			int index = 0;
+			try{ 
+				index = Integer.parseInt( "" + this.getPiece().getVal() ); 
+			} catch(Exception e) {
+				char c = this.getPiece().getVal();
+				if( c == 'B' )
+					index = 10;
+				else if( c == 'F' )
+					index = 11;
+				else
+					index = 12;
+			}
+			Controller.piecesAry[ index ]++;
 		}
 		final JFrame newFrame = new JFrame();
 		JPanel pane1 = new JPanel();
@@ -150,7 +162,7 @@ public class GameButton extends JButton{
 	    ready.addActionListener( new ActionListener(){
 	    		public void actionPerformed( ActionEvent e ){
 	    			if(cont.getSelectedPieceOpt() != 13){
-	    				b.setPiece( new Piece( 2, cont.charIndexAry[cont.getSelectedPieceOpt()] , b.getXLocal(), b.getYLocal(), "BLUE", cont ) );
+	    				b.setPiece( new Piece( 2, Controller.charIndexAry[cont.getSelectedPieceOpt()] , b.getXLocal(), b.getYLocal(), "BLUE", cont ) );
 	    				cont.resetSelectedPieceOpt();
 	    				newFrame.dispose();
 	    			}

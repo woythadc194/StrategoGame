@@ -191,9 +191,6 @@ public class GameBoard extends JPanel {
 		c.gridwidth = 1;
 			gridbag.setConstraints( this, c );
 			frame.add( this );
-		
-			
-		/**/
 	}
 	
 
