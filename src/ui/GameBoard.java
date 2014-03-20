@@ -34,7 +34,7 @@ public class GameBoard extends JPanel {
 		GameBoard.cont = new Controller();
 		cont.addGameBoard( this );
 		
-		this.gameOver = false;
+		GameBoard.gameOver = false;
 		this.setPreferredSize( new Dimension( 400, 400 ) );
 		
 		frame = new JFrame( "Stratego" );

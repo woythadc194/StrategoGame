@@ -27,7 +27,7 @@ public class PieceOptButton extends JButton {
 		this.typeInt = type;
 		PieceOptButton.cont = cont;
 		addAL();
-		if( Controller.piecesAry[typeInt] == 0)
+		if( Controller.piecesAry[ typeInt ] == 0 )
 			this.setBackground( Color.BLACK );
 		else this.setBackground( Color.WHITE );
 	}
@@ -47,14 +47,14 @@ public class PieceOptButton extends JButton {
 	}
 	
 	private void clicked(){
-		if(cont.getSelectedPieceOpt() == 13){
-			cont.setSelectedPieceOpt(typeInt);
-			Controller.piecesAry[typeInt] --;
+		if( cont.getSelectedPieceOpt() == 13 ){
+			cont.setSelectedPieceOpt( getTypeInt() );
+			Controller.piecesAry[ getTypeInt() ] --;
 		} else{
-			Controller.optButtonAry[cont.getSelectedPieceOpt()].setBackground( Color.WHITE );
-			Controller.piecesAry[cont.getSelectedPieceOpt()]++;
-			cont.setSelectedPieceOpt(typeInt);
-			Controller.piecesAry[typeInt]--;
+			Controller.optButtonAry[ cont.getSelectedPieceOpt() ].setBackground( Color.WHITE );
+			Controller.piecesAry[ cont.getSelectedPieceOpt() ]++;
+			cont.setSelectedPieceOpt(getTypeInt() );
+			Controller.piecesAry[ getTypeInt() ]--;
 		}
 		this.setBackground( Color.RED );
 			System.out.println( "Selected " + typeChar );
