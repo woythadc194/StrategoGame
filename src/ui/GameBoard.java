@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -43,6 +45,11 @@ public class GameBoard extends JPanel {
 		frame.setLocation( 600, 200 );
 		frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		frame.setVisible( true );
+		frame.addWindowListener(new WindowAdapter() {
+		    public void windowClosing(WindowEvent windowEvent) {
+		    	System.exit( 0 );
+		    }
+		});
 		frame.pack();
 		
 		cont.addFrame( frame );

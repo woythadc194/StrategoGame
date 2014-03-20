@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -173,11 +175,28 @@ public class GameButton extends JButton{
 	    		}
 	    	});	    	
 		
+	    JButton remove = new JButton("Remove Piece");
+	    remove.addActionListener( new ActionListener(){
+	    		public void actionPerformed( ActionEvent e ){
+	    			char c = b.getPiece().getVal();
+	    			if( c!= '~' ){
+	    				//cont.optButtonAry[] ++;
+	    				b.setPiece( new Piece( 3, '~', b.getXLocal(), b.getYLocal(), "NONE", cont ) );
+	    				cont.resetSelectedPieceOpt();
+	    				newFrame.dispose();
+	    				GameButton.optPaneOpen = false;
+	    			}
+	    		}
+	    	});	    	
+		
+	    
 		newFrame.setLayout( new GridLayout( 3, 1 ) );
 		pane1.add( b1 );		pane1.add( b2 );		pane1.add( b3 );		
 		pane1.add( b4 );		pane1.add( b5 );		pane1.add( b6 );		
 		pane2.add( b7 );		pane2.add( b8 );		pane2.add( b9 );		
 		pane2.add( bB );		pane2.add( bF );		pane2.add( bS );
+		
+		pane3.add( remove );
 		pane3.add( ready );
 		
 		newFrame.add( pane1 );
@@ -186,7 +205,13 @@ public class GameButton extends JButton{
 		newFrame.setVisible( true );
 		newFrame.setResizable( false );
 		newFrame.setLocation( 500,  400 );
+		newFrame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent windowEvent) {
+		        GameButton.optPaneOpen = false;
+		    }
+		});
 		newFrame.pack();
+		
 	}
 	
 	private void waitTime( long time ){
