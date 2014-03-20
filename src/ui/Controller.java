@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 public class Controller {
 
 	public static  GameBoard gb;
-	public static SelectionPanel sp;
 	public static JFrame frame;
 	public static ArrayList<ArrayList<GameButton>> buttonMatrix;
 	public static int [] piecesAry;
@@ -202,10 +201,6 @@ public class Controller {
 		return Controller.gb;
 	}
 	
-	public SelectionPanel getSelectionPanel(){
-		return Controller.sp;
-	}
-	
 	public JFrame getFrame(){
 		return Controller.frame;
 	}
@@ -224,9 +219,5 @@ public class Controller {
 	
 	public void addGameBoard( GameBoard gb ){
 		Controller.gb = gb;
-	}
-	
-	public void addSelectionPanel( SelectionPanel sp ){
-		Controller.sp = sp;
 	}
 }
