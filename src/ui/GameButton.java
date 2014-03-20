@@ -27,6 +27,8 @@ public class GameButton extends JButton{
 	private boolean moveToFromSelected;
 	private boolean ready;
 	
+	public static boolean optPaneOpen = false;
+	
 	public GameButton( int size, int xLocal, int yLocal, Controller cont ){
 		super();
 		this.ready = true;
@@ -87,7 +89,7 @@ public class GameButton extends JButton{
 	}
 	
 	public void clicked(){
-		if(!ready){
+		if(!ready && !optPaneOpen){
 			/*
 			 * Set up piece selection 
 			 */
@@ -125,6 +127,7 @@ public class GameButton extends JButton{
 	}
 	
 	private void showPieceOptions(){
+		GameButton.optPaneOpen = true;
 		if(this.getPiece().getVal() != '~'){
 			int index = 0;
 			try{ 
@@ -165,6 +168,7 @@ public class GameButton extends JButton{
 	    				b.setPiece( new Piece( 2, Controller.charIndexAry[cont.getSelectedPieceOpt()] , b.getXLocal(), b.getYLocal(), "BLUE", cont ) );
 	    				cont.resetSelectedPieceOpt();
 	    				newFrame.dispose();
+	    				GameButton.optPaneOpen = false;
 	    			}
 	    		}
 	    	});	    	
