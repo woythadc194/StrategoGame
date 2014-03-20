@@ -97,7 +97,6 @@ public class Controller {
         for( int y=0; y<10; y++ )
 			for( int x=0; x<10; x++ )
 				buttonMatrix.get( x ).get( y ).setReady( true );
-		
 	}
 	
 	public int getSelectedPieceOpt(){
