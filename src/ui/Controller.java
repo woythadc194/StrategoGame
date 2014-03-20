@@ -3,6 +3,7 @@ package ui;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 public class Controller {
@@ -69,6 +70,34 @@ public class Controller {
 	
 	public void resetSelectedPieceOpt(){
 		Controller.selectedPieceOpt = 13;
+		testReady();
+	}
+	
+	private void testReady(){
+		for( int y=0; y<10; y++ ){
+			if( y == 4 )
+				y = 6;
+			for( int x=0; x<10; x++ ){
+				char c = buttonMatrix.get( x ).get( y ).getPiece().getVal();
+				if( ( c=='~' ) || ( c=='X') )
+					return;
+			}
+		}
+		askIfReady();
+	}
+	
+	private void askIfReady(){
+		int reply = JOptionPane.showConfirmDialog(null, "Pieces all set?", "", JOptionPane.YES_NO_OPTION);
+        if (reply == JOptionPane.YES_OPTION) {
+        	setAllReady();
+        }
+    }
+	
+	private void setAllReady(){
+        for( int y=0; y<10; y++ )
+			for( int x=0; x<10; x++ )
+				buttonMatrix.get( x ).get( y ).setReady( true );
+		
 	}
 	
 	public int getSelectedPieceOpt(){
