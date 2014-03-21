@@ -21,11 +21,18 @@ public class PieceOptButton extends JButton {
 			typeChar = 'F';
 		else if( type == 12 )
 			typeChar = 'S';
+		else if( type == 0 )
+			typeChar = '~';
 		else
 			typeChar = (char)(type+48);
+		
 		this.setText( "" + typeChar );
+		if( type == 0 )
+			this.setText( "Remove" );
+		
 		this.typeInt = type;
 		PieceOptButton.cont = cont;
+		
 		addAL();
 		if( Controller.piecesAry[ typeInt ] == 0 )
 			this.setBackground( Color.BLACK );
@@ -46,17 +53,33 @@ public class PieceOptButton extends JButton {
 		return this.typeInt;
 	}
 	
-	private void clicked(){
-		if( cont.getSelectedPieceOpt() == 13 ){
-			cont.setSelectedPieceOpt( getTypeInt() );
-			Controller.piecesAry[ getTypeInt() ] --;
-		} else{
-			Controller.optButtonAry[ cont.getSelectedPieceOpt() ].setBackground( Color.WHITE );
-			Controller.piecesAry[ cont.getSelectedPieceOpt() ]++;
-			cont.setSelectedPieceOpt(getTypeInt() );
-			Controller.piecesAry[ getTypeInt() ]--;
-		}
+	public void clicked(){
+		
 		this.setBackground( Color.RED );
 			System.out.println( "Selected " + typeChar );
+			
+		if( this.typeChar == '~' ){
+			cont.setSelectedPieceOpt(getTypeInt() );
+		} else if( Controller.piecesAry[ getTypeInt() ] > 0 ){
+			cont.setSelectedPieceOpt(getTypeInt() );
+			Controller.piecesAry[ getTypeInt() ]--;
+		}else{
+			this.setBackground( Color.BLACK );
+			cont.setSelectedPieceOpt( 0 );
+		}
+		refresh();
+	}
+	
+	private void refresh(){
+		for( int index=0; index<13; index++ ){
+			if( index != cont.getSelectedPieceOpt() ){
+				PieceOptButton pob = Controller.optButtonAry[ index ];
+				if( Controller.piecesAry[index] > 0 ){
+					pob.setBackground( Color.WHITE );
+				}else{
+					pob.setBackground( Color.BLACK );
+				}
+			}
+		}
 	}
 }

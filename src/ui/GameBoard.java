@@ -57,6 +57,8 @@ public class GameBoard extends JPanel {
 		addButtons();
 		addPieces();
 		cont.addButtonMatrix( buttonMatrix );
+		SelectionPanel SPane = new SelectionPanel( cont );
+		SPane.addToCont();
 		System.out.println( this );
 
 	}

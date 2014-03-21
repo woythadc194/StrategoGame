@@ -4,17 +4,8 @@ package ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 
 
 @SuppressWarnings("serial")
@@ -91,11 +82,21 @@ public class GameButton extends JButton{
 	}
 	
 	public void clicked(){
-		if(!ready && !optPaneOpen){
-			/*
-			 * Set up piece selection 
-			 */
-			showPieceOptions();
+		if( !ready ){
+			if( p.getVal()!= '~' ){
+				int x = 0;
+				for( int index = 0; index < 13; index ++ )
+					if( cont.charIndexAry[index] == p.getVal() )
+						x = index;
+				Controller.piecesAry [ x ] ++;
+			}
+			if( cont.getSelectedPieceOpt() != 0 ){
+				this.setPiece( new Piece( 2, Controller.charIndexAry[cont.getSelectedPieceOpt()] , this.getXLocal(), this.getYLocal(), "BLUE", cont ) );
+			} else{
+				this.setPiece( new Piece( 3, '~', this.getXLocal(), this.getYLocal(), "NONE", cont ) );
+			}
+			Controller.optButtonAry[ cont.getSelectedPieceOpt() ].clicked();
+			cont.testReady();
 			System.out.println( "PIECE NOT READY" );
 		}else if(cont.isReady()){
 			if( p.getVal() != 'X' ){
@@ -126,92 +127,6 @@ public class GameButton extends JButton{
 		}else{
 			System.out.println( "GAME NOT READY" );
 		}
-	}
-	
-	private void showPieceOptions(){
-		GameButton.optPaneOpen = true;
-		if(this.getPiece().getVal() != '~'){
-			int index = 0;
-			try{ 
-				index = Integer.parseInt( "" + this.getPiece().getVal() ); 
-			} catch(Exception e) {
-				char c = this.getPiece().getVal();
-				if( c == 'B' )
-					index = 10;
-				else if( c == 'F' )
-					index = 11;
-				else
-					index = 12;
-			}
-			Controller.piecesAry[ index ]++;
-		}
-		final JFrame newFrame = new JFrame();
-		JPanel pane1 = new JPanel();
-		JPanel pane2 = new JPanel();
-		JPanel pane3 = new JPanel();
-		
-		PieceOptButton [] newAry = new PieceOptButton[13];
-		PieceOptButton b1 = new PieceOptButton( 1, cont ); 		PieceOptButton b2 = new PieceOptButton( 2, cont );
-		PieceOptButton b3 = new PieceOptButton( 3, cont ); 		PieceOptButton b4 = new PieceOptButton( 4, cont );
-		PieceOptButton b5 = new PieceOptButton( 5, cont );		PieceOptButton b6 = new PieceOptButton( 6, cont );
-		PieceOptButton b7 = new PieceOptButton( 7, cont );		PieceOptButton b8 = new PieceOptButton( 8, cont );
-		PieceOptButton b9 = new PieceOptButton( 9, cont );		PieceOptButton bB = new PieceOptButton( 10, cont );
-		PieceOptButton bF = new PieceOptButton( 11, cont );		PieceOptButton bS = new PieceOptButton( 12, cont );
-		
-		newAry[1] = b1; newAry[2] = b2; newAry[3] = b3; newAry[4] = b4; newAry[5] = b5; newAry[6] = b6; 
-		newAry[7] = b7; newAry[8] = b8; newAry[9] = b9; newAry[10] = bB; newAry[11] = bF; newAry[12] = bS;
-		cont.setOptButtonAry( newAry );
-		
-		final GameButton b = this;
-		JButton ready = new JButton("Okay!");
-	    ready.addActionListener( new ActionListener(){
-	    		public void actionPerformed( ActionEvent e ){
-	    			if(cont.getSelectedPieceOpt() != 13){
-	    				b.setPiece( new Piece( 2, Controller.charIndexAry[cont.getSelectedPieceOpt()] , b.getXLocal(), b.getYLocal(), "BLUE", cont ) );
-	    				cont.resetSelectedPieceOpt();
-	    				newFrame.dispose();
-	    				GameButton.optPaneOpen = false;
-	    			}
-	    		}
-	    	});	    	
-		
-	    JButton remove = new JButton("Remove Piece");
-	    remove.addActionListener( new ActionListener(){
-	    		public void actionPerformed( ActionEvent e ){
-	    			char c = b.getPiece().getVal();
-	    			if( c!= '~' ){
-	    				//cont.optButtonAry[] ++;
-	    				b.setPiece( new Piece( 3, '~', b.getXLocal(), b.getYLocal(), "NONE", cont ) );
-	    				cont.resetSelectedPieceOpt();
-	    				newFrame.dispose();
-	    				GameButton.optPaneOpen = false;
-	    			}
-	    		}
-	    	});	    	
-		
-	    
-		newFrame.setLayout( new GridLayout( 3, 1 ) );
-		pane1.add( b1 );		pane1.add( b2 );		pane1.add( b3 );		
-		pane1.add( b4 );		pane1.add( b5 );		pane1.add( b6 );		
-		pane2.add( b7 );		pane2.add( b8 );		pane2.add( b9 );		
-		pane2.add( bB );		pane2.add( bF );		pane2.add( bS );
-		
-		pane3.add( remove );
-		pane3.add( ready );
-		
-		newFrame.add( pane1 );
-		newFrame.add( pane2 );
-		newFrame.add( pane3 );
-		newFrame.setVisible( true );
-		newFrame.setResizable( false );
-		newFrame.setLocation( 500,  400 );
-		newFrame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent windowEvent) {
-		        GameButton.optPaneOpen = false;
-		    }
-		});
-		newFrame.pack();
-		
 	}
 	
 	private void waitTime( long time ){

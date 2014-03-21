@@ -15,6 +15,7 @@ public class Controller {
 	private static int selectedPieceOpt;
 	public static PieceOptButton [] optButtonAry;
 	public static char [] charIndexAry;
+	public static SelectionPanel sp;
 	
 	public GameButton selectedButton;
 	public boolean selectionMade;
@@ -23,7 +24,7 @@ public class Controller {
 	
 	public Controller(){
 		this.redTurn = false;
-		this.setSelectedPieceOpt( 13 );
+		this.setSelectedPieceOpt( 0 );
 		charIndexAry = new char[13];
 		charIndexAry[1] = '1';
 		charIndexAry[2] = '2';
@@ -41,6 +42,7 @@ public class Controller {
 	
 	public void makePiecesAry(){
 		piecesAry = new int[13];
+		piecesAry[0] = 1;
 		piecesAry[1] = 1;
 		piecesAry[2] = 1;
 		piecesAry[3] = 2;
@@ -67,19 +69,16 @@ public class Controller {
 		Controller.selectedPieceOpt = opt;
 	}
 	
-	public void resetSelectedPieceOpt(){
-		Controller.selectedPieceOpt = 13;
-		testReady();
-	}
-	
-	private void testReady(){
+	public void testReady(){
 		for( int y=0; y<10; y++ ){
 			if( y == 4 )
 				y = 6;
 			for( int x=0; x<10; x++ ){
 				char c = buttonMatrix.get( x ).get( y ).getPiece().getVal();
-				if( ( c=='~' ) || ( c=='X') )
+				if( ( c=='~' ) || ( c=='X') ){
+					
 					return;
+				}
 			}
 		}
 		askIfReady();
@@ -96,6 +95,7 @@ public class Controller {
         for( int y=0; y<10; y++ )
 			for( int x=0; x<10; x++ )
 				buttonMatrix.get( x ).get( y ).setReady( true );
+        sp.dispose();
 	}
 	
 	public int getSelectedPieceOpt(){
@@ -219,5 +219,9 @@ public class Controller {
 	
 	public void addGameBoard( GameBoard gb ){
 		Controller.gb = gb;
+	}
+	
+	public void addSelectionPanel( SelectionPanel sp ){
+		Controller.sp = sp;
 	}
 }
