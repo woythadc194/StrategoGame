@@ -95,7 +95,10 @@ public class GameButton extends JButton{
 			} else{
 				this.setPiece( new Piece( 3, '~', this.getXLocal(), this.getYLocal(), "NONE", cont ) );
 			}
-			Controller.optButtonAry[ cont.getSelectedPieceOpt() ].clicked();
+			int targetType = cont.getSelectedPieceOpt();
+			if( targetType!= 0 )
+				Controller.piecesAry[ targetType ]--;
+			Controller.optButtonAry[ targetType ].clicked();
 			cont.testReady();
 			System.out.println( "PIECE NOT READY" );
 		}else if(cont.isReady()){

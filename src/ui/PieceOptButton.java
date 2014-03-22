@@ -62,7 +62,6 @@ public class PieceOptButton extends JButton {
 			cont.setSelectedPieceOpt(getTypeInt() );
 		} else if( Controller.piecesAry[ getTypeInt() ] > 0 ){
 			cont.setSelectedPieceOpt(getTypeInt() );
-			Controller.piecesAry[ getTypeInt() ]--;
 		}else{
 			this.setBackground( Color.BLACK );
 			cont.setSelectedPieceOpt( 0 );
