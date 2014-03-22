@@ -1,8 +1,6 @@
 package ui;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -10,36 +8,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Random;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import logic.Controller;
-import logic.GameButtonLogic;
-
 @SuppressWarnings("serial")
 public class GameBoard extends JPanel {
 	
-	private static Controller cont;
 	private static GameBoard b;
 	private static JFrame frame;
 	private static boolean gameOver;
-	private static int [] piecesAry;
 	private static ArrayList<ArrayList<GameButton>> buttonMatrix;
 	
 	public GameBoard(){
 		super();
-		
-		makePiecesAry();
-				
-		GameBoard.cont = new Controller();
-		cont.addGameBoard( this );
-		
-		GameBoard.gameOver = false;
+
 		this.setPreferredSize( new Dimension( 400, 400 ) );
 		
 		frame = new JFrame( "Stratego" );
@@ -54,131 +39,6 @@ public class GameBoard extends JPanel {
 		    }
 		});
 		frame.pack();
-		
-		cont.addFrame( frame );
-				
-		addButtons();
-		addPieces();
-		cont.addButtonMatrix( buttonMatrix );
-		SelectionPanel SPane = new SelectionPanel( cont );
-		SPane.addToCont();
-		System.out.println( this );
-
-	}
-	
-	/*
-	 * Param: None
-	 * Function: set indices in array
-	 * Returns: none
-	 */
-	public void makePiecesAry(){
-		piecesAry = new int[13];
-		piecesAry[1] = 1;
-		piecesAry[2] = 1;
-		piecesAry[3] = 2;
-		piecesAry[4] = 3;
-		piecesAry[5] = 4;
-		piecesAry[6] = 4;
-		piecesAry[7] = 4;
-		piecesAry[8] = 5;
-		piecesAry[9] = 8;
-		piecesAry[10] = 6;
-		piecesAry[11] = 1;
-		piecesAry[12] = 1;
-	}
-	
-	public void addButtons(){
-		FlowLayout flow = new FlowLayout();
-		flow.setHgap( 0 );
-		flow.setVgap( 0 );
-		this.setLayout( flow );
-		
-		buttonMatrix = new ArrayList<ArrayList<GameButton>>();
-		for( int i=0; i<10; i++ )
-			buttonMatrix.add( new ArrayList<GameButton>() );
-		
-		for( int y=0; y<10; y++ ){
-			for( int x=0; x<10; x++ ){
-				GameButton button = new GameButton( 40, x, y, cont );
-				button.setBackground( Color.BLACK );
-				
-				buttonMatrix.get( x ).add( button );
-				this.add( button );
-			}
-		}
-		//this.repaint();
-	}
-	
-	public void addPieces(){
-		String player = "NONE";
-		/*
-		 * 	1 = Showing only to Red
-		 *  2 = Showing only to Blue
-		 *  3 = Showing to both
-		 */
-		for( int y=0; y<10; y++ )
-			for( int x=0; x<10; x++ )
-				GameButtonLogic.alterButton(buttonMatrix.get( x ).get( y ), 3, '~', player);
-
-		/*
-		 * Randomly placing pieces in the 40 spaces on both sides
-		 */
-		player = "RED";
-		Random rand = new Random();
-		for( int y=0; y<4; y++ ){
-			for( int x=0; x<10; x++ ){
-				int id = rand.nextInt( 12 ) + 1;
-				while( piecesAry[id] == 0 )
-					id = rand.nextInt(12) + 1;
-				piecesAry[id] --;
-				char val = 'X';
-				if( id > 9 ){
-					if( id == 10 )
-						val = 'B';
-					else if( id == 11 )
-						val = 'F';
-					else if( id == 12 )
-						val = 'S';
-				}else
-					val = ("" + id).charAt( 0 );
-				GameButtonLogic.alterButton(buttonMatrix.get( x ).get( y ), 1, val, player);
-			}
-		}
-
-/* now right blue part */
-		makePiecesAry();
-		player = "BLUE";
-		addHumanPlayer(player);
-		
-/* now set up neutral zone */
-		player = "NONE";
-		/*
-		 * The spaces you aren't allowed to move into
-		 */
-		for( int y=4; y<6; y++ )
-			for( int x=2; x<8; x++ ){
-				if( x==4 )
-					x = 6;
-				GameButtonLogic.alterButton(buttonMatrix.get( x ).get( y ), 3, 'X', player);
-			}
-	}
-	
-	public void addHumanPlayer(String player){
-		int yMin = 0, yMax = 0;
-		if( player.equals( "BLUE" ) ){
-			yMin = 6;
-			yMax = 10;
-		}else{
-			;
-		}
-		
-		cont.makePiecesAry();
-		
-		for( int y=yMin; y<yMax; y++ )
-			for(int x=0; x<10; x++ ){
-				GameButtonLogic.alterButton(buttonMatrix.get( x ).get( y ), 3, '~', "NONE");
-				buttonMatrix.get( x ).get( y ).setReady( false );
-			}
 	}
 	
 	

@@ -21,8 +21,9 @@ public class SelectionPanel extends JFrame {
 	}
 	
 	public void addToCont(){
-		cont.addSelectionPanel( this );
+		cont.setSelectionPanel( this );
 	}
+	
 	public void setUpGui(){
 		final JFrame newFrame = new JFrame();
 		JPanel pane1 = new JPanel();

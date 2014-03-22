@@ -30,22 +30,9 @@ public class Controller {
 	public Controller(){
 		this.redTurn = false;
 		this.setSelectedPieceOpt( 0 );
-		charIndexAry = new char[13];
-		charIndexAry[1] = '1';
-		charIndexAry[2] = '2';
-		charIndexAry[3] = '3';
-		charIndexAry[4] = '4';
-		charIndexAry[5] = '5';
-		charIndexAry[6] = '6';
-		charIndexAry[7] = '7';
-		charIndexAry[8] = '8';
-		charIndexAry[9] = '9';
-		charIndexAry[10] = 'B';
-		charIndexAry[11] = 'F';
-		charIndexAry[12] = 'S';
 	}
 	
-	public void makePiecesAry(){
+	public void makeNumPiecesAry(){
 		piecesAry = new int[13];
 		piecesAry[0] = 1;
 		piecesAry[1] = 1;
@@ -214,19 +201,19 @@ public class Controller {
 		return buttonMatrix;
 	}
 	
-	public void addButtonMatrix( ArrayList<ArrayList<GameButton>> buttonMatrix){
+	public void setGameButtonMatrix( ArrayList<ArrayList<GameButton>> buttonMatrix){
 		Controller.buttonMatrix = buttonMatrix;
 	}
 	
-	public void addFrame( JFrame frame ){
+	public void setFrame( JFrame frame ){
 		Controller.frame = frame;
 	}
 	
-	public void addGameBoard( GameBoard gb ){
+	public void setGameBoard( GameBoard gb ){
 		Controller.gb = gb;
 	}
 	
-	public void addSelectionPanel( SelectionPanel sp ){
+	public void setSelectionPanel( SelectionPanel sp ){
 		Controller.sp = sp;
 	}
 }
