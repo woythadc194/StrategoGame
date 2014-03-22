@@ -5,7 +5,6 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 
 import ui.GameButton;
-import ui.Piece;
 
 public class GameButtonLogic {
 	
@@ -59,9 +58,11 @@ public class GameButtonLogic {
 					if( button.getXLocal()==cont.selectedButton.getXLocal() && button.getYLocal()==cont.getSelectedButton().getYLocal() )
 						cont.clearSelectedButton();
 					// highlighted in white
-/*					else if( button.moveToFromSelected )
+					
+					//FIXME
+					else if( button.getMovable() )
 						setUpBattle( button );
-*/
+
 					// same color piece as already selected
 					else if( cont.getSelectedButton().getPlayer().equals( button.getPlayer() ) )
 						// but not a bomb or flag
