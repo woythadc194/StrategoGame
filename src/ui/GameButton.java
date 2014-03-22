@@ -59,7 +59,7 @@ public class GameButton extends JButton{
 		final GameButton button = this;
 		this.addActionListener( new ActionListener(){
 			public void actionPerformed( ActionEvent e ){
-				GameButtonLogic.click( button, cont );
+				GameButtonLogic.clicked( button, cont );
 			}
 		});
 	}

@@ -23,7 +23,7 @@ public class GameButtonLogic {
 		button.setPlayer(player);
 	}
 
-	public static void click( GameButton button, Controller cont ){
+	public static void clicked( GameButton button, Controller cont ){
 		GameButtonLogic.cont = cont;
 		if( button.getReady() == false ){
 			if( button.getVal()!= '~' ){
@@ -41,7 +41,7 @@ public class GameButtonLogic {
 			int targetType = cont.getSelectedPieceOpt();
 			if( targetType!= 0 )
 				Controller.piecesAry[ targetType ]--;
-			Controller.optButtonAry[ targetType ].clicked();
+			PceOptBttnLogic.clicked( Controller.optButtonAry[ targetType ] , cont);
 			cont.testReady();
 			System.out.println( "PIECE NOT READY" );
 		}else if(cont.isReady()){
@@ -107,7 +107,7 @@ public class GameButtonLogic {
 			JOptionPane.showMessageDialog( null, "GameOver!" );
 			System.exit( 0 );
 		} else {
-			if( result.equals( attacker.getPlayer() ) )
+			if( result.equals( attacker.getPlayer() ) && (defender.getVal()!= '~') )
 				alterButton(defender, 3, attacker.getVal(), attacker.getPlayer() );
 			alterButton(attacker, 3, '~', "NONE" );
 		}

@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import logic.Controller;
+import logic.PceOptBttnLogic;
 
 @SuppressWarnings("serial")
 public class PieceOptButton extends JButton {
@@ -46,41 +47,16 @@ public class PieceOptButton extends JButton {
 		this.addActionListener( new ActionListener(){
 			public void actionPerformed( ActionEvent e){
 				if( pob.getBackground()!= Color.BLACK )
-					pob.clicked();
+					PceOptBttnLogic.clicked( pob, cont );
 			}
 		});
 	}
 	
-	private int getTypeInt(){
+	public char getTypeChar(){
+		return this.typeChar;
+	}
+	
+	public int getTypeInt(){
 		return this.typeInt;
-	}
-	
-	public void clicked(){
-		
-		this.setBackground( Color.RED );
-			System.out.println( "Selected " + typeChar );
-			
-		if( this.typeChar == '~' ){
-			cont.setSelectedPieceOpt(getTypeInt() );
-		} else if( Controller.piecesAry[ getTypeInt() ] > 0 ){
-			cont.setSelectedPieceOpt(getTypeInt() );
-		}else{
-			this.setBackground( Color.BLACK );
-			cont.setSelectedPieceOpt( 0 );
-		}
-		refresh();
-	}
-	
-	private void refresh(){
-		for( int index=0; index<13; index++ ){
-			if( index != cont.getSelectedPieceOpt() ){
-				PieceOptButton pob = Controller.optButtonAry[ index ];
-				if( Controller.piecesAry[index] > 0 ){
-					pob.setBackground( Color.WHITE );
-				}else{
-					pob.setBackground( Color.BLACK );
-				}
-			}
-		}
 	}
 }
