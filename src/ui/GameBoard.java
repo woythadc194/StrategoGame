@@ -19,7 +19,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import logic.Controller;
-import logic.GameButtonClicker;
+import logic.GameButtonLogic;
 
 @SuppressWarnings("serial")
 public class GameBoard extends JPanel {
@@ -118,7 +118,7 @@ public class GameBoard extends JPanel {
 		 */
 		for( int y=0; y<10; y++ )
 			for( int x=0; x<10; x++ )
-				buttonMatrix.get( x ).get( y ).setPiece( new Piece( 3,  '~' , x, y, player, cont ) );
+				GameButtonLogic.alterButton(buttonMatrix.get( x ).get( y ), 3, '~', player);
 
 		/*
 		 * Randomly placing pieces in the 40 spaces on both sides
@@ -143,7 +143,7 @@ public class GameBoard extends JPanel {
 					c = ("" + id).charAt( 0 );
 				}
 				//FIXME
-				buttonMatrix.get( x ).get( y ).setPiece( new Piece( 3, c , x, y, player, cont ) );
+				GameButtonLogic.alterButton(buttonMatrix.get( x ).get( y ), 3, c, player);
 			}
 		}
 
@@ -161,7 +161,7 @@ public class GameBoard extends JPanel {
 			for( int x=2; x<8; x++ ){
 				if( x==4 )
 					x = 6;
-				buttonMatrix.get( x ).get( y ).setPiece( new Piece( 3, 'X', x, y, player, cont ) );
+				GameButtonLogic.alterButton(buttonMatrix.get( x ).get( y ), 3, 'X', player);
 			}
 	}
 	
@@ -178,7 +178,7 @@ public class GameBoard extends JPanel {
 		
 		for( int y=yMin; y<yMax; y++ )
 			for(int x=0; x<10; x++ ){
-				buttonMatrix.get( x ).get( y ).setPiece( new Piece( 3,  '~' , x, y, "NONE", cont ) );
+				GameButtonLogic.alterButton(buttonMatrix.get( x ).get( y ), 3, '~', "NONE");
 				buttonMatrix.get( x ).get( y ).setReady( false );
 			}
 	}
@@ -242,9 +242,9 @@ public class GameBoard extends JPanel {
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
 				GameButton b = buttonMatrix.get( y ).get( x );
-				s += b.getPiece().getPlayer().charAt( 0 );
-				s += b.getPiece().getVal();
-				s += b.getPiece().visStatus();
+				s += b.getPlayer().charAt( 0 );
+				s += b.getVal();
+				s += b.getVisibility();
 				s += ' ';
 			}
 			s += '\n';

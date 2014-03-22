@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import logic.Controller;
-import logic.GameButtonClicker;
+import logic.GameButtonLogic;
 
 
 @SuppressWarnings("serial")
@@ -60,7 +60,7 @@ public class GameButton extends JButton{
 		final GameButton button = this;
 		this.addActionListener( new ActionListener(){
 			public void actionPerformed( ActionEvent e ){
-				GameButtonClicker.click( button, cont );
+				GameButtonLogic.click( button, cont );
 			}
 		});
 	}
@@ -142,23 +142,20 @@ public class GameButton extends JButton{
 	 */
 	public void paint( Graphics g ){
 		Color bg = Color.DARK_GRAY;
-		if(p == null){
+		if( getPlayer().equals( "RED" ) ) 
+			bg = Color.RED;
+		else if( getPlayer().equals( "BLUE" ) )
+			bg = Color.BLUE;
+		else if( getVal() == 'X' )
+			bg = Color.BLACK;
+		else
 			bg = Color.DARK_GRAY;
-		} else {
-			if( p.getPlayer().equals( "RED" ) ) 
-				bg = Color.RED;
-			else if( p.getPlayer().equals( "BLUE" ) )
-				bg = Color.BLUE;
-			else if( p.getVal() == 'X' )
-				bg = Color.BLACK;
-			else
-				bg = Color.DARK_GRAY;
-		}
+		
 
 		this.color = bg;
 		g.setColor( bg );
 		g.fillRect( 0, 0, 40, 40 );
-		if( p.getVal() == 'X' ){
+		if( getVal() == 'X' ){
 			if( cont.redTurn )
 				g.setColor( Color.RED );
 			else
@@ -173,44 +170,44 @@ public class GameButton extends JButton{
 		g.drawRect( 0, 0, 40, 40 );
 		g.drawRect( 1, 1, 38, 38 );
 		
-		if( p.visStatus() >=2 ){
-			if( this.getPiece().getVal() == '1' )
+		if( this.getVisibility() >=2 ){
+			if( this.getVal() == '1' )
 				g.fillRect( 18, 8, 5, 25 );
-			else if( this.getPiece().getVal() == '2' ){
+			else if( this.getVal() == '2' ){
 				g.fillRect( 13, 8, 15, 5);	// Top Bar
 				g.fillRect( 23, 8, 5, 15);  // Top Right
 				g.fillRect( 13, 18, 15, 5); // Middle Bar
 				g.fillRect( 13, 18, 5, 15); // Bottom Left
 				g.fillRect( 13, 28, 15, 5); // Bottom Bar
-			}else if( this.getPiece().getVal() == '3' ){
+			}else if( this.getVal() == '3' ){
 				g.fillRect( 13, 8, 15, 5);	// Top Bar
 				g.fillRect( 13, 18, 15, 5); // Middle Bar
 				g.fillRect( 13, 28, 15, 5); // Bottom Bar
 				g.fillRect( 23, 8, 5, 15);  // Top Right
 				g.fillRect( 23, 18, 5, 15); // Bottom Right
-			}else if( this.getPiece().getVal() == '4' ){
+			}else if( this.getVal() == '4' ){
 				g.fillRect( 13, 18, 15, 5); // Middle Bar
 				g.fillRect( 23, 8, 5, 15);  // Top Right
 				g.fillRect( 23, 18, 5, 15); // Bottom Right
 				g.fillRect( 13, 8, 5, 15);  // Top Left
-			}else if( this.getPiece().getVal() == '5' ){	
+			}else if( this.getVal() == '5' ){	
 				g.fillRect( 13, 8, 15, 5);	// Top Bar
 				g.fillRect( 13, 18, 15, 5); // Middle Bar
 				g.fillRect( 13, 28, 15, 5); // Bottom Bar
 				g.fillRect( 23, 18, 5, 15); // Bottom Right
 				g.fillRect( 13, 8, 5, 15);  // Top Left
-			}else if( this.getPiece().getVal() == '6' ){	
+			}else if( this.getVal() == '6' ){	
 				g.fillRect( 13, 8, 15, 5);	// Top Bar
 				g.fillRect( 13, 18, 15, 5); // Middle Bar
 				g.fillRect( 13, 28, 15, 5); // Bottom Bar
 				g.fillRect( 13, 18, 5, 15); // Bottom Left
 				g.fillRect( 23, 18, 5, 15); // Bottom Right
 				g.fillRect( 13, 8, 5, 15);  // Top Left	
-			}else if( this.getPiece().getVal() == '7' ){
+			}else if( this.getVal() == '7' ){
 				g.fillRect( 23, 8, 5, 15);  // Top Right
 				g.fillRect( 23, 18, 5, 15); // Bottom Right
 				g.fillRect( 13, 8, 15, 5);	// Top Bar
-			}else if( this.getPiece().getVal() == '8' ){
+			}else if( this.getVal() == '8' ){
 				g.fillRect( 13, 8, 5, 15);  // Top Left
 				g.fillRect( 13, 18, 5, 15); // Bottom Left
 				g.fillRect( 23, 8, 5, 15);  // Top Right
@@ -218,7 +215,7 @@ public class GameButton extends JButton{
 				g.fillRect( 13, 8, 15, 5);	// Top Bar	
 				g.fillRect( 13, 18, 15, 5); // Middle Bar
 				g.fillRect( 13, 28, 15, 5); // Bottom Bar
-			}else if( this.getPiece().getVal() == '9' ){
+			}else if( this.getVal() == '9' ){
 				g.fillRect( 13, 8, 5, 15);  // Top Left
 				g.fillRect( 23, 8, 5, 15);  // Top Right
 				g.fillRect( 23, 18, 5, 15); // Bottom Right
@@ -226,7 +223,7 @@ public class GameButton extends JButton{
 				g.fillRect( 13, 18, 15, 5); // Middle Bar
 			}
 			//g.setColor( Color.WHITE );
-			if( this.getPiece().getVal() == 'B' ){
+			if( this.getVal() == 'B' ){
 				g.fillRect( 13, 12, 14, 24 );
 				g.fillRect(  10, 15, 20, 18 );
 				g.fillRect(  7, 18, 26, 12 );
@@ -235,7 +232,7 @@ public class GameButton extends JButton{
 				g.fillRect( 23, 4, 6, 2 );
 				g.fillRect( 29, 6, 2, 2 );
 				g.fillRect( 31, 8, 4, 2 );
-			}else if( this.getPiece().getVal() == 'F' ){
+			}else if( this.getVal() == 'F' ){
 
 				g.fillRect( 24, 6, 2, 30 );
 				g.fillRect( 19,  6,  5, 3 );
@@ -244,7 +241,7 @@ public class GameButton extends JButton{
 				g.fillRect( 14, 15, 10, 3 );
 				g.fillRect( 19, 18,  5, 3 );
 				
-			}else if( this.getPiece().getVal() == 'S' ){	
+			}else if( this.getVal() == 'S' ){	
 				g.fillRect( 4, 18,  2, 3 );
 				g.fillRect( 6, 18,  11, 10 );
 				g.fillRect( 5, 21, 1, 6 );

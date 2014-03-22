@@ -79,7 +79,7 @@ public class Controller {
 			if( y == 4 )
 				y = 6;
 			for( int x=0; x<10; x++ ){
-				char c = buttonMatrix.get( x ).get( y ).getPiece().getVal();
+				char c = buttonMatrix.get( x ).get( y ).getVal();
 				if( ( c=='~' ) || ( c=='X') ){
 					
 					return;
@@ -111,54 +111,54 @@ public class Controller {
 	public boolean isReady(){
 		for( int y=0; y<10; y++ )
 			for( int x=0; x<10; x++ )
-				if( buttonMatrix.get( x ).get( y ).isReady() == false )
+				if( buttonMatrix.get( x ).get( y ).getReady() == false )
 					return false;
 		return true;
 	}
 	
 	public void highlightMoveable(){
-		if( selectedButton.getPiece().getVal() == '9' ){
+		if( selectedButton.getVal() == '9' ){
 			for( int x=selectedButton.getXLocal()+1; x<10; x++ ){
 				GameButton b = buttonMatrix.get( x ).get( selectedButton.getYLocal() );
-				if( b.getPiece().getPlayer().equals( selectedButton.getPiece().getPlayer() ) )
+				if( b.getPlayer().equals( selectedButton.getPlayer() ) )
 					break;
 				else{
-					if( b.getPiece().getVal()!='X' )
+					if( b.getVal()!='X' )
 						b.setMovable( true );
-					if( b.getPiece().getVal()!= '~' )
+					if( b.getVal()!= '~' )
 						break;
 				}
 			}
 			for( int x=selectedButton.getXLocal()-1; x>=0; x-- ){
 				GameButton b = buttonMatrix.get( x ).get( selectedButton.getYLocal() );
-				if( b.getPiece().getPlayer().equals( selectedButton.getPiece().getPlayer() ) )
+				if( b.getPlayer().equals( selectedButton.getPlayer() ) )
 					break;
 				else{
-					if( b.getPiece().getVal()!='X' )
+					if( b.getVal()!='X' )
 						b.setMovable( true );
-					if( b.getPiece().getVal()!= '~' )
+					if( b.getVal()!= '~' )
 						break;
 				}
 			}
 			for( int y=selectedButton.getYLocal()+1; y<10; y++ ){
 				GameButton b = buttonMatrix.get( selectedButton.getXLocal() ).get( y );
-				if( b.getPiece().getPlayer().equals( selectedButton.getPiece().getPlayer() ) )
+				if( b.getPlayer().equals( selectedButton.getPlayer() ) )
 					break;
 				else{
-					if( b.getPiece().getVal()!='X' )
+					if( b.getVal()!='X' )
 						b.setMovable( true );
-					if( b.getPiece().getVal()!= '~' )
+					if( b.getVal()!= '~' )
 						break;
 				}
 			}
 			for( int y=selectedButton.getYLocal()-1; y>=0; y-- ){
 				GameButton b = buttonMatrix.get( selectedButton.getXLocal() ).get( y );
-				if( b.getPiece().getPlayer().equals( selectedButton.getPiece().getPlayer() ) )
+				if( b.getPlayer().equals( selectedButton.getPlayer() ) )
 					break;
 				else{
-					if( b.getPiece().getVal()!='X' )
+					if( b.getVal()!='X' )
 						b.setMovable( true );
-					if( b.getPiece().getVal()!= '~' )
+					if( b.getVal()!= '~' )
 						break;
 				}
 			}
@@ -167,7 +167,7 @@ public class Controller {
 			for( int y=0; y<10; y++ ){
 				for( int x=0; x<10; x++ ){
 					GameButton b = buttonMatrix.get( x ).get( y );
-					if(  !b.getPiece().getPlayer().equals( selectedButton.getPiece().getPlayer() ) && ( b.getPiece().getVal()!='X' ) ){				
+					if(  !b.getPlayer().equals( selectedButton.getPlayer() ) && ( b.getVal()!='X' ) ){				
 						if( ( b.getXLocal()==selectedButton.getXLocal()-1 ) && ( b.getYLocal()==selectedButton.getYLocal() ) )
 							b.setMovable( true );
 						if( ( b.getXLocal()==selectedButton.getXLocal()+1 ) && ( b.getYLocal()==selectedButton.getYLocal() ) )
