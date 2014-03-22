@@ -100,15 +100,17 @@ public class GameButtonLogic {
 		if( result.equals( "INVALID" ) ){
 			;
 		} else if( result.equals( "NEITHER" ) ){
-
 			alterButton(attacker, 3, '~', "NONE");
 			alterButton(defender, 3, '~', "NONE");
 		} else if( result.equals( "WIN" ) ){
 			JOptionPane.showMessageDialog( null, "GameOver!" );
 			System.exit( 0 );
 		} else {
-			if( result.equals( attacker.getPlayer() ) && (defender.getVal()!= '~') )
-				alterButton(defender, 3, attacker.getVal(), attacker.getPlayer() );
+			if( result.equals( attacker.getPlayer() ) )
+				if( defender.getVal()!= '~' )
+					alterButton(defender, 3, attacker.getVal(), attacker.getPlayer() );
+				else
+					alterButton(defender, defender.getVisibility(), attacker.getVal(), attacker.getPlayer() );
 			alterButton(attacker, 3, '~', "NONE" );
 		}
 		attacker.repaint();
