@@ -131,19 +131,17 @@ public class GameBoard extends JPanel {
 				while( piecesAry[id] == 0 )
 					id = rand.nextInt(12) + 1;
 				piecesAry[id] --;
-				char c = 'X';
+				char val = 'X';
 				if( id > 9 ){
 					if( id == 10 )
-						c = 'B';
-					if( id == 11 )
-						c = 'F';
-					if( id == 12 )
-						c = 'S';
-				} else {
-					c = ("" + id).charAt( 0 );
-				}
-				//FIXME
-				GameButtonLogic.alterButton(buttonMatrix.get( x ).get( y ), 3, c, player);
+						val = 'B';
+					else if( id == 11 )
+						val = 'F';
+					else if( id == 12 )
+						val = 'S';
+				}else
+					val = ("" + id).charAt( 0 );
+				GameButtonLogic.alterButton(buttonMatrix.get( x ).get( y ), 1, val, player);
 			}
 		}
 
