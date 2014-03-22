@@ -7,6 +7,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import logic.Controller;
+
 @SuppressWarnings("serial")
 public class SelectionPanel extends JFrame {
 	
@@ -61,7 +63,5 @@ public class SelectionPanel extends JFrame {
 		    }
 		});
 		newFrame.pack();
-		
 	}
-	
 }

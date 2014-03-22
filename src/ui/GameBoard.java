@@ -18,6 +18,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import logic.Controller;
+import logic.GameButtonClicker;
+
 @SuppressWarnings("serial")
 public class GameBoard extends JPanel {
 	
@@ -96,12 +99,7 @@ public class GameBoard extends JPanel {
 		
 		for( int y=0; y<10; y++ ){
 			for( int x=0; x<10; x++ ){
-				final GameButton button = new GameButton( 40, x, y, cont );
-				button.addActionListener( new ActionListener(){
-					public void actionPerformed( ActionEvent e ){
-						button.clicked();
-					}
-				});
+				GameButton button = new GameButton( 40, x, y, cont );
 				button.setBackground( Color.BLACK );
 				
 				buttonMatrix.get( x ).add( button );

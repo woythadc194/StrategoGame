@@ -1,5 +1,7 @@
 package ui;
 
+import logic.Controller;
+
 
 public class Piece {
 	

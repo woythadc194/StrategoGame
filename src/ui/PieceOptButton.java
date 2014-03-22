@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import logic.Controller;
+
 @SuppressWarnings("serial")
 public class PieceOptButton extends JButton {
 

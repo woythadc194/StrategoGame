@@ -4,39 +4,77 @@ package ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+
+import logic.Controller;
+import logic.GameButtonClicker;
 
 
 @SuppressWarnings("serial")
 public class GameButton extends JButton{
+	
+	private static Controller cont;
 
-	private Piece p;
+	private int size;
 	private int xLocal;
 	private int yLocal;
-	private Color color;
-	private int size;
-	private static Controller cont;
-	private boolean moveToFromSelected;
+	private int visibility;
+	
+	private boolean moveable;
 	private boolean ready;
 	
-	public static boolean optPaneOpen = false;
+	private String player;
+	private char val;
+	private Color color;
+	
+	
 	
 	public GameButton( int size, int xLocal, int yLocal, Controller cont ){
 		super();
-		this.ready = true;
-		this.moveToFromSelected = false;
+		
 		this.setPreferredSize( new Dimension( size, size ) );
+		this.setBorder( null );
+		
+		addActnLstnr();
+		
 		this.size = size;
 		this.xLocal = xLocal;
 		this.yLocal = yLocal;
-		this.setBorder( null );
+		this.visibility = 3;
+		
+		this.moveable = false;
+		this.ready = true;
+		
+		this.player = "NONE";
+		this.val = 0;
+		this.color = Color.DARK_GRAY;
+
 		GameButton.cont = cont;
-		this.color = Color.black;
+	}
+	
+	private void addActnLstnr(){
+		final GameButton button = this;
+		this.addActionListener( new ActionListener(){
+			public void actionPerformed( ActionEvent e ){
+				GameButtonClicker.click( button );
+			}
+		});
+	}
+	
+	/*
+	 * Setters
+	 */
+
+	public void setVisibility( int visibility ){
+		this.visibility = visibility;
 	}
 	
 	public void setMovable( boolean moveable){
-		this.moveToFromSelected = moveable;
+		this.moveable = moveable;
 		this.repaint();
 	}
 	
@@ -44,29 +82,23 @@ public class GameButton extends JButton{
 		this.ready = ready;
 	}
 	
-	public boolean isReady(){
-		return this.ready;
+	public void setPlayer( String player ){
+		this.player = player;
 	}
 	
-	public boolean getMovable(){
-		return this.moveToFromSelected;
+	public void setVal( char val ){
+		this.val = val;
+	}
+
+	public void setColor( Color color ){
+		this.color = color;
 	}
 	
-	public void setPiece( Piece p ){
-		this.p = p;
-		this.repaint();
-	}
-	
-	public int getButtonSize(){
+	/*
+	 * Getters
+	 */
+	public int getSize1(){
 		return this.size;
-	}
-	
-	public void removePiece(){
-		this.p = null;
-	}
-	
-	public Color getColor(){
-		return this.color;
 	}
 	
 	public int getXLocal(){
@@ -76,113 +108,38 @@ public class GameButton extends JButton{
 	public int getYLocal(){
 		return this.yLocal;
 	}
-	
-	public Piece getPiece(){
-		return this.p;
-	}
-	
-	public void clicked(){
-		if( !ready ){
-			if( p.getVal()!= '~' ){
-				int x = 0;
-				for( int index = 0; index < 13; index ++ )
-					if( cont.charIndexAry[index] == p.getVal() )
-						x = index;
-				Controller.piecesAry [ x ] ++;
-			}
-			if( cont.getSelectedPieceOpt() != 0 ){
-				this.setPiece( new Piece( 2, Controller.charIndexAry[cont.getSelectedPieceOpt()] , this.getXLocal(), this.getYLocal(), "BLUE", cont ) );
-			} else{
-				this.setPiece( new Piece( 3, '~', this.getXLocal(), this.getYLocal(), "NONE", cont ) );
-			}
-			int targetType = cont.getSelectedPieceOpt();
-			if( targetType!= 0 )
-				Controller.piecesAry[ targetType ]--;
-			Controller.optButtonAry[ targetType ].clicked();
-			cont.testReady();
-			System.out.println( "PIECE NOT READY" );
-		}else if(cont.isReady()){
-			if( p.getVal() != 'X' ){
-				if( cont.selectionMade == false ){
-					if( p.getVal() == '~' || p.getVal() == 'B' || p.getVal() == 'F' )
-						return;
-					if( cont.redTurn && this.getPiece().getPlayer().equals( "RED" ) )
-						cont.setSelectedButton( this );
-					else if(!cont.redTurn && this.getPiece().getPlayer().equals( "BLUE" ) )
-						cont.setSelectedButton( this );
-				}else{
-					// same button clicked twice removes it from selection
-					if( this.getXLocal()==cont.selectedButton.getXLocal() && this.getYLocal()==cont.getSelectedButton().getYLocal() )
-						cont.clearSelectedButton();
-					// highlighted in white
-					else if( this.moveToFromSelected )
-						setUpBattle();
-					// same color piece as already selected
-					else if( cont.getSelectedButton().getPiece().getPlayer().equals( this.getPiece().getPlayer() ) )
-						// but not a bomb or flag
-						if( this.getPiece().getVal() == 'B' || this.getPiece().getVal() == 'F' )
-							return;
-						else
-							//set selected button as a different one
-							cont.setSelectedButton( this );
-				}
-			}
-		}else{
-			System.out.println( "GAME NOT READY" );
-		}
-	}
-	
-	private void waitTime( long time ){
-		long start = System.currentTimeMillis();
-		while( System.currentTimeMillis() - start < time ){
-			;
-		}
-	}
-	
-	public void setUpBattle(){
-		GameButton attacker = cont.getSelectedButton();
-		attacker.repaint();
-		GameButton defender = this;
-		this.getPiece().visStatus();
-		this.repaint();
-		commenceBattle(attacker, defender ); 
-	}
-	
-	public void commenceBattle( GameButton attacker, GameButton defender ){
-		waitTime( 10 );
-	
-		String result = attacker.getPiece().battle( defender.getPiece() );
-		
-		if( result.equals( "INVALID" ) ){
-			;
-		} else if( result.equals( "NEITHER" ) ){
-			attacker.setPiece( new Piece( 4, '~', attacker.getXLocal(), attacker.getYLocal(), "BLACK", cont ) );
-			defender.setPiece( new Piece( 4, '~', defender.getXLocal(), defender.getYLocal(), "BLACK", cont ) );
-		} else if( result.equals( "WIN" ) ){
-			JOptionPane.showMessageDialog( this, "GameOver!" );
-			System.exit( 0 );
-		} else {
-			if( result.equals( attacker.getPiece().getPlayer() ) ){
-				defender.setPiece( attacker.getPiece() );
-			}else{
-			}
-			attacker.setPiece( new Piece( 4, '~', attacker.getXLocal(), attacker.getYLocal(), "BLACK", cont ) );
 
-		}
-		attacker.repaint();
-		defender.repaint();
-		cont.clearSelectedButton();
-		cont.switchTurns();
-		System.out.println( cont.getGameBoard() );
+	public int getVisibility(){
+		return this.visibility;
+	}
+	
+	public boolean getMovable(){
+		return this.moveable;
+	}
 
+	public boolean getReady(){
+		return this.ready;
 	}
 	
-	public String toString(){
-		if( p == null )
-			return "X";
-		return "" + p.getVal() + "  Player:" + p.getPlayer();
+	public String getPlayer(){
+		return this.player;
 	}
 	
+	public Color getColor1(){
+		return this.color;
+	}
+	
+	public char getVal(){
+		return this.val;
+	}
+	
+	public Color getColor(){
+		return this.color;
+	}
+	
+	/*
+	 * Overrides
+	 */
 	public void paint( Graphics g ){
 		Color bg = Color.DARK_GRAY;
 		if(p == null){
@@ -209,7 +166,7 @@ public class GameButton extends JButton{
 			g.fillRect( 10, 10, 20, 20 );
 		}
 		
-		if( this.moveToFromSelected == true )
+		if( this.moveable == true )
 			g.setColor( Color.YELLOW );
 		else
 			g.setColor( Color.BLACK );
