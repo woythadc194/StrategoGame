@@ -60,7 +60,7 @@ public class GameButton extends JButton{
 		final GameButton button = this;
 		this.addActionListener( new ActionListener(){
 			public void actionPerformed( ActionEvent e ){
-				GameButtonClicker.click( button );
+				GameButtonClicker.click( button, cont );
 			}
 		});
 	}
