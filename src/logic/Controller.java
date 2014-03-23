@@ -114,7 +114,7 @@ public class Controller {
         for( int y=SetupLogic.getYMin(); y<SetupLogic.getYMax(); y++ )
 			for( int x=0; x<10; x++ )
 				buttonMatrix.get( x ).get( y ).setReady( true );
-        SetupLogic.killSPane();
+
         if( SetupLogic.getCurrentPlayer() == Color.RED )
         	SetupLogic.setHumanPlayers( 1, this );
 	}
