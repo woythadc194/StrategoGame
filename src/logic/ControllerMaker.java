@@ -15,19 +15,25 @@ import ui.SelectionPanel;
 
 public class ControllerMaker {
 
-	private static Controller cont;
-	
-	public static void create( JFrame frame, GameBoard gb ){
-
-		cont = new Controller();
-		cont.setFrame( frame );
-		cont.setGameBoard( gb );
-		cont.setGameButtonMatrix( getGameButtonMatrix() );
-		cont.makeNumPiecesAry();
-
+	public static int [] makeNumPiecesAry(){
+		int [] piecesAry = new int[13];
+		piecesAry[0] = 1;
+		piecesAry[1] = 1;
+		piecesAry[2] = 1;
+		piecesAry[3] = 2;
+		piecesAry[4] = 3;
+		piecesAry[5] = 4;
+		piecesAry[6] = 4;
+		piecesAry[7] = 4;
+		piecesAry[8] = 5;
+		piecesAry[9] = 8;
+		piecesAry[10] = 6;
+		piecesAry[11] = 1;
+		piecesAry[12] = 1;
+		return piecesAry;
 	}
 	
-	public static ArrayList<ArrayList<GameButton>> getGameButtonMatrix(){
+	public static ArrayList<ArrayList<GameButton>> getGameButtonMatrix( Controller cont ){
 		FlowLayout flow = new FlowLayout();
 		flow.setHgap( 0 );
 		flow.setVgap( 0 );
@@ -45,72 +51,17 @@ public class ControllerMaker {
 				buttonMatrix.get( x ).add( button );
 				
 				if( y<4 )
-					GameButtonLogic.alterButton(button, 3, '~', "RED");
+					GameButtonLogic.alterButton(button, 3, '~', Color.RED);
 				else if( y>=6 )
-					GameButtonLogic.alterButton(button, 3, '~', "BLUE");
+					GameButtonLogic.alterButton(button, 3, '~', Color.BLUE );
 				else if( (y==4 || y==5) && (x==2 || x==4 || x==6 || x==7 ) )
-					GameButtonLogic.alterButton(button, 3, 'X', "NONE");
+					GameButtonLogic.alterButton(button, 3, 'X', Color.DARK_GRAY );
 				else
-					GameButtonLogic.alterButton(button, 3, '~', "NONE");
+					GameButtonLogic.alterButton(button, 3, '~', Color.DARK_GRAY );
 				
 				cont.getGameBoard().add( button );
 			}
 		}
 		return buttonMatrix;
 	}
-	
-	
-	
-	
-	public void addPieces(){
-		String player = "NONE";
-		/*
-		 * 	1 = Showing only to Red
-		 *  2 = Showing only to Blue
-		 *  3 = Showing to both
-		 */
-		for( int y=0; y<10; y++ )
-			for( int x=0; x<10; x++ )
-				GameButtonLogic.alterButton(buttonMatrix.get( x ).get( y ), 3, '~', player);
-
-		/*
-		 * Randomly placing pieces in the 40 spaces on both sides
-		 */
-		player = "RED";
-		Random rand = new Random();
-		for( int y=0; y<4; y++ ){
-			for( int x=0; x<10; x++ ){
-				int id = rand.nextInt( 12 ) + 1;
-				while( piecesAry[id] == 0 )
-					id = rand.nextInt(12) + 1;
-				piecesAry[id] --;
-				char val = 'X';
-				if( id > 9 ){
-					if( id == 10 )
-						val = 'B';
-					else if( id == 11 )
-						val = 'F';
-					else if( id == 12 )
-						val = 'S';
-				}else
-					val = ("" + id).charAt( 0 );
-				GameButtonLogic.alterButton(buttonMatrix.get( x ).get( y ), 1, val, player);
-			}
-		}
-
-/* now right blue part */
-		makePiecesAry();
-		player = "BLUE";
-		addHumanPlayer(player);
-		
-/* now set up neutral zone */
-		player = "NONE";
-		/*
-		 * The spaces you aren't allowed to move into
-		 */
-		
-	}
-	
-	public void addHumanPlayer(String player){
-	}		
 }

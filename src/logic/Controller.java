@@ -10,6 +10,7 @@ import ui.GameBoard;
 import ui.GameButton;
 import ui.PieceOptButton;
 import ui.SelectionPanel;
+import ui.SetupPane;
 
 
 public class Controller {
@@ -25,11 +26,25 @@ public class Controller {
 	private static GameButton selectedButton;
 	private static boolean selectionMade;
 	private static boolean redTurn;
+	private static SetupLogic SULogic;
 	
 	
-	public Controller(){
+	public Controller( JFrame frame, GameBoard gb ){
 		Controller.setRedTurn(false);
-		this.setSelectedPieceOpt( 0 );
+		setSelectedPieceOpt( 0 );
+		setFrame( frame );
+		setGameBoard( gb );
+		setGameButtonMatrix( ControllerMaker.getGameButtonMatrix( this ) );
+		setPiecesAry(ControllerMaker.makeNumPiecesAry() );
+		constructSetupPane();
+	}
+	
+	public void constructSetupPane(){
+		new SetupPane( this );
+	}
+
+	public static void setPiecesAry( int [] piecesAry ){
+		Controller.piecesAry = piecesAry;
 	}
 	
 	public static char [] getCharIndexAry(){
@@ -38,23 +53,6 @@ public class Controller {
 	
 	public static PieceOptButton[] getOptButtonAry(){
 		return Controller.optButtonAry;
-	}
-	
-	public void makeNumPiecesAry(){
-		piecesAry = new int[13];
-		piecesAry[0] = 1;
-		piecesAry[1] = 1;
-		piecesAry[2] = 1;
-		piecesAry[3] = 2;
-		piecesAry[4] = 3;
-		piecesAry[5] = 4;
-		piecesAry[6] = 4;
-		piecesAry[7] = 4;
-		piecesAry[8] = 5;
-		piecesAry[9] = 8;
-		piecesAry[10] = 6;
-		piecesAry[11] = 1;
-		piecesAry[12] = 1;
 	}
 	
 	public void switchTurns(){
@@ -119,7 +117,7 @@ public class Controller {
 		if( selectedButton.getVal() == '9' ){
 			for( int x=selectedButton.getXLocal()+1; x<10; x++ ){
 				GameButton b = buttonMatrix.get( x ).get( selectedButton.getYLocal() );
-				if( b.getPlayer().equals( selectedButton.getPlayer() ) )
+				if( b.getPlayerColor().equals( selectedButton.getPlayerColor() ) )
 					break;
 				else{
 					if( b.getVal()!='X' )
@@ -130,7 +128,7 @@ public class Controller {
 			}
 			for( int x=selectedButton.getXLocal()-1; x>=0; x-- ){
 				GameButton b = buttonMatrix.get( x ).get( selectedButton.getYLocal() );
-				if( b.getPlayer().equals( selectedButton.getPlayer() ) )
+				if( b.getPlayerColor().equals( selectedButton.getPlayerColor() ) )
 					break;
 				else{
 					if( b.getVal()!='X' )
@@ -141,7 +139,7 @@ public class Controller {
 			}
 			for( int y=selectedButton.getYLocal()+1; y<10; y++ ){
 				GameButton b = buttonMatrix.get( selectedButton.getXLocal() ).get( y );
-				if( b.getPlayer().equals( selectedButton.getPlayer() ) )
+				if( b.getPlayerColor().equals( selectedButton.getPlayerColor() ) )
 					break;
 				else{
 					if( b.getVal()!='X' )
@@ -152,7 +150,7 @@ public class Controller {
 			}
 			for( int y=selectedButton.getYLocal()-1; y>=0; y-- ){
 				GameButton b = buttonMatrix.get( selectedButton.getXLocal() ).get( y );
-				if( b.getPlayer().equals( selectedButton.getPlayer() ) )
+				if( b.getPlayerColor().equals( selectedButton.getPlayerColor() ) )
 					break;
 				else{
 					if( b.getVal()!='X' )
@@ -166,7 +164,7 @@ public class Controller {
 			for( int y=0; y<10; y++ ){
 				for( int x=0; x<10; x++ ){
 					GameButton b = buttonMatrix.get( x ).get( y );
-					if(  !b.getPlayer().equals( selectedButton.getPlayer() ) && ( b.getVal()!='X' ) ){				
+					if(  !b.getPlayerColor().equals( selectedButton.getPlayerColor() ) && ( b.getVal()!='X' ) ){				
 						if( ( b.getXLocal()==selectedButton.getXLocal()-1 ) && ( b.getYLocal()==selectedButton.getYLocal() ) )
 							b.setMovable( true );
 						if( ( b.getXLocal()==selectedButton.getXLocal()+1 ) && ( b.getYLocal()==selectedButton.getYLocal() ) )
@@ -243,5 +241,13 @@ public class Controller {
 
 	public static void setRedTurn(boolean redTurn) {
 		Controller.redTurn = redTurn;
+	}
+
+	public static void setSULogic(SetupLogic SULogic) {
+		Controller.SULogic = SULogic;
+	}
+
+	public static SetupLogic getSULogic() {
+		return SULogic;
 	}
 }

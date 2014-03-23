@@ -14,7 +14,7 @@ public class SetupPane extends JPanel{
 
 	public SetupPane( final Controller cont ){
 		super();
-		final SetupLogic SULogic = new SetupLogic();
+		final SetupLogic SULogic = new SetupLogic( cont );
 		
 		JFrame frame = new JFrame("Welcome");
 		

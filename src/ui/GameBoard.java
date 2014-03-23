@@ -14,6 +14,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import logic.ControllerMaker;
+
 @SuppressWarnings("serial")
 public class GameBoard extends JPanel {
 	
@@ -39,7 +41,7 @@ public class GameBoard extends JPanel {
 		    }
 		});
 		frame.pack();
-		new SetupPane( cont );
+		ControllerMaker.create(frame, this);
 	}
 	
 	
@@ -101,7 +103,7 @@ public class GameBoard extends JPanel {
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
 				GameButton b = buttonMatrix.get( y ).get( x );
-				s += b.getPlayer().charAt( 0 );
+				s += b.getPlayerColor().charAt( 0 );
 				s += b.getVal();
 				s += b.getVisibility();
 				s += ' ';

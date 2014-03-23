@@ -26,9 +26,8 @@ public class GameButton extends JButton{
 	private boolean moveable;
 	private boolean ready;
 	
-	private String player;
 	private char val;
-	private Color color;
+	private Color playerColor;
 	
 	
 	
@@ -48,9 +47,8 @@ public class GameButton extends JButton{
 		this.moveable = false;
 		this.ready = true;
 		
-		this.player = "NONE";
 		this.val = 0;
-		this.color = Color.DARK_GRAY;
+		this.playerColor = Color.DARK_GRAY;
 
 		GameButton.cont = cont;
 	}
@@ -81,16 +79,12 @@ public class GameButton extends JButton{
 		this.ready = ready;
 	}
 	
-	public void setPlayer( String player ){
-		this.player = player;
-	}
-	
 	public void setVal( char val ){
 		this.val = val;
 	}
 
 	public void setColor( Color color ){
-		this.color = color;
+		this.playerColor = color;
 	}
 	
 	/*
@@ -120,12 +114,17 @@ public class GameButton extends JButton{
 		return this.ready;
 	}
 	
-	public String getPlayer(){
-		return this.player;
+	public Color getPlayerColor(){
+		return this.playerColor;
 	}
 	
-	public Color getColor1(){
-		return this.color;
+	public String getPlayerColorString(){
+		if( getPlayerColor() == Color.RED )
+			return "RED";
+		else if( getPlayerColor() == Color.BLUE )
+			return "BLUE";
+		else
+			return "NONE";
 	}
 	
 	public char getVal(){
@@ -133,7 +132,7 @@ public class GameButton extends JButton{
 	}
 	
 	public Color getColor(){
-		return this.color;
+		return this.playerColor;
 	}
 	
 	/*
@@ -141,9 +140,9 @@ public class GameButton extends JButton{
 	 */
 	public void paint( Graphics g ){
 		Color bg = Color.DARK_GRAY;
-		if( getPlayer().equals( "RED" ) ) 
+		if( getPlayerColor().equals( "RED" ) ) 
 			bg = Color.RED;
-		else if( getPlayer().equals( "BLUE" ) )
+		else if( getPlayerColor().equals( "BLUE" ) )
 			bg = Color.BLUE;
 		else if( getVal() == 'X' )
 			bg = Color.BLACK;
@@ -151,7 +150,7 @@ public class GameButton extends JButton{
 			bg = Color.DARK_GRAY;
 		
 
-		this.color = bg;
+		this.playerColor = bg;
 		g.setColor( bg );
 		g.fillRect( 0, 0, 40, 40 );
 		if( getVal() == 'X' ){
