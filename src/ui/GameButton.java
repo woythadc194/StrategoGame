@@ -144,9 +144,9 @@ public class GameButton extends JButton{
 	 */
 	public void paint( Graphics g ){
 		Color bg = Color.DARK_GRAY;
-		if( getPlayerColor().equals( "RED" ) ) 
+		if( getPlayerColorString().equals( "RED" ) ) 
 			bg = Color.RED;
-		else if( getPlayerColor().equals( "BLUE" ) )
+		else if( getPlayerColorString().equals( "BLUE" ) )
 			bg = Color.BLUE;
 		else if( getVal() == 'X' )
 			bg = Color.BLACK;

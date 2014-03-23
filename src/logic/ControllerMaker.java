@@ -29,6 +29,25 @@ public class ControllerMaker {
 		return piecesAry;
 	}
 	
+	public static char [] makeCharIndexAry(){
+		char [] charIndex = new char[14];
+		charIndex[0] = '~';
+		charIndex[1] = '1';
+		charIndex[2] = '2';
+		charIndex[3] = '3';
+		charIndex[4] = '4';
+		charIndex[5] = '5';
+		charIndex[6] = '6';
+		charIndex[7] = '7';
+		charIndex[8] = '8';
+		charIndex[9] = '9';
+		charIndex[10] = 'B';
+		charIndex[11] = 'F';
+		charIndex[12] = 'S';
+		charIndex[13] = 'X';
+		return charIndex;
+	}
+	
 	public static ArrayList<ArrayList<GameButton>> getGameButtonMatrix( Controller cont ){
 		FlowLayout flow = new FlowLayout();
 		flow.setHgap( 0 );

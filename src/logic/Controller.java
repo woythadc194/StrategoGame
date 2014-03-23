@@ -42,6 +42,7 @@ public class Controller {
 		Controller.setGameButtonMatrix( ControllerMaker.getGameButtonMatrix( this ) );
 		Controller.setPiecesAry(ControllerMaker.makeNumPiecesAry() );
 		Controller.setIfNumPlayersSelected( false );
+		Controller.setCharIndexAry( ControllerMaker.makeCharIndexAry() );
 		
 		constructSetupPane();
 	}
@@ -52,6 +53,10 @@ public class Controller {
 
 	public static void setPiecesAry( int [] piecesAry ){
 		Controller.piecesAry = piecesAry;
+	}
+	
+	public static void setCharIndexAry( char [] charIndexAry ){
+		Controller.charIndexAry = charIndexAry;
 	}
 	
 	public static char [] getCharIndexAry(){

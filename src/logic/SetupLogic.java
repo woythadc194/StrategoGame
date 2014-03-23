@@ -48,11 +48,12 @@ public class SetupLogic {
 	}
 		
 	private static void setHumanPlayers( int players, Controller cont ){
+		Controller.setPiecesAry( ControllerMaker.makeNumPiecesAry() );
 		if( players == 0)
 			return;
-		currentPlayer = (players == 2 ? Color.RED : Color.BLUE);
-		yMin = (currentPlayer == Color.RED ? 0 : 6);
-		yMax = (currentPlayer == Color.RED ? 4 : 10);
+		currentPlayer = (players == 1 ? Color.RED : Color.BLUE);
+		yMin = (currentPlayer == Color.BLUE ? 0 : 6);
+		yMax = (currentPlayer == Color.BLUE ? 4 : 10);
 
 		SelectionPanel SPane = new SelectionPanel( cont );
 		SPane.addToCont();
@@ -68,6 +69,7 @@ public class SetupLogic {
 				GameButtonLogic.alterButton( button, 3, '~', button.getPlayerColor() );
 				button.setReady( false );
 			}
+		setHumanPlayers( players--, cont );
 	}
 	
 	public static Color getCurrentPlayer(){
