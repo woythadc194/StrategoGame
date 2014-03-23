@@ -1,3 +1,7 @@
+/**
+  * @author Dylan C. Woythal
+  */
+
 package logic;
 
 import java.awt.Color;
@@ -11,12 +15,12 @@ public class PceOptBttnLogic {
 		pob.setBackground( SetupLogic.getCurrentPlayer() );
 			
 		if( pob.getTypeChar() == '~' ){
-			cont.setSelectedPieceOpt(pob.getTypeInt() );
+			Controller.setSelectedPieceOpt(pob.getTypeInt() );
 		} else if( Controller.getPiecesAry()[ pob.getTypeInt() ] > 0 ){
-			cont.setSelectedPieceOpt(pob.getTypeInt() );
+			Controller.setSelectedPieceOpt(pob.getTypeInt() );
 		}else{
 			pob.setBackground( Color.BLACK );
-			cont.setSelectedPieceOpt( 0 );
+			Controller.setSelectedPieceOpt( 0 );
 		}
 		refresh(cont);
 	}

@@ -1,3 +1,7 @@
+/**
+  * @author Dylan C. Woythal
+  */
+
 package ui;
 
 import java.awt.Dimension;
@@ -14,7 +18,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import logic.ControllerMaker;
+import logic.Controller;
+import logic.SetupLogic;
 
 @SuppressWarnings("serial")
 public class GameBoard extends JPanel {
@@ -41,7 +46,9 @@ public class GameBoard extends JPanel {
 		    }
 		});
 		frame.pack();
-		ControllerMaker.create(frame, this);
+		
+		Controller cont = new Controller(frame, this);
+		cont.setSULogic( new SetupLogic() );
 	}
 	
 	
@@ -103,7 +110,7 @@ public class GameBoard extends JPanel {
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
 				GameButton b = buttonMatrix.get( y ).get( x );
-				s += b.getPlayerColor().charAt( 0 );
+				s += b.getPlayerColorString().charAt( 0 );
 				s += b.getVal();
 				s += b.getVisibility();
 				s += ' ';

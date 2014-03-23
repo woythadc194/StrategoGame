@@ -1,3 +1,7 @@
+/**
+  * @author Dylan C. Woythal
+  */
+
 package ui;
 
 import java.awt.Color;

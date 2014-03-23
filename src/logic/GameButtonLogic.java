@@ -1,3 +1,7 @@
+/**
+  * @author Dylan C. Woythal
+  */
+
 package logic;
 
 import java.awt.Color;
@@ -126,7 +130,10 @@ public class GameButtonLogic {
 		defender.repaint();
 		Controller.clearSelectedButton();
 		cont.switchTurns();
-		System.out.println( cont.getGameBoard() );
+/*
+ * TODO	
+ * 		System.out.println( cont.getGameBoard() );
+		*/
 
 	}
 	

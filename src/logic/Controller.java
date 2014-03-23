@@ -1,7 +1,10 @@
+/**
+  * @author Dylan C. Woythal
+  */
+
 package logic;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -15,7 +18,7 @@ import ui.SetupPane;
 
 public class Controller {
 
-	private static  GameBoard gb;
+	private static GameBoard gb;
 	private static JFrame frame;
 	private static ArrayList<ArrayList<GameButton>> buttonMatrix;
 	private static int [] piecesAry;
@@ -26,16 +29,20 @@ public class Controller {
 	private static GameButton selectedButton;
 	private static boolean selectionMade;
 	private static boolean redTurn;
+	private static boolean ifNumPlayersSelected;
 	private static SetupLogic SULogic;
 	
 	
 	public Controller( JFrame frame, GameBoard gb ){
+		
 		Controller.setRedTurn(false);
-		setSelectedPieceOpt( 0 );
-		setFrame( frame );
-		setGameBoard( gb );
-		setGameButtonMatrix( ControllerMaker.getGameButtonMatrix( this ) );
-		setPiecesAry(ControllerMaker.makeNumPiecesAry() );
+		Controller.setSelectedPieceOpt( 0 );
+		Controller.setFrame( frame );
+		Controller.setGameBoard( gb );
+		Controller.setGameButtonMatrix( ControllerMaker.getGameButtonMatrix( this ) );
+		Controller.setPiecesAry(ControllerMaker.makeNumPiecesAry() );
+		Controller.setIfNumPlayersSelected( false );
+		
 		constructSetupPane();
 	}
 	
@@ -67,7 +74,7 @@ public class Controller {
 		Controller.optButtonAry = optButtonAry;
 	}
 	
-	public void setSelectedPieceOpt( int opt){
+	public static void setSelectedPieceOpt( int opt){
 		Controller.selectedPieceOpt = opt;
 	}
 	
@@ -211,15 +218,15 @@ public class Controller {
 		return buttonMatrix;
 	}
 	
-	public void setGameButtonMatrix( ArrayList<ArrayList<GameButton>> buttonMatrix){
+	public static void setGameButtonMatrix( ArrayList<ArrayList<GameButton>> buttonMatrix){
 		Controller.buttonMatrix = buttonMatrix;
 	}
 	
-	public void setFrame( JFrame frame ){
+	public static void setFrame( JFrame frame ){
 		Controller.frame = frame;
 	}
 	
-	public void setGameBoard( GameBoard gb ){
+	public static void setGameBoard( GameBoard gb ){
 		Controller.gb = gb;
 	}
 	
@@ -243,11 +250,19 @@ public class Controller {
 		Controller.redTurn = redTurn;
 	}
 
-	public static void setSULogic(SetupLogic SULogic) {
+	public void setSULogic(SetupLogic SULogic) {
 		Controller.SULogic = SULogic;
 	}
 
 	public static SetupLogic getSULogic() {
 		return SULogic;
+	}
+
+	public static void setIfNumPlayersSelected( boolean b ){
+		ifNumPlayersSelected = b;
+	}
+	
+	public static boolean getIfNumPlayersSelected() {
+		return ifNumPlayersSelected;
 	}
 }

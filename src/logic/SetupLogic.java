@@ -1,3 +1,7 @@
+/**
+  * @author Dylan C. Woythal
+  */
+
 package logic;
 
 import java.awt.Color;
@@ -11,12 +15,13 @@ public class SetupLogic {
 	private static Color currentPlayer;
 	private static int yMin;
 	private static int yMax;
-
-	public SetupLogic( Controller cont ){
-		Controller.setSULogic( this );
+	
+	public SetupLogic(){
+		;
 	}
 	
 	public static void setPlayers( int players, Controller cont ){
+		Controller.setIfNumPlayersSelected( true );
 		if( players==1 ){
 			Random rand = new Random();
 			for( int y=0; y<4; y++ ){
@@ -51,9 +56,12 @@ public class SetupLogic {
 
 		SelectionPanel SPane = new SelectionPanel( cont );
 		SPane.addToCont();
-		System.out.println( cont.getGameBoard() );
+		/*
+		 * TODO
+		 *		System.out.println( cont.getGameBoard() );
+		 */
 		
-		cont.makeNumPiecesAry();
+		Controller.setPiecesAry(ControllerMaker.makeNumPiecesAry());
 		for( int y=yMin; y<yMax; y++ )
 			for(int x=0; x<10; x++ ){
 				GameButton button = cont.getButtonMatrix().get( x ).get( y );

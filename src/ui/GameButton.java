@@ -1,3 +1,7 @@
+/**
+  * @author Dylan C. Woythal
+  */
+
 package ui;
 
 
@@ -154,7 +158,7 @@ public class GameButton extends JButton{
 		g.setColor( bg );
 		g.fillRect( 0, 0, 40, 40 );
 		if( getVal() == 'X' ){
-			if( cont.getRedTurn() )
+			if( Controller.getRedTurn() )
 				g.setColor( Color.RED );
 			else
 				g.setColor( Color.BLUE );

@@ -1,17 +1,13 @@
+/**
+  * @author Dylan C. Woythal
+  */
+
 package logic;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
-import java.util.TreeMap;
-
-import javax.swing.JFrame;
-
-import ui.GameBoard;
 import ui.GameButton;
-import ui.SelectionPanel;
 
 public class ControllerMaker {
 
@@ -54,7 +50,7 @@ public class ControllerMaker {
 					GameButtonLogic.alterButton(button, 3, '~', Color.RED);
 				else if( y>=6 )
 					GameButtonLogic.alterButton(button, 3, '~', Color.BLUE );
-				else if( (y==4 || y==5) && (x==2 || x==4 || x==6 || x==7 ) )
+				else if( (y==4 || y==5) && (x==2 || x==3 || x==6 || x==7 ) )
 					GameButtonLogic.alterButton(button, 3, 'X', Color.DARK_GRAY );
 				else
 					GameButtonLogic.alterButton(button, 3, '~', Color.DARK_GRAY );

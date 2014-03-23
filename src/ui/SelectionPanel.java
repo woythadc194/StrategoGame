@@ -1,6 +1,9 @@
+/**
+  * @author Dylan C. Woythal
+  */
+
 package ui;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -26,7 +29,10 @@ public class SelectionPanel extends JFrame {
 	}
 	
 	public void setUpGui(){
+
 		final JFrame newFrame = new JFrame();
+		newFrame.setLayout( new GridLayout( 3, 1 ) );
+
 		JPanel pane1 = new JPanel();
 		JPanel pane2 = new JPanel();
 		JPanel pane3 = new JPanel();
@@ -44,7 +50,6 @@ public class SelectionPanel extends JFrame {
 		newAry[7] = b7; newAry[8] = b8; newAry[9] = b9; newAry[10] = bB; newAry[11] = bF; newAry[12] = bS; newAry[0] = remove;
 		cont.setOptButtonAry( newAry );
 		
-		newFrame.setLayout( new GridLayout( 3, 1 ) );
 		pane1.add( b1 );		pane1.add( b2 );		pane1.add( b3 );		
 		pane1.add( b4 );		pane1.add( b5 );		pane1.add( b6 );		
 		pane2.add( b7 );		pane2.add( b8 );		pane2.add( b9 );		
