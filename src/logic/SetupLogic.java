@@ -21,6 +21,7 @@ public class SetupLogic {
 	}
 	
 	public static void setPlayers( int players, Controller cont ){
+		System.out.println( players );
 		Controller.setIfNumPlayersSelected( true );
 		if( players==1 ){
 			Random rand = new Random();
@@ -40,27 +41,32 @@ public class SetupLogic {
 							val = 'S';
 					}else
 						val = ("" + id).charAt( 0 );
-					GameButtonLogic.alterButton( cont.getButtonMatrix().get( x ).get( y ), 1, val, Color.RED );
+					//Temp set to 3
+					GameButtonLogic.alterButton( cont.getButtonMatrix().get( x ).get( y ), 3, val, Color.RED );
 				}
 			}
 		}
 		setHumanPlayers( players, cont );
+
+	}
+	
+	private static void waitTime( long time ){
+		long start = System.currentTimeMillis();
+		while( System.currentTimeMillis() - start < time ){
+			;
+		}
 	}
 		
 	private static void setHumanPlayers( int players, Controller cont ){
 		Controller.setPiecesAry( ControllerMaker.makeNumPiecesAry() );
 		if( players == 0)
 			return;
-		currentPlayer = (players == 1 ? Color.RED : Color.BLUE);
-		yMin = (currentPlayer == Color.BLUE ? 0 : 6);
-		yMax = (currentPlayer == Color.BLUE ? 4 : 10);
+		currentPlayer = (players == 1 ? Color.BLUE : Color.RED);
+		yMin = (currentPlayer == Color.RED ? 0 : 6);
+		yMax = (currentPlayer == Color.RED ? 4 : 10);
 
 		SelectionPanel SPane = new SelectionPanel( cont );
 		SPane.addToCont();
-		/*
-		 * TODO
-		 *		System.out.println( cont.getGameBoard() );
-		 */
 		
 		Controller.setPiecesAry(ControllerMaker.makeNumPiecesAry());
 		for( int y=yMin; y<yMax; y++ )
@@ -69,7 +75,13 @@ public class SetupLogic {
 				GameButtonLogic.alterButton( button, 3, '~', button.getPlayerColor() );
 				button.setReady( false );
 			}
-		setHumanPlayers( players--, cont );
+		
+		/*
+		while( Controller.playerNotReady( yMin, yMax ) ){
+				waitTime( 100 );
+				System.out.println("ERROR");
+			}
+		*/
 	}
 	
 	public static Color getCurrentPlayer(){

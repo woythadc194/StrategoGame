@@ -51,7 +51,7 @@ public class SetupPane extends JFrame{
 		
 		frame.add(pane1);
 		frame.add(pane2);
-		frame.setLocation( 500, 200 );
+		frame.setLocation( 500, 300 );
 		frame.setVisible( true );
 		frame.setResizable( false );
 		frame.addWindowListener(new WindowAdapter() {

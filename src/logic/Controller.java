@@ -47,6 +47,10 @@ public class Controller {
 		constructSetupPane();
 	}
 	
+	public static boolean playerNotReady( int yMin, int yMax ){
+		return true;
+	}
+	
 	public void constructSetupPane(){
 		new SetupPane( this );
 	}
