@@ -69,10 +69,13 @@ public class ControllerMaker {
 					GameButtonLogic.alterButton(button, 3, '~', Color.RED);
 				else if( y>=6 )
 					GameButtonLogic.alterButton(button, 3, '~', Color.BLUE );
-				else if( (y==4 || y==5) && (x==2 || x==3 || x==6 || x==7 ) )
+				else if( (y==4 || y==5) && (x==2 || x==3 || x==6 || x==7 ) ){
 					GameButtonLogic.alterButton(button, 3, 'X', Color.DARK_GRAY );
-				else
+					button.setReady( true );
+				}else{
 					GameButtonLogic.alterButton(button, 3, '~', Color.DARK_GRAY );
+					button.setReady( true );
+				}
 				
 				cont.getGameBoard().add( button );
 			}

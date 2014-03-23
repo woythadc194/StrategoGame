@@ -4,6 +4,7 @@
 
 package logic;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -25,12 +26,14 @@ public class Controller {
 	private static int selectedPieceOpt;
 	private static PieceOptButton [] optButtonAry;
 	private static char [] charIndexAry;
-	private static SelectionPanel sp;
 	private static GameButton selectedButton;
 	private static boolean selectionMade;
 	private static boolean redTurn;
 	private static boolean ifNumPlayersSelected;
 	private static SetupLogic SULogic;
+	
+	@SuppressWarnings("unused")
+	private static SelectionPanel sp;
 	
 	
 	public Controller( JFrame frame, GameBoard gb ){
@@ -87,10 +90,8 @@ public class Controller {
 		Controller.selectedPieceOpt = opt;
 	}
 	
-	public void testReady(){
-		for( int y=0; y<10; y++ ){
-			if( y == 4 )
-				y = 6;
+	public void testPlayerReady(){
+		for( int y=SetupLogic.getYMin(); y<SetupLogic.getYMax(); y++ ){
 			for( int x=0; x<10; x++ ){
 				char c = buttonMatrix.get( x ).get( y ).getVal();
 				if( ( c=='~' ) || ( c=='X') ){
@@ -104,22 +105,19 @@ public class Controller {
 	
 	private void askIfReady(){
 		int reply = JOptionPane.showConfirmDialog(null, "Pieces all set?", "", JOptionPane.YES_NO_OPTION);
-        if (reply == JOptionPane.YES_OPTION) {
+        if ( reply == JOptionPane.YES_OPTION ) {
         	setAllReady();
         }
     }
 	
 	private void setAllReady(){
-        for( int y=0; y<10; y++ )
+        for( int y=SetupLogic.getYMin(); y<SetupLogic.getYMax(); y++ )
 			for( int x=0; x<10; x++ )
 				buttonMatrix.get( x ).get( y ).setReady( true );
-        Controller.sp.dispose();
+        SetupLogic.killSPane();
+        if( SetupLogic.getCurrentPlayer() == Color.RED )
+        	SetupLogic.setHumanPlayers( 1, this );
 	}
-	
-	public int getSelectedPieceOpt(){
-		return Controller.selectedPieceOpt;
-	}
-	
 	
 	public boolean isReady(){
 		for( int y=0; y<10; y++ )
@@ -127,6 +125,13 @@ public class Controller {
 				if( buttonMatrix.get( x ).get( y ).getReady() == false )
 					return false;
 		return true;
+	}
+
+	
+	
+
+	public int getSelectedPieceOpt(){
+		return Controller.selectedPieceOpt;
 	}
 	
 	public static void highlightMoveable(){

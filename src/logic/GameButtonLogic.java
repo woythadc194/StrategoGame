@@ -57,7 +57,7 @@ public class GameButtonLogic {
 		if( targetType!= 0 )
 			Controller.getPiecesAry()[ targetType ]--;
 		PceOptBttnLogic.clicked( Controller.getOptButtonAry()[ targetType ] , cont);
-		cont.testReady();
+		cont.testPlayerReady();
 	}
 	
 	private static void midGameClick( GameButton button, Controller cont ){

@@ -15,6 +15,7 @@ public class SetupLogic {
 	private static Color currentPlayer;
 	private static int yMin;
 	private static int yMax;
+	private static SelectionPanel SPane;
 	
 	public SetupLogic(){
 		;
@@ -23,6 +24,7 @@ public class SetupLogic {
 	public static void setPlayers( int players, Controller cont ){
 		System.out.println( players );
 		Controller.setIfNumPlayersSelected( true );
+		
 		if( players==1 ){
 			Random rand = new Random();
 			for( int y=0; y<4; y++ ){
@@ -39,25 +41,34 @@ public class SetupLogic {
 							val = 'F';
 						else if( id == 12 )
 							val = 'S';
-					}else
+					}else{
 						val = ("" + id).charAt( 0 );
+					}
 					//Temp set to 3
-					GameButtonLogic.alterButton( cont.getButtonMatrix().get( x ).get( y ), 3, val, Color.RED );
+					GameButton button = cont.getButtonMatrix().get( x ).get( y );
+					GameButtonLogic.alterButton( button, 3, val, Color.RED );
+					button.setReady( true );
 				}
 			}
 		}
+		
 		setHumanPlayers( players, cont );
-
+		
+		Controller.setPiecesAry( ControllerMaker.makeNumPiecesAry() );
+		SPane = new SelectionPanel( cont );
+		SPane.addToCont();
 	}
 	
+	/*
 	private static void waitTime( long time ){
 		long start = System.currentTimeMillis();
 		while( System.currentTimeMillis() - start < time ){
 			;
 		}
 	}
+	*/
 		
-	private static void setHumanPlayers( int players, Controller cont ){
+	public static void setHumanPlayers( int players, Controller cont ){
 		Controller.setPiecesAry( ControllerMaker.makeNumPiecesAry() );
 		if( players == 0)
 			return;
@@ -65,9 +76,6 @@ public class SetupLogic {
 		yMin = (currentPlayer == Color.RED ? 0 : 6);
 		yMax = (currentPlayer == Color.RED ? 4 : 10);
 
-		SelectionPanel SPane = new SelectionPanel( cont );
-		SPane.addToCont();
-		
 		Controller.setPiecesAry(ControllerMaker.makeNumPiecesAry());
 		for( int y=yMin; y<yMax; y++ )
 			for(int x=0; x<10; x++ ){
@@ -82,6 +90,10 @@ public class SetupLogic {
 				System.out.println("ERROR");
 			}
 		*/
+	}
+	
+	public static void killSPane(){
+		SPane.dispose();
 	}
 	
 	public static Color getCurrentPlayer(){
