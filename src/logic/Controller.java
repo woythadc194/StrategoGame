@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -13,23 +14,30 @@ import ui.SelectionPanel;
 
 public class Controller {
 
-	public static  GameBoard gb;
-	public static JFrame frame;
-	public static ArrayList<ArrayList<GameButton>> buttonMatrix;
-	public static int [] piecesAry;
+	private static  GameBoard gb;
+	private static JFrame frame;
+	private static ArrayList<ArrayList<GameButton>> buttonMatrix;
+	private static int [] piecesAry;
 	private static int selectedPieceOpt;
-	public static PieceOptButton [] optButtonAry;
-	public static char [] charIndexAry;
-	public static SelectionPanel sp;
-	
-	public GameButton selectedButton;
-	public boolean selectionMade;
-	public boolean redTurn;
+	private static PieceOptButton [] optButtonAry;
+	private static char [] charIndexAry;
+	private static SelectionPanel sp;
+	private static GameButton selectedButton;
+	private static boolean selectionMade;
+	private static boolean redTurn;
 	
 	
 	public Controller(){
-		this.redTurn = false;
+		Controller.setRedTurn(false);
 		this.setSelectedPieceOpt( 0 );
+	}
+	
+	public static char [] getCharIndexAry(){
+		return Controller.charIndexAry;
+	}
+	
+	public static PieceOptButton[] getOptButtonAry(){
+		return Controller.optButtonAry;
 	}
 	
 	public void makeNumPiecesAry(){
@@ -50,7 +58,11 @@ public class Controller {
 	}
 	
 	public void switchTurns(){
-		redTurn = !redTurn;
+		setRedTurn(!getRedTurn());
+	}
+	
+	public static int[] getPiecesAry(){
+		return piecesAry;
 	}
 	
 	public void setOptButtonAry( PieceOptButton[] optButtonAry ){
@@ -103,7 +115,7 @@ public class Controller {
 		return true;
 	}
 	
-	public void highlightMoveable(){
+	public static void highlightMoveable(){
 		if( selectedButton.getVal() == '9' ){
 			for( int x=selectedButton.getXLocal()+1; x<10; x++ ){
 				GameButton b = buttonMatrix.get( x ).get( selectedButton.getYLocal() );
@@ -169,24 +181,24 @@ public class Controller {
 		}
 	}
 	
-	public void setSelectedButton( GameButton b ){
+	public static void setSelectedButton( GameButton b ){
 		clearSelectedButton();
-		this.selectionMade = true;
-		this.selectedButton = b;
+		setSelectionMade(true);
+		Controller.selectedButton = b;
 		selectedButton.setMovable( true );
 		highlightMoveable();
 	}
 	
-	public void clearSelectedButton(){
-		this.selectionMade = false;
-		this.selectedButton = null;
+	public static void clearSelectedButton(){
+		setSelectionMade(false);
+		Controller.selectedButton = null;
 		for( ArrayList<GameButton> list : buttonMatrix )
 			for( GameButton b : list )
 				b.setMovable( false );
 	}
 	
-	public GameButton getSelectedButton(){
-		return this.selectedButton;
+	public static GameButton getSelectedButton(){
+		return Controller.selectedButton;
 	}
 	
 	public GameBoard getGameBoard(){
@@ -215,5 +227,21 @@ public class Controller {
 	
 	public void setSelectionPanel( SelectionPanel sp ){
 		Controller.sp = sp;
+	}
+
+	public boolean getSelectionMade() {
+		return selectionMade;
+	}
+
+	public static void setSelectionMade(boolean selectionMade) {
+		Controller.selectionMade = selectionMade;
+	}
+
+	public static boolean getRedTurn() {
+		return redTurn;
+	}
+
+	public static void setRedTurn(boolean redTurn) {
+		Controller.redTurn = redTurn;
 	}
 }

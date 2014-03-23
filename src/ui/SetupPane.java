@@ -7,17 +7,22 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import logic.Controller;
+import logic.SetupLogic;
+
 public class SetupPane extends JPanel{
 
-	public SetupPane(){
+	public SetupPane( final Controller cont ){
 		super();
+		final SetupLogic SULogic = new SetupLogic();
+		
 		JFrame frame = new JFrame("Welcome");
 		
 		JPanel pane1 = new JPanel();
 		JButton button1 = new JButton( "1 Player" );
 		button1.addActionListener( new ActionListener(){
 			public void actionPerformed( ActionEvent e ){
-				SetupLogic.setPlayers( 1 );
+				SULogic.setPlayers( 1, cont );
 			}
 		});
 		JPanel pane2 = new JPanel();

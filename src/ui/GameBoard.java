@@ -39,6 +39,7 @@ public class GameBoard extends JPanel {
 		    }
 		});
 		frame.pack();
+		new SetupPane( cont );
 	}
 	
 	

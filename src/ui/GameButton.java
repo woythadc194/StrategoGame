@@ -155,7 +155,7 @@ public class GameButton extends JButton{
 		g.setColor( bg );
 		g.fillRect( 0, 0, 40, 40 );
 		if( getVal() == 'X' ){
-			if( cont.redTurn )
+			if( cont.getRedTurn() )
 				g.setColor( Color.RED );
 			else
 				g.setColor( Color.BLUE );

@@ -25,58 +25,73 @@ public class GameButtonLogic {
 
 	public static void clicked( GameButton button, Controller cont ){
 		GameButtonLogic.cont = cont;
-		if( button.getReady() == false ){
-			if( button.getVal()!= '~' ){
-				int x = 0;
-				for( int index = 0; index < 13; index ++ )
-					if( Controller.charIndexAry[index] == button.getVal() )
-						x = index;
-				Controller.piecesAry [ x ] ++;
-			}
-			if( cont.getSelectedPieceOpt() != 0 )
-				GameButtonLogic.alterButton(button, 2, Controller.charIndexAry[cont.getSelectedPieceOpt()], "BLUE" );
-			else
-				alterButton(button, 3, '~', "NONE");
-			
-			int targetType = cont.getSelectedPieceOpt();
-			if( targetType!= 0 )
-				Controller.piecesAry[ targetType ]--;
-			PceOptBttnLogic.clicked( Controller.optButtonAry[ targetType ] , cont);
-			cont.testReady();
-			System.out.println( "PIECE NOT READY" );
-		}else if(cont.isReady()){
-			if( button.getVal() != 'X' ){
-				if( cont.selectionMade == false ){
-					if( button.getVal() == '~' || button.getVal() == 'B' || button.getVal() == 'F' )
-						return;
-					if( cont.redTurn && button.getPlayer().equals( "RED" ) )
-						cont.setSelectedButton( button );
-					else if(!cont.redTurn && button.getPlayer().equals( "BLUE" ) )
-						cont.setSelectedButton( button );
-				}else{
-					// same button clicked twice removes it from selection
-					if( button.getXLocal()==cont.selectedButton.getXLocal() && button.getYLocal()==cont.getSelectedButton().getYLocal() )
-						cont.clearSelectedButton();
-					// highlighted in white
-					
-					//FIXME
-					else if( button.getMovable() )
-						setUpBattle( button );
-
-					// same color piece as already selected
-					else if( cont.getSelectedButton().getPlayer().equals( button.getPlayer() ) )
-						// but not a bomb or flag
-						if( button.getVal() == 'B' || button.getVal() == 'F' )
-							return;
-						else
-							//set selected button as a different one
-							cont.setSelectedButton( button );
-				}
-			}
-		}else{
-			System.out.println( "GAME NOT READY" );
-		}
+		if( button.getReady() == false )
+			preGameClick( button, cont );
+		else if(cont.isReady())
+			midGameClick( button, cont );
+		else
+			JOptionPane.showConfirmDialog( null, "GAME NOT READY" );
 	}
+
+	private static void preGameClick( GameButton button, Controller cont ){
+		
+		int yMin = cont.getSULogic().getYMin();
+		int yMax = cont.getSULogic().getYMax();
+		int yLocal = button.getYLocal();
+		if( yLocal < yMin || yLocal > yMax )
+			return;
+		
+		if( button.getVal()!= '~' ){
+			int x = 0;
+			for( int index = 0; index < 13; index ++ )
+				if( Controller.getCharIndexAry()[index] == button.getVal() )
+					x = index;
+			Controller.getPiecesAry()[ x ] ++;
+		}
+		SetupLogic s = cont.SULogic;
+		if( cont.getSelectedPieceOpt() != 0 )
+			GameButtonLogic.alterButton(button, 2, Controller.getCharIndexAry()[cont.getSelectedPieceOpt()], cont.getSULogic().getCurrentPlayer() );
+		else
+			alterButton(button, 3, '~', "NONE");
+		
+		int targetType = cont.getSelectedPieceOpt();
+		if( targetType!= 0 )
+			Controller.getPiecesAry()[ targetType ]--;
+		PceOptBttnLogic.clicked( Controller.getOptButtonAry()[ targetType ] , cont);
+		cont.testReady();
+	}
+	
+	private static void midGameClick( GameButton button, Controller cont ){
+
+		if( button.getVal() != 'X' ){
+			if( cont.getSelectionMade() == false ){
+				if( button.getVal() == '~' || button.getVal() == 'B' || button.getVal() == 'F' )
+					return;
+				if( Controller.getRedTurn() && button.getPlayer().equals( "RED" ) )
+					Controller.setSelectedButton( button );
+				else if(!Controller.getRedTurn() && button.getPlayer().equals( "BLUE" ) )
+					Controller.setSelectedButton( button );
+			}else{
+				// same button clicked twice removes it from selection
+				if( button.getXLocal()==Controller.getSelectedButton().getXLocal() && button.getYLocal()==Controller.getSelectedButton().getYLocal() )
+					Controller.clearSelectedButton();
+				// highlighted in white
+				
+				//FIXME
+				else if( button.getMovable() )
+					setUpBattle( button );
+
+				// same color piece as already selected
+				else if( Controller.getSelectedButton().getPlayer().equals( button.getPlayer() ) )
+					// but not a bomb or flag
+					if( button.getVal() == 'B' || button.getVal() == 'F' )
+						return;
+					else
+						//set selected button as a different one
+						Controller.setSelectedButton( button );
+			}
+		}
+
 	
 	private static void waitTime( long time ){
 		long start = System.currentTimeMillis();
@@ -86,7 +101,7 @@ public class GameButtonLogic {
 	}
 	
 	public static void setUpBattle( GameButton button ){
-		GameButton attacker = cont.getSelectedButton();
+		GameButton attacker = Controller.getSelectedButton();
 		attacker.repaint();
 		GameButton defender = button;
 		commenceBattle(attacker, defender ); 
@@ -115,7 +130,7 @@ public class GameButtonLogic {
 		}
 		attacker.repaint();
 		defender.repaint();
-		cont.clearSelectedButton();
+		Controller.clearSelectedButton();
 		cont.switchTurns();
 		System.out.println( cont.getGameBoard() );
 

@@ -37,7 +37,7 @@ public class PieceOptButton extends JButton {
 		PieceOptButton.cont = cont;
 		
 		addAL();
-		if( Controller.piecesAry[ typeInt ] == 0 )
+		if( Controller.getPiecesAry()[ typeInt ] == 0 )
 			this.setBackground( Color.BLACK );
 		else this.setBackground( Color.WHITE );
 	}
