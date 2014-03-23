@@ -22,30 +22,9 @@ public class ControllerMaker {
 		cont = new Controller();
 		cont.setFrame( frame );
 		cont.setGameBoard( gb );
-		cont.setIndexMap( getCharIndexMap() );
 		cont.setGameButtonMatrix( getGameButtonMatrix() );
 		cont.makeNumPiecesAry();
 
-	}
-	
-	private static Map<Integer, Character> getCharIndexMap(){
-	
-		Map<Integer, Character> indexMap = new TreeMap<Integer, Character>();
-		for( int index=0; index<13; index++ ){
-			char value;
-			if( index == 0 )
-				value = 'X';
-			else if( index == 10 )
-				value = 'B';
-			else if( index == 11 )
-				value = 'F';
-			else if( index == 12 )
-				value = 'S';
-			else
-				value = ("" + index).charAt(0);
-			indexMap.put( index, value);
-		}
-		return indexMap;
 	}
 	
 	public static ArrayList<ArrayList<GameButton>> getGameButtonMatrix(){
@@ -64,11 +43,24 @@ public class ControllerMaker {
 				GameButton button = new GameButton( 40, x, y, cont );
 				button.setBackground( Color.BLACK );
 				buttonMatrix.get( x ).add( button );
+				
+				if( y<4 )
+					GameButtonLogic.alterButton(button, 3, '~', "RED");
+				else if( y>=6 )
+					GameButtonLogic.alterButton(button, 3, '~', "BLUE");
+				else if( (y==4 || y==5) && (x==2 || x==4 || x==6 || x==7 ) )
+					GameButtonLogic.alterButton(button, 3, 'X', "NONE");
+				else
+					GameButtonLogic.alterButton(button, 3, '~', "NONE");
+				
 				cont.getGameBoard().add( button );
 			}
 		}
 		return buttonMatrix;
 	}
+	
+	
+	
 	
 	public void addPieces(){
 		String player = "NONE";
@@ -116,12 +108,7 @@ public class ControllerMaker {
 		/*
 		 * The spaces you aren't allowed to move into
 		 */
-		for( int y=4; y<6; y++ )
-			for( int x=2; x<8; x++ ){
-				if( x==4 )
-					x = 6;
-				GameButtonLogic.alterButton(buttonMatrix.get( x ).get( y ), 3, 'X', player);
-			}
+		
 	}
 	
 	public void addHumanPlayer(String player){
