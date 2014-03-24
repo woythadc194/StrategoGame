@@ -22,7 +22,6 @@ public class GameButtonLogic {
 
 	public static void clicked( GameButton button, Controller cont ){
 		GameButtonLogic.cont = cont;
-		System.out.println( button );
 		if( button.getReady() == false )
 			preGameClick( button, cont );
 		else if(cont.isReady())
@@ -33,9 +32,9 @@ public class GameButtonLogic {
 
 	private static void preGameClick( GameButton button, Controller cont ){
 		
-		Controller.getSULogic();
+//		Controller.getSULogic();
 		int yMin = SetupLogic.getYMin();
-		Controller.getSULogic();
+//		Controller.getSULogic();
 		int yMax = SetupLogic.getYMax();
 		int yLocal = button.getYLocal();
 		if( yLocal < yMin || yLocal > yMax )
@@ -49,10 +48,10 @@ public class GameButtonLogic {
 			Controller.getPiecesAry()[ x ] ++;
 		}
 		if( cont.getSelectedPieceOpt() != 0 ) {
-			Controller.getSULogic();
+//			Controller.getSULogic();
 			GameButtonLogic.alterButton(button, 2, Controller.getCharIndexAry()[cont.getSelectedPieceOpt()], SetupLogic.getCurrentPlayer() );
 		} else
-			alterButton( button, 3, '~', Color.DARK_GRAY );
+			alterButton( button, 3, '~', button.getPlayerColor() );
 		
 		int targetType = cont.getSelectedPieceOpt();
 		if( targetType!= 0 )

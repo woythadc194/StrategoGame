@@ -25,7 +25,6 @@ public class SetupLogic {
 	}
 	
 	public static void setPlayers( int players, Controller cont ) throws FileNotFoundException{
-		System.out.println( players );
 		Controller.setIfNumPlayersSelected( true );
 		
 		if( players==1 ){
@@ -39,7 +38,6 @@ public class SetupLogic {
 				}
 			}
 		}
-		
 		
 		Controller.setPiecesAry( ControllerMaker.makeNumPiecesAry() );
 		setHumanPlayers( players, cont );

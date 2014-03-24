@@ -40,9 +40,7 @@ public class SetupParser {
 				GameButton button = new GameButton( 40, x, y, cont );		
 				GameButtonLogic.alterButton(button, 3, sc.next().charAt(0), Color.RED );
 				gbList.add( button );
-				System.out.print( button + " " );
 			}
-			System.out.println();
 			AIList.add( gbList );
 		}
 		sc.close();
