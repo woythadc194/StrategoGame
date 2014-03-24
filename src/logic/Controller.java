@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import ui.Board;
 import ui.GameButton;
@@ -101,13 +100,6 @@ public class Controller {
 		}
 		return true;
 	}
-	
-	public void askIfReady(){
-		int reply = JOptionPane.showConfirmDialog(null, "Pieces all set?", "", JOptionPane.YES_NO_OPTION);
-        if ( reply == JOptionPane.YES_OPTION ) {
-        	setAllReady();
-        }
-    }
 	
 	public void setAllReady(){
         for( int y=SetupLogic.getYMin(); y<SetupLogic.getYMax(); y++ )

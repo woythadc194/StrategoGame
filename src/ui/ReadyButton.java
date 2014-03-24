@@ -21,7 +21,7 @@ public class ReadyButton extends JButton{
 		this.addActionListener( new ActionListener(){
 			public void actionPerformed( ActionEvent e ){
 				if( cont.testPlayrReady() ){
-					cont.askIfReady();
+					cont.setAllReady();
 					SelectionPanel.getFrame().dispose();
 				}
 			}

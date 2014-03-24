@@ -42,12 +42,12 @@ public class SetupLogic {
 		
 		
 		Controller.setPiecesAry( ControllerMaker.makeNumPiecesAry() );
-		SPane = new SelectionPanel( cont );
-		SPane.addToCont();
 		setHumanPlayers( players, cont );
 	}
 	
 	public static void setHumanPlayers( int players, Controller cont ){
+		SPane = new SelectionPanel( cont );
+		SPane.addToCont();
 		Controller.setPiecesAry( ControllerMaker.makeNumPiecesAry() );
 		if( players == 0)
 			return;
@@ -63,10 +63,6 @@ public class SetupLogic {
 				button.setReady( false );
 			}
 		
-	}
-	
-	public static void killSPane(){
-		SPane.dispose();
 	}
 	
 	public static Color getCurrentPlayer(){
