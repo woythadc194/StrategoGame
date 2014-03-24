@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,7 +21,7 @@ import logic.SetupLogic;
 
 @SuppressWarnings("serial")
 public class SetupPane extends JFrame{
-
+	
 	public SetupPane( final Controller cont ){
 		super();
 		
@@ -32,7 +33,7 @@ public class SetupPane extends JFrame{
 		JButton button1 = new JButton( "1 Player" );
 		button1.addActionListener( new ActionListener(){
 			public void actionPerformed( ActionEvent e ){
-				SetupLogic.setPlayers( 1, cont );
+				try { SetupLogic.setPlayers( 1, cont ); } catch (FileNotFoundException e1) {}
 				frame.dispose();
 			}
 		});
@@ -43,7 +44,7 @@ public class SetupPane extends JFrame{
 		JButton button2 = new JButton( "2 Player" );
 		button2.addActionListener( new ActionListener(){
 			public void actionPerformed( ActionEvent e ){
-				SetupLogic.setPlayers( 2, cont );
+				try { SetupLogic.setPlayers( 2, cont ); } catch (FileNotFoundException e1) {}
 				frame.dispose();
 			}
 		});

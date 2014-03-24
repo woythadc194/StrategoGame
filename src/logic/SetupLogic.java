@@ -5,7 +5,10 @@
 package logic;
 
 import java.awt.Color;
-import java.util.Random;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+
+import parsing.SetupParser;
 
 import ui.GameButton;
 import ui.SelectionPanel;
@@ -21,53 +24,29 @@ public class SetupLogic {
 		;
 	}
 	
-	public static void setPlayers( int players, Controller cont ){
+	public static void setPlayers( int players, Controller cont ) throws FileNotFoundException{
 		System.out.println( players );
 		Controller.setIfNumPlayersSelected( true );
 		
 		if( players==1 ){
-			Random rand = new Random();
+			ArrayList<ArrayList<GameButton>> list = SetupParser.getAIList( cont );
 			for( int y=0; y<4; y++ ){
 				for( int x=0; x<10; x++ ){
-					int id = rand.nextInt( 12 ) + 1;
-					while( Controller.getPiecesAry()[id] == 0 )
-						id = rand.nextInt(12) + 1;
-					Controller.getPiecesAry()[id] --;
-					char val = 'X';
-					if( id > 9 ){
-						if( id == 10 )
-							val = 'B';
-						else if( id == 11 )
-							val = 'F';
-						else if( id == 12 )
-							val = 'S';
-					}else{
-						val = ("" + id).charAt( 0 );
-					}
-					//Temp set to 3
-					GameButton button = cont.getButtonMatrix().get( x ).get( y );
-					GameButtonLogic.alterButton( button, 3, val, Color.RED );
-					button.setReady( true );
+					GameButton b1 = list.get( y ).get( x );
+					GameButton b2 = cont.getButtonMatrix().get( x ).get( -y+3 );
+					GameButtonLogic.alterButton(b2, b1.getVisibility(), b1.getVal(), b1.getPlayerColor() );
+					b2.setReady( true );
 				}
 			}
 		}
 		
-		setHumanPlayers( players, cont );
 		
 		Controller.setPiecesAry( ControllerMaker.makeNumPiecesAry() );
 		SPane = new SelectionPanel( cont );
 		SPane.addToCont();
+		setHumanPlayers( players, cont );
 	}
 	
-	/*
-	private static void waitTime( long time ){
-		long start = System.currentTimeMillis();
-		while( System.currentTimeMillis() - start < time ){
-			;
-		}
-	}
-	*/
-		
 	public static void setHumanPlayers( int players, Controller cont ){
 		Controller.setPiecesAry( ControllerMaker.makeNumPiecesAry() );
 		if( players == 0)
@@ -84,12 +63,6 @@ public class SetupLogic {
 				button.setReady( false );
 			}
 		
-		/*
-		while( Controller.playerNotReady( yMin, yMax ) ){
-				waitTime( 100 );
-				System.out.println("ERROR");
-			}
-		*/
 	}
 	
 	public static void killSPane(){

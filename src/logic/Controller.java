@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import ui.GameBoard;
+import ui.Board;
 import ui.GameButton;
 import ui.PieceOptButton;
 import ui.SelectionPanel;
@@ -19,7 +19,7 @@ import ui.SetupPane;
 
 public class Controller {
 
-	private static GameBoard gb;
+	private static Board gb;
 	private static JFrame frame;
 	private static ArrayList<ArrayList<GameButton>> buttonMatrix;
 	private static int [] piecesAry;
@@ -36,7 +36,7 @@ public class Controller {
 	private static SelectionPanel sp;
 	
 	
-	public Controller( JFrame frame, GameBoard gb ){
+	public Controller( JFrame frame, Board gb ){
 		
 		Controller.setRedTurn(false);
 		Controller.setSelectedPieceOpt( 0 );
@@ -90,27 +90,26 @@ public class Controller {
 		Controller.selectedPieceOpt = opt;
 	}
 	
-	public void testPlayerReady(){
+	public boolean testPlayrReady(){
 		for( int y=SetupLogic.getYMin(); y<SetupLogic.getYMax(); y++ ){
 			for( int x=0; x<10; x++ ){
 				char c = buttonMatrix.get( x ).get( y ).getVal();
 				if( ( c=='~' ) || ( c=='X') ){
-					
-					return;
+					return false;
 				}
 			}
 		}
-		askIfReady();
+		return true;
 	}
 	
-	private void askIfReady(){
+	public void askIfReady(){
 		int reply = JOptionPane.showConfirmDialog(null, "Pieces all set?", "", JOptionPane.YES_NO_OPTION);
         if ( reply == JOptionPane.YES_OPTION ) {
         	setAllReady();
         }
     }
 	
-	private void setAllReady(){
+	public void setAllReady(){
         for( int y=SetupLogic.getYMin(); y<SetupLogic.getYMax(); y++ )
 			for( int x=0; x<10; x++ )
 				buttonMatrix.get( x ).get( y ).setReady( true );
@@ -220,7 +219,7 @@ public class Controller {
 		return Controller.selectedButton;
 	}
 	
-	public GameBoard getGameBoard(){
+	public Board getGameBoard(){
 		return Controller.gb;
 	}
 	
@@ -240,7 +239,7 @@ public class Controller {
 		Controller.frame = frame;
 	}
 	
-	public static void setGameBoard( GameBoard gb ){
+	public static void setGameBoard( Board gb ){
 		Controller.gb = gb;
 	}
 	

@@ -22,6 +22,7 @@ public class GameButtonLogic {
 
 	public static void clicked( GameButton button, Controller cont ){
 		GameButtonLogic.cont = cont;
+		System.out.println( button );
 		if( button.getReady() == false )
 			preGameClick( button, cont );
 		else if(cont.isReady())
@@ -57,7 +58,6 @@ public class GameButtonLogic {
 		if( targetType!= 0 )
 			Controller.getPiecesAry()[ targetType ]--;
 		PceOptBttnLogic.clicked( Controller.getOptButtonAry()[ targetType ] , cont);
-		cont.testPlayerReady();
 	}
 	
 	private static void midGameClick( GameButton button, Controller cont ){
