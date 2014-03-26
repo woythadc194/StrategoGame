@@ -1,3 +1,7 @@
+/**
+ * @author Dylan Woythal
+ */
+
 package main;
 
 import ui.Board;
