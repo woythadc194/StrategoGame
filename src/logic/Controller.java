@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 
 import ai.ProbabilityCalculator;
 
+import ui.RandomPane;
 import ui.Board;
 import ui.GameButton;
 import ui.PieceOptButton;
@@ -50,6 +51,10 @@ public class Controller {
 		Controller.setCharIndexAry( ControllerMaker.makeCharIndexAry() );
 		
 		constructSetupPane();
+	}
+	
+	public void constructRandomPane(){
+		new RandomPane( this );
 	}
 	
 	public static boolean playerNotReady( int yMin, int yMax ){
@@ -112,7 +117,7 @@ public class Controller {
 				buttonMatrix.get( x ).get( y ).setReady( true );
 
         if( SetupLogic.getCurrentPlayer() == Color.RED )
-        	SetupLogic.setHumanPlayers( 1, this );
+        	SetupLogic.setHumanPlayers( 1 );
 	}
 	
 	public boolean isReady(){

@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -27,7 +26,6 @@ public class Board extends JPanel {
 	private static Board b;
 	private static JFrame frame;
 	private static boolean gameOver;
-	private static ArrayList<ArrayList<GameButton>> buttonMatrix;
 	
 	public Board(){
 		super();
@@ -48,7 +46,7 @@ public class Board extends JPanel {
 		frame.pack();
 		
 		Controller cont = new Controller(frame, this);
-		cont.setSULogic( new SetupLogic() );
+		cont.setSULogic( new SetupLogic( cont ) );
 	}
 	
 	
@@ -109,7 +107,8 @@ public class Board extends JPanel {
 		String s = "";
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
-				GameButton button = buttonMatrix.get( y ).get( x );
+				System.out.println(y + " " + x);
+				GameButton button = Controller.getButtonMatrix().get( y ).get( x );
 				s+= ( button + " " );
 			}
 			s += "\n";

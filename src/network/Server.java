@@ -18,8 +18,7 @@ public class Server extends Thread{
     }
 	
     public Server() throws Exception{
-    	@SuppressWarnings("resource")
-		ServerSocket welcomeSocket = new ServerSocket(6789);
+    	ServerSocket welcomeSocket = new ServerSocket(6789);
 		
         Socket connectionSocket = welcomeSocket.accept();
 

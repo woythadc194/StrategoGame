@@ -244,6 +244,7 @@ public class GameButton extends JButton{
 				g.fillRect( 19, 18,  5, 3 );
 				
 			}else if( this.getVal() == 'S' ){	
+				//glasses
 				g.fillRect( 4, 18,  2, 3 );
 				g.fillRect( 6, 18,  11, 10 );
 				g.fillRect( 5, 21, 1, 6 );
@@ -259,18 +260,18 @@ public class GameButton extends JButton{
 				g.fillRect( 18, 20, 1, 3 );
 				g.fillRect( 21, 20, 1, 3 );
 				g.fillRect( 22, 19, 1, 6 );
-				
+				//s
 				g.fillRect( 7, 5, 6, 2 );
 				g.fillRect( 7, 7, 2, 2 );
 				g.fillRect( 7, 9, 6, 2 );
 				g.fillRect( 11, 11, 2, 2 );
 				g.fillRect( 7, 13, 6, 2);
-				
+				//p
 				g.fillRect( 17, 5, 2, 10 );
 				g.fillRect( 21, 5, 2, 6 );
 				g.fillRect( 19, 5, 2, 2 );
 				g.fillRect( 19, 9, 2, 2  );
-				
+				//y
 				g.fillRect( 27, 5, 2, 6 );
 				g.fillRect( 31, 5, 2, 6 );
 				g.fillRect( 29, 9, 2, 6 );

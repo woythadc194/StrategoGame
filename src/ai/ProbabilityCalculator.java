@@ -24,10 +24,7 @@ public class ProbabilityCalculator {
 			for( GameButton attacker : listA ){
 				for( ArrayList<GameButton> listB : buttonMatrix ){
 					for( GameButton defender : listB ){
-						if( 
-						  ( attacker.getColor() == Color.RED && defender.getColor() == Color.BLUE ) ||
-						  ( defender.getColor() == Color.RED && attacker.getColor() == Color.BLUE )
-						  ){
+						if( attacker.getColor()==playerColor && ( defender.getColor()!=playerColor  && defender.getColor()!=Color.BLACK )){
 							String result = Battle.getResult( attacker, defender );
 							if( result.equals( "RED" ) ){
 								redWins++;
