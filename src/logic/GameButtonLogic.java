@@ -12,8 +12,6 @@ import ui.GameButton;
 
 public class GameButtonLogic {
 	
-	private static Controller cont;
-	
 	public static void alterButton(GameButton button, int visibility, char val, Color playerColor){
 		button.setColor( playerColor );
 		button.setVisibility(visibility);
@@ -21,7 +19,6 @@ public class GameButtonLogic {
 	}
 
 	public static void clicked( GameButton button, Controller cont ){
-		GameButtonLogic.cont = cont;
 		if( button.getReady() == false )
 			preGameClick( button, cont );
 		else if(cont.isReady())
@@ -107,7 +104,7 @@ public class GameButtonLogic {
 	public static void commenceBattle( GameButton attacker, GameButton defender ){
 		waitTime( 10 );
 	
-		String result = getBattleResult( attacker, defender );
+		String result = Battle.getResult( attacker, defender );
 		
 		if( result.equals( "INVALID" ) ){
 			;
@@ -128,286 +125,9 @@ public class GameButtonLogic {
 		attacker.repaint();
 		defender.repaint();
 		Controller.clearSelectedButton();
-		cont.switchTurns();
-/*
- * TODO	
- * 		System.out.println( cont.getGameBoard() );
-		*/
+		Controller.switchTurns();
 
 	}
 	
-	public static String getBattleResult( GameButton attacker, GameButton defender ){
-		//System.out.println("DEBUG piece.battle()   " + attacker.getPlayer() + ":" + attacker.getVal() + "    " + p.getPlayer() + ":" + p.getVal() );
-		if( attacker.getPlayerColorString().equals( defender.getPlayerColorString() ) )
-			return "INVALID";
-		if( attacker.getVal() == '~' || attacker.getVal() == 'F' || attacker.getVal() == 'B')
-			return "INVALID";
-		if( attacker.getVal() == '1' ){
-			if( defender.getVal() == '1' ){
-				return "NEITHER";
-			} else if( defender.getVal() == '2' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '3' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '4' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '5' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '6' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '7' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '8' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '9' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == 'B' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == 'F' ){
-				return "WIN";
-			} else if( defender.getVal() == 'S' ){
-				return attacker.getPlayerColorString();
-			}
-		} else if( attacker.getVal() == '2' ){
-			if( defender.getVal() == '1' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '2' ){
-				return "NEITHER";
-			} else if( defender.getVal() == '3' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '4' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '5' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '6' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '7' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '8' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '9' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == 'B' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == 'F' ){
-				return "WIN";
-			} else if( defender.getVal() == 'S' ){
-				return attacker.getPlayerColorString();
-			}
-		} else if( attacker.getVal() == '3' ){
-			if( defender.getVal() == '1' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '2' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '3' ){
-				return "NEITHER";
-			} else if( defender.getVal() == '4' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '5' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '6' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '7' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '8' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '9' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == 'B' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == 'F' ){
-				return "WIN";
-			} else if( defender.getVal() == 'S' ){
-				return attacker.getPlayerColorString();
-			}
-		} else if( attacker.getVal() == '4' ){
-			if( defender.getVal() == '1' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '2' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '3' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '4' ){
-				return "NEITHER";
-			} else if( defender.getVal() == '5' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '6' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '7' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '8' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '9' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == 'B' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == 'F' ){
-				return "WIN";
-			} else if( defender.getVal() == 'S' ){
-				return attacker.getPlayerColorString();
-			}
-		} else if( attacker.getVal() == '5' ){
-			if( defender.getVal() == '1' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '2' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '3' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '4' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '5' ){
-				return "NEITHER";
-			} else if( defender.getVal() == '6' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '7' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '8' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '9' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == 'B' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == 'F' ){
-				return "WIN";
-			} else if( defender.getVal() == 'S' ){
-				return attacker.getPlayerColorString();
-			}
-		} else if( attacker.getVal() == '6' ){
-			if( defender.getVal() == '1' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '2' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '3' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '4' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '5' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '6' ){
-				return "NEITHER";
-			} else if( defender.getVal() == '7' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '8' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '9' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == 'B' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == 'F' ){
-				return "WIN";
-			} else if( defender.getVal() == 'S' ){
-				return attacker.getPlayerColorString();
-			}
-		} else if( attacker.getVal() == '7' ){
-			if( defender.getVal() == '1' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '2' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '3' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '4' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '5' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '6' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '7' ){
-				return "NEITHER";
-			} else if( defender.getVal() == '8' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '9' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == 'B' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == 'F' ){
-				return "NEITHER";
-			} else if( defender.getVal() == 'S' ){
-				return attacker.getPlayerColorString();
-			}
-		} else if( attacker.getVal() == '8' ){ //MINER
-			if( defender.getVal() == '1' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '2' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '3' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '4' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '5' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '6' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '7' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '8' ){
-				return "NEITHER";
-			} else if( defender.getVal() == '9' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == 'B' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == 'F' ){
-				return "WIN";
-			} else if( defender.getVal() == 'S' ){
-				return attacker.getPlayerColorString();
-			}
-		} else if( attacker.getVal() == '9' ){ //SCOUT
-			if( defender.getVal() == '1' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '2' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '3' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '4' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '5' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '6' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '7' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '8' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '9' ){
-				return "NEITHER";
-			} else if( defender.getVal() == 'B' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == 'F' ){
-				return "WIN";
-			} else if( defender.getVal() == 'S' ){
-				return attacker.getPlayerColorString();
-			}
-		} else if( attacker.getVal() == 'S' ){
-			if( defender.getVal() == '1' ){
-				return attacker.getPlayerColorString();
-			} else if( defender.getVal() == '2' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '3' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '4' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '5' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '6' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '7' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '8' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == '9' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == 'B' ){
-				return defender.getPlayerColorString();
-			} else if( defender.getVal() == 'F' ){
-				return "WIN";
-			} else if( defender.getVal() == 'S' ){
-				return "NEITHER";
-			}
-		}
-		
-		if( defender.getVal() == '~' )
-			return attacker.getPlayerColorString();
-
-		System.out.println("DEBUG X");
-		return "INVALID";
-	}
+	
 }

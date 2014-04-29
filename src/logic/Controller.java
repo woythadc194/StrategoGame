@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import ai.ProbabilityCalculator;
+
 import ui.Board;
 import ui.GameButton;
 import ui.PieceOptButton;
@@ -20,16 +22,17 @@ public class Controller {
 
 	private static Board gb;
 	private static JFrame frame;
-	private static ArrayList<ArrayList<GameButton>> buttonMatrix;
 	private static int [] piecesAry;
 	private static int selectedPieceOpt;
-	private static PieceOptButton [] optButtonAry;
+	private static int numPlayers;
 	private static char [] charIndexAry;
-	private static GameButton selectedButton;
 	private static boolean selectionMade;
 	private static boolean redTurn;
 	private static boolean ifNumPlayersSelected;
 	private static SetupLogic SULogic;
+	private static GameButton selectedButton;
+	private static PieceOptButton [] optButtonAry;
+	private static ArrayList<ArrayList<GameButton>> buttonMatrix;
 	
 	@SuppressWarnings("unused")
 	private static SelectionPanel sp;
@@ -73,8 +76,10 @@ public class Controller {
 		return Controller.optButtonAry;
 	}
 	
-	public void switchTurns(){
+	public static void switchTurns(){
 		setRedTurn(!getRedTurn());
+		ProbabilityCalculator pc = new ProbabilityCalculator();
+		pc.decideAttackOrDefend( (redTurn)? Color.red: Color.blue );
 	}
 	
 	public static int[] getPiecesAry(){
@@ -219,7 +224,7 @@ public class Controller {
 		return Controller.frame;
 	}
 	
-	public ArrayList<ArrayList<GameButton>> getButtonMatrix(){
+	public static ArrayList<ArrayList<GameButton>> getButtonMatrix(){
 		return buttonMatrix;
 	}
 	
@@ -269,5 +274,13 @@ public class Controller {
 	
 	public static boolean getIfNumPlayersSelected() {
 		return ifNumPlayersSelected;
+	}
+
+	public static void setNumPlayers(int numPlayers) {
+		Controller.numPlayers = numPlayers;
+	}
+	
+	public static int getNumPlayers() {
+		return Controller.numPlayers;
 	}
 }
