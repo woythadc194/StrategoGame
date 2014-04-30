@@ -1,5 +1,7 @@
 package logic;
 
+import java.awt.Color;
+
 import ui.GameButton;
 
 public class Battle {
@@ -276,6 +278,274 @@ public class Battle {
 			return attacker.getPlayerColorString();
 
 		//System.out.println("DEBUG Invalid Battle");
+		return "INVALID";
+	}
+	
+	public static String getResult( GameButton attacker, char val ){
+		//System.out.println("DEBUG piece.battle()   " + attacker.getPlayer() + ":" + attacker.getVal() + "    " + p.getPlayer() + ":" + p.getVal() );
+		if( attacker.getVal() == '~' || attacker.getVal() == 'F' || attacker.getVal() == 'B')
+			return "INVALID";
+		if( attacker.getVal() == '1' ){
+			if(  val == '1' ){
+				return "NEITHER";
+			} else if(  val == '2' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '3' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '4' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '5' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '6' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '7' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '8' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '9' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == 'B' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == 'F' ){
+				return "WIN";
+			} else if(  val == 'S' ){
+				return attacker.getPlayerColorString();
+			}
+		} else if( attacker.getVal() == '2' ){
+			if(  val == '1' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '2' ){
+				return "NEITHER";
+			} else if(  val == '3' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '4' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '5' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '6' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '7' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '8' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '9' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == 'B' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == 'F' ){
+				return "WIN";
+			} else if(  val == 'S' ){
+				return attacker.getPlayerColorString();
+			}
+		} else if( attacker.getVal() == '3' ){
+			if(  val == '1' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '2' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '3' ){
+				return "NEITHER";
+			} else if(  val == '4' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '5' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '6' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '7' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '8' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '9' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == 'B' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == 'F' ){
+				return "WIN";
+			} else if(  val == 'S' ){
+				return attacker.getPlayerColorString();
+			}
+		} else if( attacker.getVal() == '4' ){
+			if(  val == '1' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '2' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '3' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '4' ){
+				return "NEITHER";
+			} else if(  val == '5' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '6' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '7' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '8' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '9' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == 'B' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == 'F' ){
+				return "WIN";
+			} else if(  val == 'S' ){
+				return attacker.getPlayerColorString();
+			}
+		} else if( attacker.getVal() == '5' ){
+			if(  val == '1' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '2' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '3' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '4' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '5' ){
+				return "NEITHER";
+			} else if(  val == '6' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '7' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '8' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '9' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == 'B' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == 'F' ){
+				return "WIN";
+			} else if(  val == 'S' ){
+				return attacker.getPlayerColorString();
+			}
+		} else if( attacker.getVal() == '6' ){
+			if(  val == '1' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '2' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '3' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '4' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '5' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '6' ){
+				return "NEITHER";
+			} else if(  val == '7' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '8' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '9' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == 'B' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == 'F' ){
+				return "WIN";
+			} else if(  val == 'S' ){
+				return attacker.getPlayerColorString();
+			}
+		} else if( attacker.getVal() == '7' ){
+			if(  val == '1' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '2' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '3' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '4' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '5' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '6' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '7' ){
+				return "NEITHER";
+			} else if(  val == '8' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '9' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == 'B' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == 'F' ){
+				return "NEITHER";
+			} else if(  val == 'S' ){
+				return attacker.getPlayerColorString();
+			}
+		} else if( attacker.getVal() == '8' ){ //MINER
+			if(  val == '1' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '2' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '3' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '4' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '5' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '6' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '7' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '8' ){
+				return "NEITHER";
+			} else if(  val == '9' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == 'B' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == 'F' ){
+				return "WIN";
+			} else if(  val == 'S' ){
+				return attacker.getPlayerColorString();
+			}
+		} else if( attacker.getVal() == '9' ){ //SCOUT
+			if(  val == '1' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '2' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '3' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '4' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '5' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '6' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '7' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '8' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '9' ){
+				return "NEITHER";
+			} else if(  val == 'B' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == 'F' ){
+				return "WIN";
+			} else if(  val == 'S' ){
+				return attacker.getPlayerColorString();
+			}
+		} else if( attacker.getVal() == 'S' ){
+			if(  val == '1' ){
+				return attacker.getPlayerColorString();
+			} else if(  val == '2' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '3' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '4' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '5' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '6' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '7' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '8' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == '9' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == 'B' ){
+				return (attacker.getPlayerColor() == Color.RED) ? "BLUE" : "RED";
+			} else if(  val == 'F' ){
+				return "WIN";
+			} else if(  val == 'S' ){
+				return "NEITHER";
+			}
+		}
 		return "INVALID";
 	}
 }

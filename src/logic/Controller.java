@@ -30,6 +30,7 @@ public class Controller {
 	private static boolean selectionMade;
 	private static boolean ifNumPlayersSelected;
 	private static Color playerTurn;
+	private static AiBeta AI;
 	private static SetupLogic SULogic;
 	private static GameButton selectedButton;
 	private static PieceOptButton [] optButtonAry;
@@ -49,7 +50,7 @@ public class Controller {
 		Controller.setPiecesAry(ControllerMaker.makeNumPiecesAry() );
 		Controller.setIfNumPlayersSelected( false );
 		Controller.setCharIndexAry( ControllerMaker.makeCharIndexAry() );
-		
+		Controller.AI = new AiBeta();
 		constructSetupPane();
 	}
 	
@@ -89,7 +90,7 @@ public class Controller {
 		
 		
 		if( getPlayerTurn() == Color.RED )
-			AiBeta.makeMove1();
+			AI.makeMove1();
 		//TODO
 		
 	}
