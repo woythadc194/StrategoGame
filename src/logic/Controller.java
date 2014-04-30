@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import ai.AiBeta;
 import ai.ProbabilityCalculator;
 
 import ui.RandomPane;
@@ -85,7 +86,11 @@ public class Controller {
 		setTurn(getPlayerTurn() == Color.RED ? Color.BLUE : Color.RED );
 		ProbabilityCalculator pc = new ProbabilityCalculator();
 		ProbabilityCalculator.clearTargets();
-		pc.decideAttackOrDefend( getPlayerTurn() );
+		pc.getAllBattleStats( getPlayerTurn() );
+		
+		if( getPlayerTurn() == Color.RED )
+			AiBeta.makeMove1();
+		
 	}
 	
 	public static int[] getPiecesAry(){

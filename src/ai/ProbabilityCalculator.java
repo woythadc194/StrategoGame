@@ -18,7 +18,7 @@ public class ProbabilityCalculator {
 		totalBattles = 0;
 	}
 	
-	public void decideAttackOrDefend( Color playerColor){
+	public void getAllBattleStats( Color playerColor){
 		
 		buttonMatrix = Controller.getButtonMatrix();
 		
@@ -45,7 +45,7 @@ public class ProbabilityCalculator {
 		System.out.println( "Blue wins " + (int)blueWins + " = " + (blueWins/totalBattles*100) + "%\n" );
 	}
 	
-	public static void findTargets( GameButton attacker ){
+	public static ArrayList<GameButton> findTargets( GameButton attacker ){
 		buttonMatrix = Controller.getButtonMatrix();
 		ArrayList<GameButton> seenList = new ArrayList<GameButton>();
 		ArrayList<GameButton> attackable = new ArrayList<GameButton>();
@@ -53,6 +53,7 @@ public class ProbabilityCalculator {
 		findMoves( attacker.getPlayerColor(), attacker, seenList, attackable );
 		for( GameButton defender : attackable )
 			defender.setTargeted( true );
+		return attackable;
 	}
 	
 	/**
