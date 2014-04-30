@@ -28,8 +28,8 @@ public class Controller {
 	private static int numPlayers;
 	private static char [] charIndexAry;
 	private static boolean selectionMade;
-	private static boolean redTurn;
 	private static boolean ifNumPlayersSelected;
+	private static Color playerTurn;
 	private static SetupLogic SULogic;
 	private static GameButton selectedButton;
 	private static PieceOptButton [] optButtonAry;
@@ -41,7 +41,7 @@ public class Controller {
 	
 	public Controller( JFrame frame, Board gb ){
 		
-		Controller.setRedTurn(false);
+		Controller.setTurn( Color.BLUE );
 		Controller.setSelectedPieceOpt( 0 );
 		Controller.setFrame( frame );
 		Controller.setGameBoard( gb );
@@ -82,9 +82,10 @@ public class Controller {
 	}
 	
 	public static void switchTurns(){
-		setRedTurn(!getRedTurn());
+		setTurn(getPlayerTurn() == Color.RED ? Color.BLUE : Color.RED );
 		ProbabilityCalculator pc = new ProbabilityCalculator();
-		pc.decideAttackOrDefend( (redTurn)? Color.red: Color.blue );
+		ProbabilityCalculator.clearTargets();
+		pc.decideAttackOrDefend( getPlayerTurn() );
 	}
 	
 	public static int[] getPiecesAry(){
@@ -137,8 +138,8 @@ public class Controller {
 	
 	public static void highlightMoveable(){
 		if( selectedButton.getVal() == '9' ){
-			for( int x=selectedButton.getXLocal()+1; x<10; x++ ){
-				GameButton b = buttonMatrix.get( x ).get( selectedButton.getYLocal() );
+			for( int x=selectedButton.x()+1; x<10; x++ ){
+				GameButton b = buttonMatrix.get( x ).get( selectedButton.y() );
 				if( b.getPlayerColor().equals( selectedButton.getPlayerColor() ) )
 					break;
 				else{
@@ -148,8 +149,8 @@ public class Controller {
 						break;
 				}
 			}
-			for( int x=selectedButton.getXLocal()-1; x>=0; x-- ){
-				GameButton b = buttonMatrix.get( x ).get( selectedButton.getYLocal() );
+			for( int x=selectedButton.x()-1; x>=0; x-- ){
+				GameButton b = buttonMatrix.get( x ).get( selectedButton.y() );
 				if( b.getPlayerColor().equals( selectedButton.getPlayerColor() ) )
 					break;
 				else{
@@ -159,8 +160,8 @@ public class Controller {
 						break;
 				}
 			}
-			for( int y=selectedButton.getYLocal()+1; y<10; y++ ){
-				GameButton b = buttonMatrix.get( selectedButton.getXLocal() ).get( y );
+			for( int y=selectedButton.y()+1; y<10; y++ ){
+				GameButton b = buttonMatrix.get( selectedButton.x() ).get( y );
 				if( b.getPlayerColor().equals( selectedButton.getPlayerColor() ) )
 					break;
 				else{
@@ -170,8 +171,8 @@ public class Controller {
 						break;
 				}
 			}
-			for( int y=selectedButton.getYLocal()-1; y>=0; y-- ){
-				GameButton b = buttonMatrix.get( selectedButton.getXLocal() ).get( y );
+			for( int y=selectedButton.y()-1; y>=0; y-- ){
+				GameButton b = buttonMatrix.get( selectedButton.x() ).get( y );
 				if( b.getPlayerColor().equals( selectedButton.getPlayerColor() ) )
 					break;
 				else{
@@ -187,13 +188,13 @@ public class Controller {
 				for( int x=0; x<10; x++ ){
 					GameButton b = buttonMatrix.get( x ).get( y );
 					if(  !b.getPlayerColor().equals( selectedButton.getPlayerColor() ) && ( b.getVal()!='X' ) ){				
-						if( ( b.getXLocal()==selectedButton.getXLocal()-1 ) && ( b.getYLocal()==selectedButton.getYLocal() ) )
+						if( ( b.x()==selectedButton.x()-1 ) && ( b.y()==selectedButton.y() ) )
 							b.setMovable( true );
-						if( ( b.getXLocal()==selectedButton.getXLocal()+1 ) && ( b.getYLocal()==selectedButton.getYLocal() ) )
+						if( ( b.x()==selectedButton.x()+1 ) && ( b.y()==selectedButton.y() ) )
 							b.setMovable( true );
-						if( ( b.getXLocal()==selectedButton.getXLocal() ) && ( b.getYLocal()==selectedButton.getYLocal()-1 ) )
+						if( ( b.x()==selectedButton.x() ) && ( b.y()==selectedButton.y()-1 ) )
 							b.setMovable( true );
-						if( ( b.getXLocal()==selectedButton.getXLocal() ) && ( b.getYLocal()==selectedButton.getYLocal()+1 ) )
+						if( ( b.x()==selectedButton.x() ) && ( b.y()==selectedButton.y()+1 ) )
 							b.setMovable( true );
 					}
 				}
@@ -257,12 +258,12 @@ public class Controller {
 		Controller.selectionMade = selectionMade;
 	}
 
-	public static boolean getRedTurn() {
-		return redTurn;
+	public static Color getPlayerTurn() {
+		return playerTurn;
 	}
 
-	public static void setRedTurn(boolean redTurn) {
-		Controller.redTurn = redTurn;
+	public static void setTurn( Color playerTurn ) {
+		Controller.playerTurn = playerTurn;
 	}
 
 	public void setSULogic(SetupLogic SULogic) {

@@ -8,6 +8,8 @@ import java.awt.Color;
 
 import javax.swing.JOptionPane;
 
+import ai.ProbabilityCalculator;
+
 import ui.GameButton;
 
 public class GameButtonLogic {
@@ -29,11 +31,9 @@ public class GameButtonLogic {
 
 	private static void preGameClick( GameButton button, Controller cont ){
 		
-//		Controller.getSULogic();
 		int yMin = SetupLogic.getYMin();
-//		Controller.getSULogic();
 		int yMax = SetupLogic.getYMax();
-		int yLocal = button.getYLocal();
+		int yLocal = button.y();
 		if( yLocal < yMin || yLocal > yMax )
 			return;
 		
@@ -45,7 +45,6 @@ public class GameButtonLogic {
 			Controller.getPiecesAry()[ x ] ++;
 		}
 		if( cont.getSelectedPieceOpt() != 0 ) {
-//			Controller.getSULogic();
 			GameButtonLogic.alterButton(button, 2, Controller.getCharIndexAry()[cont.getSelectedPieceOpt()], SetupLogic.getCurrentPlayer() );
 		} else
 			alterButton( button, 3, '~', button.getPlayerColor() );
@@ -62,27 +61,30 @@ public class GameButtonLogic {
 			if( cont.getSelectionMade() == false ){
 				if( button.getVal() == '~' || button.getVal() == 'B' || button.getVal() == 'F' )
 					return;
-				if( Controller.getRedTurn() && button.getPlayerColorString().equals( "RED" ) )
+				if( Controller.getPlayerTurn() == button.getPlayerColor() ){
 					Controller.setSelectedButton( button );
-				else if(!Controller.getRedTurn() && button.getPlayerColorString().equals( "BLUE" ) )
-					Controller.setSelectedButton( button );
+					ProbabilityCalculator.findTargets( button );
+				}
 			}else{
-				// same button clicked twice removes it from selection
-				if( button.getXLocal()==Controller.getSelectedButton().getXLocal() && button.getYLocal()==Controller.getSelectedButton().getYLocal() )
+				// same button clicked twice removes it from selection and clears targets
+				if( button.x()==Controller.getSelectedButton().x() && button.y()==Controller.getSelectedButton().y() ){
 					Controller.clearSelectedButton();
-				// highlighted in white
+					ProbabilityCalculator.clearTargets();
+				}
 				
-				else if( button.getMovable() )
+				else if( button.isMovable() )
 					setUpBattle( button );
 
 				// same color piece as already selected
-				else if( Controller.getSelectedButton().getPlayerColorString().equals( button.getPlayerColorString() ) )
+				else if( Controller.getSelectedButton().getPlayerColor() == button.getPlayerColor() )
 					// but not a bomb or flag
 					if( button.getVal() == 'B' || button.getVal() == 'F' )
 						return;
-					else
-						//set selected button as a different one
+					else{//set selected button as a different one
+						ProbabilityCalculator.clearTargets();
 						Controller.setSelectedButton( button );
+						ProbabilityCalculator.findTargets( button );
+					}
 			}
 		}
 	}

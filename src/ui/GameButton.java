@@ -28,6 +28,7 @@ public class GameButton extends JButton{
 	private int visibility;
 	
 	private boolean moveable;
+	private boolean targeted;
 	private boolean ready;
 	
 	private char val;
@@ -49,6 +50,7 @@ public class GameButton extends JButton{
 		this.visibility = 3;
 		
 		this.moveable = false;
+		this.targeted = false;
 		this.ready = true;
 		
 		this.val = 0;
@@ -98,11 +100,11 @@ public class GameButton extends JButton{
 		return this.size;
 	}
 	
-	public int getXLocal(){
+	public int x(){
 		return this.xLocal;
 	}
 	
-	public int getYLocal(){
+	public int y(){
 		return this.yLocal;
 	}
 
@@ -110,7 +112,7 @@ public class GameButton extends JButton{
 		return this.visibility;
 	}
 	
-	public boolean getMovable(){
+	public boolean isMovable(){
 		return this.moveable;
 	}
 
@@ -135,10 +137,6 @@ public class GameButton extends JButton{
 		return this.val;
 	}
 	
-	public Color getColor(){
-		return this.playerColor;
-	}
-	
 	/*
 	 * Overrides
 	 */
@@ -158,19 +156,20 @@ public class GameButton extends JButton{
 		g.setColor( bg );
 		g.fillRect( 0, 0, 40, 40 );
 		if( getVal() == 'X' ){
-			if( Controller.getRedTurn() )
-				g.setColor( Color.RED );
-			else
-				g.setColor( Color.BLUE );
+			g.setColor( Controller.getPlayerTurn() );
 			g.fillRect( 10, 10, 20, 20 );
 		}
-		
-		if( this.moveable == true )
+
+		if( this.moveable )
 			g.setColor( Color.YELLOW );
 		else
 			g.setColor( Color.BLACK );
 		g.drawRect( 0, 0, 40, 40 );
 		g.drawRect( 1, 1, 38, 38 );
+		
+
+		if( this.targeted )
+			g.setColor( Color.WHITE );
 		
 		if( this.getVisibility() >=2 ){
 			if( this.getVal() == '1' )
@@ -286,5 +285,9 @@ public class GameButton extends JButton{
 		s += getVisibility();
 		s += (getReady() ? "T" : "F");
 		return s;
+	}
+
+	public void setTargeted(boolean targeted) {
+		this.targeted = targeted;
 	}
 }
