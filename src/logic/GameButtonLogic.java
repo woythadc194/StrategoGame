@@ -63,7 +63,7 @@ public class GameButtonLogic {
 					return;
 				if( Controller.getPlayerTurn() == button.getPlayerColor() ){
 					Controller.setSelectedButton( button );
-					ProbabilityCalculator.findTargets( button );
+					ProbabilityCalculator.findTargets( button, true );
 				}
 			}else{
 				// same button clicked twice removes it from selection and clears targets
@@ -83,7 +83,7 @@ public class GameButtonLogic {
 					else{//set selected button as a different one
 						ProbabilityCalculator.clearTargets();
 						Controller.setSelectedButton( button );
-						ProbabilityCalculator.findTargets( button );
+						ProbabilityCalculator.findTargets( button, true );
 					}
 			}
 		}

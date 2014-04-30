@@ -6,7 +6,7 @@ package logic;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
+
 import ui.GameButton;
 
 public class ControllerMaker {
@@ -48,22 +48,19 @@ public class ControllerMaker {
 		return charIndex;
 	}
 	
-	public static ArrayList<ArrayList<GameButton>> getGameButtonMatrix( Controller cont ){
+	public static GameButton[][] getGameButtonMatrix( Controller cont ){
 		FlowLayout flow = new FlowLayout();
 		flow.setHgap( 0 );
 		flow.setVgap( 0 );
 		cont.getGameBoard().setLayout( flow );
 
-		ArrayList<ArrayList<GameButton>> buttonMatrix = new ArrayList<ArrayList<GameButton>>();
-		buttonMatrix = new ArrayList<ArrayList<GameButton>>();
-		for( int i=0; i<10; i++ )
-			buttonMatrix.add( new ArrayList<GameButton>() );
+		GameButton[][] buttonMatrix = new GameButton[ 10 ][ 10 ];
 		
 		for( int y=0; y<10; y++ ){
 			for( int x=0; x<10; x++ ){
 				GameButton button = new GameButton( 40, x, y, cont );
 				button.setBackground( Color.BLACK );
-				buttonMatrix.get( x ).add( button );
+				buttonMatrix[ x ][ y ] = button;
 				
 				if( y<4 )
 					GameButtonLogic.alterButton(button, 3, '~', Color.RED);

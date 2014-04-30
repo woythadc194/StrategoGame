@@ -5,7 +5,6 @@
 package logic;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -34,7 +33,7 @@ public class Controller {
 	private static SetupLogic SULogic;
 	private static GameButton selectedButton;
 	private static PieceOptButton [] optButtonAry;
-	private static ArrayList<ArrayList<GameButton>> buttonMatrix;
+	private static GameButton[][] buttonMatrix;
 	
 	@SuppressWarnings("unused")
 	private static SelectionPanel sp;
@@ -88,8 +87,10 @@ public class Controller {
 		ProbabilityCalculator.clearTargets();
 		pc.getAllBattleStats( getPlayerTurn() );
 		
+		
 		if( getPlayerTurn() == Color.RED )
 			AiBeta.makeMove1();
+		//TODO
 		
 	}
 	
@@ -108,7 +109,7 @@ public class Controller {
 	public boolean testPlayrReady(){
 		for( int y=SetupLogic.getYMin(); y<SetupLogic.getYMax(); y++ ){
 			for( int x=0; x<10; x++ ){
-				char c = buttonMatrix.get( x ).get( y ).getVal();
+				char c = buttonMatrix[ x ][ y ].getVal();
 				if( ( c=='~' ) || ( c=='X') ){
 					return false;
 				}
@@ -120,7 +121,7 @@ public class Controller {
 	public void setAllReady(){
         for( int y=SetupLogic.getYMin(); y<SetupLogic.getYMax(); y++ )
 			for( int x=0; x<10; x++ )
-				buttonMatrix.get( x ).get( y ).setReady( true );
+				buttonMatrix[ x ][ y ].setReady( true );
 
         if( SetupLogic.getCurrentPlayer() == Color.RED )
         	SetupLogic.setHumanPlayers( 1 );
@@ -129,7 +130,7 @@ public class Controller {
 	public boolean isReady(){
 		for( int y=0; y<10; y++ )
 			for( int x=0; x<10; x++ )
-				if( buttonMatrix.get( x ).get( y ).getReady() == false )
+				if( buttonMatrix[ x ][ y ].getReady() == false )
 					return false;
 		return true;
 	}
@@ -144,7 +145,7 @@ public class Controller {
 	public static void highlightMoveable(){
 		if( selectedButton.getVal() == '9' ){
 			for( int x=selectedButton.x()+1; x<10; x++ ){
-				GameButton b = buttonMatrix.get( x ).get( selectedButton.y() );
+				GameButton b = buttonMatrix[ x ][ selectedButton.y() ];
 				if( b.getPlayerColor().equals( selectedButton.getPlayerColor() ) )
 					break;
 				else{
@@ -155,7 +156,7 @@ public class Controller {
 				}
 			}
 			for( int x=selectedButton.x()-1; x>=0; x-- ){
-				GameButton b = buttonMatrix.get( x ).get( selectedButton.y() );
+				GameButton b = buttonMatrix[ x ][ selectedButton.y() ];
 				if( b.getPlayerColor().equals( selectedButton.getPlayerColor() ) )
 					break;
 				else{
@@ -166,7 +167,7 @@ public class Controller {
 				}
 			}
 			for( int y=selectedButton.y()+1; y<10; y++ ){
-				GameButton b = buttonMatrix.get( selectedButton.x() ).get( y );
+				GameButton b = buttonMatrix[ selectedButton.x() ][ y ];
 				if( b.getPlayerColor().equals( selectedButton.getPlayerColor() ) )
 					break;
 				else{
@@ -177,7 +178,7 @@ public class Controller {
 				}
 			}
 			for( int y=selectedButton.y()-1; y>=0; y-- ){
-				GameButton b = buttonMatrix.get( selectedButton.x() ).get( y );
+				GameButton b = buttonMatrix[ selectedButton.x() ][ y ];
 				if( b.getPlayerColor().equals( selectedButton.getPlayerColor() ) )
 					break;
 				else{
@@ -191,7 +192,7 @@ public class Controller {
 
 			for( int y=0; y<10; y++ ){
 				for( int x=0; x<10; x++ ){
-					GameButton b = buttonMatrix.get( x ).get( y );
+					GameButton b = buttonMatrix[ x ][ y ];
 					if(  !b.getPlayerColor().equals( selectedButton.getPlayerColor() ) && ( b.getVal()!='X' ) ){				
 						if( ( b.x()==selectedButton.x()-1 ) && ( b.y()==selectedButton.y() ) )
 							b.setMovable( true );
@@ -218,9 +219,9 @@ public class Controller {
 	public static void clearSelectedButton(){
 		setSelectionMade(false);
 		Controller.selectedButton = null;
-		for( ArrayList<GameButton> list : buttonMatrix )
-			for( GameButton b : list )
-				b.setMovable( false );
+		for( int x=0; x<10; x++ )
+			for( int y=0; y<10; y++ )
+				buttonMatrix[ x ][ y ].setMovable( false );
 	}
 	
 	public static GameButton getSelectedButton(){
@@ -235,11 +236,11 @@ public class Controller {
 		return Controller.frame;
 	}
 	
-	public static ArrayList<ArrayList<GameButton>> getButtonMatrix(){
+	public static GameButton[][] getButtonMatrix(){
 		return buttonMatrix;
 	}
 	
-	public static void setGameButtonMatrix( ArrayList<ArrayList<GameButton>> buttonMatrix){
+	public static void setGameButtonMatrix( GameButton[][] buttonMatrix){
 		Controller.buttonMatrix = buttonMatrix;
 	}
 	

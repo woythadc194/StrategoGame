@@ -36,7 +36,7 @@ public class SetupLogic {
 			for( int y=0; y<4; y++ ){
 				for( int x=0; x<10; x++ ){
 					GameButton b1 = list.get( y ).get( x );
-					GameButton b2 = Controller.getButtonMatrix().get( x ).get( -y+3 );
+					GameButton b2 = Controller.getButtonMatrix()[ x ][ -y+3 ];
 					GameButtonLogic.alterButton(b2, b1.getVisibility(), b1.getVal(), b1.getPlayerColor() );
 					b2.setReady( true );
 				}
@@ -66,7 +66,7 @@ public class SetupLogic {
 		Controller.setPiecesAry(ControllerMaker.makeNumPiecesAry());
 		for( int y=yMin; y<yMax; y++ )
 			for(int x=0; x<10; x++ ){
-				GameButton button = Controller.getButtonMatrix().get( x ).get( y );
+				GameButton button = Controller.getButtonMatrix()[ x ][ y ];
 				GameButtonLogic.alterButton( button, 3, '~', button.getPlayerColor() );
 				button.setReady( false );
 			}
@@ -83,7 +83,7 @@ public class SetupLogic {
 					System.out.println("HERE");
 				}
 				System.out.print( opt + "[" + Controller.getPiecesAry()[opt] + "]   ");
-				GameButton button = Controller.getButtonMatrix().get( x ).get( y );
+				GameButton button = Controller.getButtonMatrix()[ x ][ y ];
 				GameButtonLogic.alterButton( button, 3, Controller.getCharIndexAry()[opt], button.getPlayerColor() );
 				button.repaint();
 				Controller.getPiecesAry()[opt]--;
