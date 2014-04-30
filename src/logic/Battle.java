@@ -7,7 +7,6 @@ import ui.GameButton;
 public class Battle {
 
 	public static String getResult( GameButton attacker, GameButton defender ){
-		//System.out.println("DEBUG piece.battle()   " + attacker.getPlayer() + ":" + attacker.getVal() + "    " + p.getPlayer() + ":" + p.getVal() );
 		if( attacker.getPlayerColorString().equals( defender.getPlayerColorString() ) )
 			return "INVALID";
 		if( attacker.getVal() == '~' || attacker.getVal() == 'F' || attacker.getVal() == 'B')
@@ -276,13 +275,10 @@ public class Battle {
 		
 		if( defender.getVal() == '~' )
 			return attacker.getPlayerColorString();
-
-		//System.out.println("DEBUG Invalid Battle");
 		return "INVALID";
 	}
 	
 	public static String getResult( GameButton attacker, char val ){
-		//System.out.println("DEBUG piece.battle()   " + attacker.getPlayer() + ":" + attacker.getVal() + "    " + p.getPlayer() + ":" + p.getVal() );
 		if( attacker.getVal() == '~' || attacker.getVal() == 'F' || attacker.getVal() == 'B')
 			return "INVALID";
 		if( attacker.getVal() == '1' ){

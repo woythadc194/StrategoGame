@@ -15,6 +15,7 @@ public class AiBeta {
 	private static double [][] attackStats; 
 	private static Map<Boolean, int[]> [][] HOLYFUCKMAP;
 	
+	@SuppressWarnings("unchecked")
 	public AiBeta(){
 		HOLYFUCKMAP = new HashMap[ 10 ][ 10 ];
 		for( int x=0; x<10; x++ ){
@@ -32,7 +33,7 @@ public class AiBeta {
 		attackStats = new double[ 10 ][ 10 ];
 		attackablePieces = new ArrayList[ 10 ][ 10 ];
 		buttonMatrix = Controller.getButtonMatrix();
-		for( int x=0; x<10; x++ ){
+		for( int x=0; x<10; x++ )
 			for( int y=0; y<10; y++ ){
 				GameButton attacker = buttonMatrix[ x ][ y ];
 				if( attacker.getPlayerColor() == Color.RED)
@@ -42,45 +43,17 @@ public class AiBeta {
 					int numAttacks = 0;
 					for( GameButton defender : attackablePieces[ x ][ y ] ){
 						Map< Boolean, int[]> map = HOLYFUCKMAP[defender.x()][defender.y()];
-						for( int i = 1; i< map.get(false).length; i++ ){
+						for( int i = 1; i< map.get(false).length; i++ )
 							for( int j=0; j< map.get(false)[i]; j++ ){
 								numAttacks ++;
 								char val = Controller.getCharIndexAry()[i];
 								attackWins += (Battle.getResult(attacker, val ) == attacker.getPlayerColorString()) ? 1 : 0;
 							}
-						}
 					}
-						
-					System.out.println(attackWins/numAttacks);
+					attackStats[ x ][ y ] = (attackWins/numAttacks*100);
 				}
 			}
-		}
 		for( int x=0; x<10; x++ )
-			System.out.println( Arrays.toString(attackablePieces[ x ] ) );
+			System.out.println(Arrays.toString(attackStats[x]));
 	}
-	
-	/*
-	@SuppressWarnings("unchecked")
-	public static void makeMove1(){
-		attackStats = new double[ 10 ][ 10 ];
-		attackablePieces = new ArrayList[ 10 ][ 10 ];
-		buttonMatrix = Controller.getButtonMatrix();
-		for( int x=0; x<10; x++ ){
-			for( int y=0; y<10; y++ ){
-				GameButton attacker = buttonMatrix[ x ][ y ];
-				if( attacker.getPlayerColor() == Color.RED)
-					attackablePieces[ x ][ y ] = ProbabilityCalculator.findTargets( attacker, false );
-				if( attackablePieces[ x ][ y ]!= null && !attackablePieces[ x ][ y ].isEmpty() ){
-					double attackPercent = 0.0;
-					for( GameButton defender : attackablePieces[ x ][ y ] )
-						attackPercent += ( Battle.getResult(attacker, defender) == attacker.getPlayerColorString() )? 1 : 0;
-					attackPercent /= attackablePieces[ x ][ y ].size();
-					System.out.println(attackPercent);
-				}
-			}
-		}
-		for( int x=0; x<10; x++ )
-			System.out.println( Arrays.toString(attackablePieces[ x ] ) );
-	}
-	*/
 }

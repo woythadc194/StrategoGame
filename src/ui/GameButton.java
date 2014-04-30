@@ -279,13 +279,11 @@ public class GameButton extends JButton{
 	}
 	
 	public String toString(){
-		String s = "(";
+		String s = "";
 		s += getPlayerColorString().charAt( 0 );
 		s += getVal();
 		s += getVisibility();
-		s += (getReady() ? "T," : "F,");
-		s += x() + ",";
-		s += y() + ")";
+		s += (getReady() ? "T" : "F");
 		return s;
 	}
 

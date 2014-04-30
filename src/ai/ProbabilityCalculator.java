@@ -39,9 +39,9 @@ public class ProbabilityCalculator {
 							}
 						}
 					}
-		System.out.println( "Total Battles: " + (int)totalBattles );
-		System.out.println( "Red wins: " + (int)redWins + " = " + (redWins/totalBattles*100) + "%" );
-		System.out.println( "Blue wins " + (int)blueWins + " = " + (blueWins/totalBattles*100) + "%\n" );
+//		System.out.println( "Total Battles: " + (int)totalBattles );
+//		System.out.println( "Red wins: " + (int)redWins + " = " + (redWins/totalBattles*100) + "%" );
+//		System.out.println( "Blue wins " + (int)blueWins + " = " + (blueWins/totalBattles*100) + "%\n" );
 	}
 	
 	public static ArrayList<GameButton> findTargets( GameButton attacker, boolean paint ){
@@ -109,7 +109,6 @@ public class ProbabilityCalculator {
 			if( !seenList.contains( defender ) ){
 				seenList.add( defender );
 				if( defender.getPlayerColor() != playerColor && defender.getPlayerColor()!= Color.BLACK ){
-					System.out.println( defender.getPlayerColorString() );
 					if(defender.getPlayerColor() == Color.DARK_GRAY )
 						findMoves( playerColor, defender, seenList, attackable );
 					else

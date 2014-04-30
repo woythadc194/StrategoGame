@@ -80,9 +80,7 @@ public class SetupLogic {
 				int opt = rand.nextInt(12)+1;
 				while( Controller.getPiecesAry()[opt] == 0 ){
 					opt = rand.nextInt(12)+1;
-					System.out.println("HERE");
 				}
-				System.out.print( opt + "[" + Controller.getPiecesAry()[opt] + "]   ");
 				GameButton button = Controller.getButtonMatrix()[ x ][ y ];
 				GameButtonLogic.alterButton( button, 3, Controller.getCharIndexAry()[opt], button.getPlayerColor() );
 				button.repaint();
