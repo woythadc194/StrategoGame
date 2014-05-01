@@ -56,9 +56,7 @@ public class AiBeta {
 					attackStats[ x ][ y ] = (attackWins/numAttacks*100);
 				}
 			}
-		for( int x=0; x<10; x++ )
-			System.out.println( Arrays.toString( attackStats[ x ] ) );
-		
+
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
 				if( attackStats[x][y] != 0.0 ){
@@ -66,9 +64,22 @@ public class AiBeta {
 				}
 			}
 		}
-		
-		for( int x=0; x<10; x++ )
-			System.out.println( Arrays.toString( attackDistances[ x ] ) );
+
+		for( int x=0; x<10; x++ ){
+			for( int y=0; y<10; y++ ){
+				String s = "" + (int)attackStats[ y ][ x ];
+				if( s.length() != 2 )
+					s = "0" + s;
+				System.out.print( s + " " );
+			}
+			System.out.println();
+		}
+		System.out.println();
+		for( int x=0; x<10; x++ ){
+			for( int y=0; y<10; y++ )
+				System.out.print( attackDistances[ y ][ x ] + " ");
+			System.out.println();
+		}
 		
 	}
 	
@@ -81,7 +92,7 @@ public class AiBeta {
 		steps = findStepsToVictim( steps, startButton.getPlayerColor(), expansionA, expansionB );
 		
 		
-		return 0;
+		return steps;
 	}
 	
 	public int findStepsToVictim( int steps, Color startColor, ArrayList<GameButton> expansionA, ArrayList<GameButton> expansionB ){
@@ -89,10 +100,30 @@ public class AiBeta {
 			if( (button.getPlayerColor() != startColor) && (button.getVal()!= '~') && (button.getVal()!='X') ){
 				return steps;
 			} else {
-				try{ expansionB.add( buttonMatrix[ button.x()+1 ][ button.y() ] ); } catch( Exception e ){}
-				try{ expansionB.add( buttonMatrix[ button.x()-1 ][ button.y() ] ); } catch( Exception e ){}
-				try{ expansionB.add( buttonMatrix[ button.x() ][ button.y()+1 ] ); } catch( Exception e ){}
-				try{ expansionB.add( buttonMatrix[ button.x() ][ button.y()-1 ] ); } catch( Exception e ){}
+				GameButton b = null;
+				try{ 
+					b = buttonMatrix[ button.x()+1 ][ button.y() ];
+					if( b.getPlayerColor() != Color.BLACK && b.getPlayerColor() != startColor )
+						expansionB.add( b );
+				} catch( Exception e ){}
+				
+				try{ 
+					b = buttonMatrix[ button.x()-1 ][ button.y() ];
+					if( b.getPlayerColor() != Color.BLACK && b.getPlayerColor() != startColor )
+						expansionB.add( b );
+				} catch( Exception e ){}
+
+				try{ 
+					b = buttonMatrix[ button.x() ][ button.y()+1 ];
+					if( b.getPlayerColor() != Color.BLACK && b.getPlayerColor() != startColor )
+						expansionB.add( b );
+				} catch( Exception e ){}
+				
+				try{ 
+					b = buttonMatrix[ button.x() ][ button.y()-1 ];
+					if( b.getPlayerColor() != Color.BLACK && b.getPlayerColor() != startColor )
+						expansionB.add( b );
+				} catch( Exception e ){}
 			}
 		}
 		steps ++;

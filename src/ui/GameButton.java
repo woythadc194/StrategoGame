@@ -124,6 +124,10 @@ public class GameButton extends JButton{
 		return this.playerColor;
 	}
 	
+	public Color getOpponetColor(){
+		return (getPlayerColor() == Color.RED) ? Color.BLUE : Color.RED;
+	}
+	
 	public String getPlayerColorString(){
 		if( getPlayerColor() == Color.RED )
 			return "RED";
