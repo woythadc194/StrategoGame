@@ -39,9 +39,9 @@ public class ProbabilityCalculator {
 							}
 						}
 					}
-//		System.out.println( "Total Battles: " + (int)totalBattles );
-//		System.out.println( "Red wins: " + (int)redWins + " = " + (redWins/totalBattles*100) + "%" );
-//		System.out.println( "Blue wins " + (int)blueWins + " = " + (blueWins/totalBattles*100) + "%\n" );
+		System.out.println( "Total Battles: " + (int)totalBattles );
+		System.out.println( "Red wins: " + (int)redWins + " = " + (redWins/totalBattles*100) + "%" );
+		System.out.println( "Blue wins " + (int)blueWins + " = " + (blueWins/totalBattles*100) + "%\n" );
 	}
 	
 	public static ArrayList<GameButton> findTargets( GameButton attacker, boolean paint ){

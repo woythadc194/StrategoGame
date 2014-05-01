@@ -12,6 +12,7 @@ public class AiBeta {
 	
 	private static ArrayList<GameButton>[][] attackablePieces;
 	private static GameButton[][] buttonMatrix;
+	private static int [][] attackDistances;
 	private static double [][] attackStats; 
 	private static Map<Boolean, int[]> [][] HOLYFUCKMAP;
 	
@@ -32,7 +33,9 @@ public class AiBeta {
 	public void makeMove1(){
 		attackStats = new double[ 10 ][ 10 ];
 		attackablePieces = new ArrayList[ 10 ][ 10 ];
+		attackDistances = new int[ 10 ][ 10 ];
 		buttonMatrix = Controller.getButtonMatrix();
+		
 		for( int x=0; x<10; x++ )
 			for( int y=0; y<10; y++ ){
 				GameButton attacker = buttonMatrix[ x ][ y ];
@@ -55,5 +58,21 @@ public class AiBeta {
 			}
 		for( int x=0; x<10; x++ )
 			System.out.println(Arrays.toString(attackStats[x]));
+
+		for( int x=0; x<10; x++ ){
+			for( int y=0; y<10; y++ ){
+				if( attackStats[x][y] != 0.0 ){
+					attackDistances[ x ][ y ] = getAttackDistance( x, y );
+				}
+			}
+		}
+	}
+	
+	public int getAttackDistance( int x, int y ){
+		
+
 	}
 }
+
+
+
