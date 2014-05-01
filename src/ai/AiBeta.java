@@ -57,8 +57,8 @@ public class AiBeta {
 				}
 			}
 		for( int x=0; x<10; x++ )
-			System.out.println(Arrays.toString(attackStats[x]));
-
+			System.out.println( Arrays.toString( attackStats[ x ] ) );
+		
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
 				if( attackStats[x][y] != 0.0 ){
@@ -66,11 +66,40 @@ public class AiBeta {
 				}
 			}
 		}
+		
+		for( int x=0; x<10; x++ )
+			System.out.println( Arrays.toString( attackDistances[ x ] ) );
+		
 	}
 	
 	public int getAttackDistance( int x, int y ){
+		GameButton startButton = buttonMatrix[ x ][ y ];
+		ArrayList<GameButton> expansionA = new ArrayList<GameButton>();
+		expansionA.add( startButton );
+		ArrayList<GameButton> expansionB = new ArrayList<GameButton>();
+		int steps = 0;
+		steps = findStepsToVictim( steps, startButton.getPlayerColor(), expansionA, expansionB );
 		
-
+		
+		return 0;
+	}
+	
+	public int findStepsToVictim( int steps, Color startColor, ArrayList<GameButton> expansionA, ArrayList<GameButton> expansionB ){
+		for( GameButton button : expansionA ){
+			if( (button.getPlayerColor() != startColor) && (button.getVal()!= '~') && (button.getVal()!='X') ){
+				return steps;
+			} else {
+				try{ expansionB.add( buttonMatrix[ button.x()+1 ][ button.y() ] ); } catch( Exception e ){}
+				try{ expansionB.add( buttonMatrix[ button.x()-1 ][ button.y() ] ); } catch( Exception e ){}
+				try{ expansionB.add( buttonMatrix[ button.x() ][ button.y()+1 ] ); } catch( Exception e ){}
+				try{ expansionB.add( buttonMatrix[ button.x() ][ button.y()-1 ] ); } catch( Exception e ){}
+			}
+		}
+		steps ++;
+		expansionA = expansionB;
+		expansionB = new ArrayList<GameButton>();
+		return findStepsToVictim( steps, startColor, expansionA, expansionB );
+				
 	}
 }
 

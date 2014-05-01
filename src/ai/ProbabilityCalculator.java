@@ -105,7 +105,7 @@ public class ProbabilityCalculator {
 		} catch(Exception e){}
 		
 		try{ 
-			defender = buttonMatrix[ b.x()+1 ][ b.y() ]; 
+			defender = buttonMatrix[ b.x()+1 ][ b.y() ];
 			if( !seenList.contains( defender ) ){
 				seenList.add( defender );
 				if( defender.getPlayerColor() != playerColor && defender.getPlayerColor()!= Color.BLACK ){
