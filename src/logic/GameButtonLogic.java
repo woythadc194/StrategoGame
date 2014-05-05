@@ -20,16 +20,16 @@ public class GameButtonLogic {
 		button.setVal(val);
 	}
 
-	public static void clicked( GameButton button, Controller cont ){
+	public static void clicked( GameButton button ){
 		if( button.getReady() == false )
-			preGameClick( button, cont );
-		else if(cont.isReady())
-			midGameClick( button, cont );
+			preGameClick( button );
+		else if(Controller.isReady())
+			midGameClick( button );
 		else
 			JOptionPane.showConfirmDialog( null, "GAME NOT READY" );
 	}
 
-	private static void preGameClick( GameButton button, Controller cont ){
+	private static void preGameClick( GameButton button ){
 		
 		int yMin = SetupLogic.getYMin();
 		int yMax = SetupLogic.getYMax();
@@ -44,18 +44,18 @@ public class GameButtonLogic {
 					x = index;
 			Controller.getPiecesAry()[ x ] ++;
 		}
-		if( cont.getSelectedPieceOpt() != 0 ) {
-			GameButtonLogic.alterButton(button, 2, Controller.getCharIndexAry()[cont.getSelectedPieceOpt()], SetupLogic.getCurrentPlayer() );
+		if( Controller.getSelectedPieceOpt() != 0 ) {
+			GameButtonLogic.alterButton(button, 2, Controller.getCharIndexAry()[Controller.getSelectedPieceOpt()], SetupLogic.getCurrentPlayer() );
 		} else
 			alterButton( button, 3, '~', button.getPlayerColor() );
 		
-		int targetType = cont.getSelectedPieceOpt();
+		int targetType = Controller.getSelectedPieceOpt();
 		if( targetType!= 0 )
 			Controller.getPiecesAry()[ targetType ]--;
-		PceOptBttnLogic.clicked( Controller.getOptButtonAry()[ targetType ] , cont);
+		PceOptBttnLogic.clicked( Controller.getOptButtonAry()[ targetType ] );
 	}
 	
-	private static void midGameClick( GameButton button, Controller cont ){
+	private static void midGameClick( GameButton button ){
 
 		//Initial click isn't an X
 		if( button.getVal() != 'X' ){
@@ -64,7 +64,7 @@ public class GameButtonLogic {
 			 * 	If  ~, B, or F was clicked, do nothing
 			 * 	Else  make battle since two buttons of non X were selected
 			 */
-			if( cont.getSelectionMade() == false ){
+			if( Controller.getSelectionMade() == false ){
 				if( button.getVal() == '~' || button.getVal() == 'B' || button.getVal() == 'F' )
 					return;
 				if( Controller.getPlayerTurn() == button.getPlayerColor() ){

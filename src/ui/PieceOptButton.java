@@ -16,11 +16,10 @@ import logic.PceOptBttnLogic;
 @SuppressWarnings("serial")
 public class PieceOptButton extends JButton {
 
-	private static Controller cont;
 	private int typeInt;
 	private char typeChar;
 	
-	public PieceOptButton( int type, Controller cont ){
+	public PieceOptButton( int type ){
 		super();
 		if( type == 10 )
 			typeChar = 'B';
@@ -38,8 +37,6 @@ public class PieceOptButton extends JButton {
 			this.setText( "Remove" );
 		
 		this.typeInt = type;
-		PieceOptButton.cont = cont;
-		
 		addAL();
 		if( Controller.getPiecesAry()[ typeInt ] == 0 )
 			this.setBackground( Color.BLACK );
@@ -51,7 +48,7 @@ public class PieceOptButton extends JButton {
 		this.addActionListener( new ActionListener(){
 			public void actionPerformed( ActionEvent e){
 				if( pob.getBackground()!= Color.BLACK )
-					PceOptBttnLogic.clicked( pob, cont );
+					PceOptBttnLogic.clicked( pob );
 			}
 		});
 	}

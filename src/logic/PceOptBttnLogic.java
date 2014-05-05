@@ -10,7 +10,7 @@ import ui.PieceOptButton;
 
 public class PceOptBttnLogic {
 
-	public static void clicked( PieceOptButton pob, Controller cont ){
+	public static void clicked( PieceOptButton pob ){
 		
 		pob.setBackground( SetupLogic.getCurrentPlayer() );
 			
@@ -22,12 +22,12 @@ public class PceOptBttnLogic {
 			pob.setBackground( Color.BLACK );
 			Controller.setSelectedPieceOpt( 0 );
 		}
-		refresh(cont);
+		refresh();
 	}
 	
-	private static void refresh( Controller cont ){
+	private static void refresh( ){
 		for( int index=0; index<13; index++ ){
-			if( index != cont.getSelectedPieceOpt() ){
+			if( index != Controller.getSelectedPieceOpt() ){
 				PieceOptButton pob = Controller.getOptButtonAry()[ index ];
 				if( Controller.getPiecesAry()[index] > 0 ){
 					pob.setBackground( Color.WHITE );

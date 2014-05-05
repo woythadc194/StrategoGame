@@ -128,7 +128,7 @@ public class Controller {
         	SetupLogic.setHumanPlayers( 1 );
 	}
 	
-	public boolean isReady(){
+	public static boolean isReady(){
 		for( int y=0; y<10; y++ )
 			for( int x=0; x<10; x++ )
 				if( buttonMatrix[ x ][ y ].getReady() == false )
@@ -139,7 +139,7 @@ public class Controller {
 	
 	
 
-	public int getSelectedPieceOpt(){
+	public static int getSelectedPieceOpt(){
 		return Controller.selectedPieceOpt;
 	}
 	
@@ -257,7 +257,7 @@ public class Controller {
 		Controller.sp = sp;
 	}
 
-	public boolean getSelectionMade() {
+	public static boolean getSelectionMade() {
 		return selectionMade;
 	}
 

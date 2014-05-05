@@ -20,8 +20,6 @@ import logic.GameButtonLogic;
 @SuppressWarnings("serial")
 public class GameButton extends JButton{
 	
-	private static Controller cont;
-
 	private int size;
 	private int xLocal;
 	private int yLocal;
@@ -36,7 +34,7 @@ public class GameButton extends JButton{
 	
 	
 	
-	public GameButton( int size, int xLocal, int yLocal, Controller cont ){
+	public GameButton( int size, int xLocal, int yLocal ){
 		super();
 		
 		this.setPreferredSize( new Dimension( size, size ) );
@@ -55,15 +53,13 @@ public class GameButton extends JButton{
 		
 		this.val = 0;
 		this.playerColor = Color.DARK_GRAY;
-
-		GameButton.cont = cont;
 	}
 	
 	private void addActnLstnr(){
 		final GameButton button = this;
 		this.addActionListener( new ActionListener(){
 			public void actionPerformed( ActionEvent e ){
-				GameButtonLogic.clicked( button, cont );
+				GameButtonLogic.clicked( button );
 			}
 		});
 	}

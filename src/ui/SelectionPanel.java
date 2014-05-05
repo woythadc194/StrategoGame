@@ -38,14 +38,14 @@ public class SelectionPanel extends JFrame {
 		JPanel pane3 = new JPanel();
 		
 		PieceOptButton [] newAry = new PieceOptButton[13];
-		PieceOptButton b1 = new PieceOptButton( 1, cont ); 		PieceOptButton b2 = new PieceOptButton( 2, cont );
-		PieceOptButton b3 = new PieceOptButton( 3, cont ); 		PieceOptButton b4 = new PieceOptButton( 4, cont );
-		PieceOptButton b5 = new PieceOptButton( 5, cont );		PieceOptButton b6 = new PieceOptButton( 6, cont );
-		PieceOptButton b7 = new PieceOptButton( 7, cont );		PieceOptButton b8 = new PieceOptButton( 8, cont );
-		PieceOptButton b9 = new PieceOptButton( 9, cont );		PieceOptButton bB = new PieceOptButton( 10, cont );
-		PieceOptButton bF = new PieceOptButton( 11, cont );		PieceOptButton bS = new PieceOptButton( 12, cont );
+		PieceOptButton b1 = new PieceOptButton( 1 ); 		PieceOptButton b2 = new PieceOptButton( 2 );
+		PieceOptButton b3 = new PieceOptButton( 3 ); 		PieceOptButton b4 = new PieceOptButton( 4 );
+		PieceOptButton b5 = new PieceOptButton( 5 );		PieceOptButton b6 = new PieceOptButton( 6 );
+		PieceOptButton b7 = new PieceOptButton( 7 );		PieceOptButton b8 = new PieceOptButton( 8 );
+		PieceOptButton b9 = new PieceOptButton( 9 );		PieceOptButton bB = new PieceOptButton( 10 );
+		PieceOptButton bF = new PieceOptButton( 11 );		PieceOptButton bS = new PieceOptButton( 12 );
 		
-		PieceOptButton remove = new PieceOptButton( 0, cont );
+		PieceOptButton remove = new PieceOptButton( 0 );
 		ReadyButton ready = new ReadyButton( cont );
 		
 		newAry[1] = b1; newAry[2] = b2; newAry[3] = b3; newAry[4] = b4; newAry[5] = b5; newAry[6] = b6; 
@@ -64,7 +64,7 @@ public class SelectionPanel extends JFrame {
 		newFrame.setLocation( 500,  400 );
 		newFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent) {
-				if( cont.isReady() == false )
+				if( Controller.isReady() == false )
 					new SelectionPanel( cont );
 		    }
 		});

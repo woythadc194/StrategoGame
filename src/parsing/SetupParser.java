@@ -37,7 +37,7 @@ public class SetupParser {
 		for( int y=0; y<4; y++ ){
 			ArrayList<GameButton> gbList = new ArrayList<GameButton> ();
 			for( int x=0; x<10; x++ ){
-				GameButton button = new GameButton( 40, x, y, cont );		
+				GameButton button = new GameButton( 40, x, y );		
 				GameButtonLogic.alterButton(button, 3, sc.next().charAt(0), Color.RED );
 				gbList.add( button );
 			}

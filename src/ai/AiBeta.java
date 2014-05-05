@@ -5,6 +5,7 @@ import java.util.*;
 
 import logic.Battle;
 import logic.Controller;
+import logic.GameButtonLogic;
 
 import ui.GameButton;
 
@@ -36,6 +37,8 @@ public class AiBeta {
 	
 	@SuppressWarnings("unchecked")
 	public void makeMove1(){
+		try{ Thread.sleep(1000); } catch( Exception e ){}
+
 		chance = new int[ 10 ][ 10 ];
 		attackablePieces = new ArrayList[ 10 ][ 10 ];
 		paths = new ArrayList[ 10 ][ 10 ];
@@ -63,28 +66,51 @@ public class AiBeta {
 					chance[ x ][ y ] = (attackWins*100/numAttacks);
 				}
 			}
-
-		//Set up Distances
-		for( int x=0; x<10; x++ ){
-			for( int y=0; y<10; y++ ){
-				if( chance[x][y] != 0.0 ){
-					distances[ x ][ y ] = getAttackDistance( x, y );
-				}
-			}
-		}
 		
 		//Set up Paths
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
-				if( chance[x][y] != 0.0 ){
+				if( chance[x][y] != 0 ){
 					paths[ x ][ y ] = getPathToVictim( x, y );
 				}
 			}
 		}
 		
+		//Set up Distances
+		for( int x=0; x<10; x++ ){
+			for( int y=0; y<10; y++ ){
+				if( chance[x][y] != 0 ){
+					distances[ x ][ y ] = paths[ x ][ y ].size()-1;
+				}
+			}
+		}
+		
 		printStats();
+		
+		GameButton startButton = getButton();
+		GameButton endButton = paths[ startButton.x() ][ startButton.y() ].get( 1 );
+		GameButtonLogic.clicked( startButton );
+		GameButtonLogic.clicked( endButton );
 	}
-	
+
+	private GameButton getButton(){
+		GameButton choice = null;
+		double weight = 0.0;
+
+		for( int x=0; x<10; x++ ){
+			for( int y=0; y<10; y++ ){
+				if( chance[x][y] != 0 ){
+					double currentWeight = (double)chance[ x ][ y ] / (double)distances[ x ][ y ];
+					if( currentWeight > weight ){
+						weight = currentWeight;
+						choice = buttonMatrix[ x ][ y ];
+					}
+				}
+			}
+		}
+		return choice;
+	}
+
 	private ArrayList<GameButton> getPathToVictim( int x, int y ){
 		GameButton button = buttonMatrix[ x ][ y ];
 		ArrayList<ArrayList<GameButton>> possiblePaths = new ArrayList<ArrayList<GameButton>>();
@@ -98,19 +124,17 @@ public class AiBeta {
 	}
 
 	private ArrayList<GameButton> getPath( ArrayList<GameButton> seen, ArrayList<ArrayList<GameButton>> possiblePaths ){
-		System.out.println( possiblePaths );
 		ArrayList<ArrayList<GameButton>> newPossiblePaths = new ArrayList<ArrayList<GameButton>>();
 		//Go through all possible paths so far
 		for( int i=0; i<possiblePaths.size(); i++ ){
 			ArrayList<GameButton> list = possiblePaths.get( i );
-			int endIndex = list.size()-1;
 			/*
 			 * for every list, take the end button and find its 4 directions
 			 * 
 			 * if one of the directions has already been seen,  ignore it. 
 			 * else add a new path with it attached at the end
 			 */
-			GameButton current = list.get( endIndex );
+			GameButton current = list.get( list.size()-1 );
 			GameButton next = null;
 			for( int k=0; k<4; k++ ){
 				int x, y;
@@ -121,7 +145,6 @@ public class AiBeta {
 				
 				try{ 
 					next = buttonMatrix[ x ][ y ];
-					System.out.println( current + " " + next );
 					// if next isnt black and isnt the color of start node
 					if( ( next.getPlayerColor() != Color.BLACK ) && ( next.getPlayerColor()!=list.get( 0 ).getPlayerColor()) ){
 						//and not in already seen
@@ -129,7 +152,7 @@ public class AiBeta {
 							seen.add( next );
 							//make copy of current list
 							ArrayList<GameButton> newList = new ArrayList<GameButton>();
-							for( int j=0; i<list.size(); j++ )
+							for( int j=0; j<list.size(); j++ )
 								newList.add( list.get( j ) );
 							//add next to the new copy
 							newList.add( next );
@@ -139,63 +162,14 @@ public class AiBeta {
 							newPossiblePaths.add( newList );
 						}
 					}
-				} catch( Exception e ){}		
+				} catch( Exception e ){}
 			}
 		}
 		possiblePaths = null;
 		return getPath( seen, newPossiblePaths );
 	}
-		
-
-	public int getAttackDistance( int x, int y ){
-		GameButton startButton = buttonMatrix[ x ][ y ];
-		ArrayList<GameButton> expansionA = new ArrayList<GameButton>();
-		expansionA.add( startButton );
-		ArrayList<GameButton> expansionB = new ArrayList<GameButton>();
-		int steps = 0;
-		steps = findStepsToVictim( steps, startButton.getPlayerColor(), expansionA, expansionB );
-
-		return steps;
-	}
 	
-	public int findStepsToVictim( int steps, Color startColor, ArrayList<GameButton> expansionA, ArrayList<GameButton> expansionB ){
-		for( GameButton button : expansionA ){
-			if( (button.getPlayerColor() != startColor) && (button.getVal()!= '~') && (button.getVal()!='X') ){
-				return steps;
-			} else {
-				GameButton b = null;
-				try{ 
-					b = buttonMatrix[ button.x()+1 ][ button.y() ];
-					if( b.getPlayerColor() != Color.BLACK && b.getPlayerColor() != startColor )
-						expansionB.add( b );
-				} catch( Exception e ){}
-				
-				try{ 
-					b = buttonMatrix[ button.x()-1 ][ button.y() ];
-					if( b.getPlayerColor() != Color.BLACK && b.getPlayerColor() != startColor )
-						expansionB.add( b );
-				} catch( Exception e ){}
-
-				try{ 
-					b = buttonMatrix[ button.x() ][ button.y()+1 ];
-					if( b.getPlayerColor() != Color.BLACK && b.getPlayerColor() != startColor )
-						expansionB.add( b );
-				} catch( Exception e ){}
-				
-				try{ 
-					b = buttonMatrix[ button.x() ][ button.y()-1 ];
-					if( b.getPlayerColor() != Color.BLACK && b.getPlayerColor() != startColor )
-						expansionB.add( b );
-				} catch( Exception e ){}
-			}
-		}
-		steps ++;
-		expansionA = expansionB;
-		expansionB = new ArrayList<GameButton>();
-		return findStepsToVictim( steps, startColor, expansionA, expansionB );
-				
-	}
-	
+	@SuppressWarnings("unused")
 	private void printStats(){
 		printChances();
 		printDistances();
@@ -235,10 +209,13 @@ public class AiBeta {
 		System.out.println( "PATHS" );
 		for( int x=0; x<10; x++ )
 			for( int y=0; y<10; y++ )
-				if( distances[ y ][ x ]!= 0 )
-					System.out.print( paths[ y ][ x ] + "\n" );
+				if( distances[ x ][ y ]!= 0 ){
+					ArrayList<GameButton> list = paths[ x ][ y ];
+					for( int i=0; i<list.size(); i++ ){
+						GameButton b = list.get( i );
+						System.out.print( "(" + b.x() + "," + b.y() + ") " );
+					}
+					System.out.println();
+				}
 	}
 }
-
-
-
