@@ -12,5 +12,4 @@ public class Stratego {
 		Board b = new Board();
 		b.play();
 	}
-	
 }

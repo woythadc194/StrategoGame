@@ -57,7 +57,13 @@ public class GameButtonLogic {
 	
 	private static void midGameClick( GameButton button, Controller cont ){
 
+		//Initial click isn't an X
 		if( button.getVal() != 'X' ){
+			/*
+			 * If a selection hasnt been made:
+			 * 	If  ~, B, or F was clicked, do nothing
+			 * 	Else  make battle since two buttons of non X were selected
+			 */
 			if( cont.getSelectionMade() == false ){
 				if( button.getVal() == '~' || button.getVal() == 'B' || button.getVal() == 'F' )
 					return;
@@ -95,12 +101,12 @@ public class GameButtonLogic {
 			;
 		}
 	}
-	
+
 	public static void setUpBattle( GameButton button ){
 		GameButton attacker = Controller.getSelectedButton();
 		attacker.repaint();
 		GameButton defender = button;
-		commenceBattle(attacker, defender ); 
+		commenceBattle(attacker, defender );
 	}
 	
 	public static void commenceBattle( GameButton attacker, GameButton defender ){
