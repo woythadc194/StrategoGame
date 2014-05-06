@@ -136,8 +136,13 @@ public class Controller {
 		return true;
 	}
 
-	
-	
+	public static int getCharIndex( char c ){
+		for( int i=0; i<charIndexAry.length; i++ ){
+			if( charIndexAry[ i ] == c )
+				return i;
+		}
+		return 14; //ERROR
+	}
 
 	public static int getSelectedPieceOpt(){
 		return Controller.selectedPieceOpt;

@@ -53,6 +53,10 @@ public class SetupLogic {
 			setHumanAsRandom( );
 	}
 	
+	/*
+	 * human player
+	 * visibility = 2
+	 */
 	public static void setHumanPlayers( int players ){
 		SPane = new SelectionPanel( cont );
 		SPane.addToCont();
@@ -67,12 +71,16 @@ public class SetupLogic {
 		for( int y=yMin; y<yMax; y++ )
 			for(int x=0; x<10; x++ ){
 				GameButton button = Controller.getButtonMatrix()[ x ][ y ];
-				GameButtonLogic.alterButton( button, 3, '~', button.getPlayerColor() );
+				GameButtonLogic.alterButton( button, 1, '~', button.getPlayerColor() );
 				button.setReady( false );
 			}
 		
 	}
 
+	/*
+	 * human player
+	 * visibility = 2
+	 */
 	public static void setHumanAsRandom( ){
 		Random rand = new Random();
 		for( int y=6; y<10; y++ )
@@ -82,7 +90,7 @@ public class SetupLogic {
 					opt = rand.nextInt(12)+1;
 				}
 				GameButton button = Controller.getButtonMatrix()[ x ][ y ];
-				GameButtonLogic.alterButton( button, 3, Controller.getCharIndexAry()[opt], button.getPlayerColor() );
+				GameButtonLogic.alterButton( button, 2, Controller.getCharIndexAry()[opt], button.getPlayerColor() );
 				button.repaint();
 				Controller.getPiecesAry()[opt]--;
 			}

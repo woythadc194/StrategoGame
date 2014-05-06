@@ -16,23 +16,69 @@ public class AiBeta {
 	private static int [][] distances;
 	private static ArrayList<GameButton> [][] paths;
 	private static int [][] chance; 
-	private static Map<Boolean, int[]> [][] HOLYFUCKMAP;
+	private static Map<Boolean, int[]> [][] HOLYFUCKMAPMATRIX;
 	
 	@SuppressWarnings("unchecked")
 	public AiBeta(){
-		HOLYFUCKMAP = new HashMap[ 10 ][ 10 ];
+		HOLYFUCKMAPMATRIX = new HashMap[ 10 ][ 10 ];
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
 				int [] tempAry = new int[ ]{ 0, 1, 1, 2, 3, 4, 4, 4, 5, 8, 6, 1, 1};
 				Map<Boolean, int[]> temp = new HashMap< Boolean, int[] >();
 				temp.put( false, tempAry );
-				HOLYFUCKMAP[ x ][ y ] = temp;
+				HOLYFUCKMAPMATRIX[ x ][ y ] = temp;
 			}
 		}
 	}
 	
+	public static void updateHOLYFUCKMAP( GameButton button, boolean AIPiece, boolean moved, boolean showing ){
+		//if AI piece
+		if( !AIPiece ){
+			/*
+			 * remove bombs and flags from possible pieces 
+			 * also, set the key of the map to true 
+			 */
+			if( moved ){
+				for( boolean key : HOLYFUCKMAPMATRIX[ button.x() ][ button.y() ].keySet() ){
+					Map<Boolean, int[]> temp = new HashMap< Boolean, int[] >();
+					temp.put( true, HOLYFUCKMAPMATRIX[ button.x() ][ button.y() ].get( key ) );
+					HOLYFUCKMAPMATRIX[ button.x() ][ button.y() ] = temp;
+					System.out.println( HOLYFUCKMAPMATRIX[ button.x() ][ button.y() ].containsKey( false ) );								//DEBUG
+					HOLYFUCKMAPMATRIX[ button.x() ][ button.y() ].get( true )[10] = 0;
+					HOLYFUCKMAPMATRIX[ button.x() ][ button.y() ].get( true )[11] = 0;
+				}
+			}
+			if( showing ){
+				int index = Controller.getCharIndex( button.getVal() );
+				for( int x=0; x<10; x++ )
+					for( int y=0; y<10; y ++ )
+						for( boolean key : HOLYFUCKMAPMATRIX[ x ][ y ].keySet() ){
+							if( getPossiblePieceCount( x, y, key ) > 1 )
+								HOLYFUCKMAPMATRIX[ x ][ y ].get( key )[ index ]--;
+							else if( getPossiblePieceCount( x, y, key ) == 1 )											//DEBUG
+								System.out.println( "Discovered Piece " + button );										//DEBUG
+							else if( getPossiblePieceCount( x, y, key ) < 1 )											//DEBUG
+								System.out.println( "ERROR " + button );												//DEBUG
+						}
+				for( boolean key : HOLYFUCKMAPMATRIX[ button.x() ][ button.y() ].keySet() ){
+					int [] temp = new int [ 13 ];
+					temp[ index ] = 1;
+					HOLYFUCKMAPMATRIX[ button.x() ][ button.y() ].put( key, temp );
+				}
+			}
+		}// if( !AIPiece )
+	}
+	
+	private static int getPossiblePieceCount( int x, int y, boolean key ){
+		int num = 0;
+		for( int i=0; i< HOLYFUCKMAPMATRIX[ x ][ y ].get( key ).length; i++ )
+			num += HOLYFUCKMAPMATRIX[ x ][ y ].get( key )[ i ];
+		return num;
+		
+	}
+	
 	public static Map<Boolean, int[]> [][] getHOLYFUCKMAP(){
-		return AiBeta.HOLYFUCKMAP;
+		return AiBeta.HOLYFUCKMAPMATRIX;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -55,13 +101,16 @@ public class AiBeta {
 					int attackWins = 0;
 					int numAttacks = 0;
 					for( GameButton defender : attackablePieces[ x ][ y ] ){
-						Map< Boolean, int[]> map = HOLYFUCKMAP[defender.x()][defender.y()];
-						for( int i = 1; i< map.get(false).length; i++ )
-							for( int j=0; j< map.get(false)[i]; j++ ){
-								numAttacks ++;
-								char val = Controller.getCharIndexAry()[i];
-								attackWins += (Battle.getResult(attacker, val ) == attacker.getPlayerColorString()) ? 1 : 0;
-							}
+						Map< Boolean, int[]> map = HOLYFUCKMAPMATRIX[defender.x()][defender.y()];
+						for( boolean key : map.keySet() ){
+							System.out.println( map );																	//DEBUG
+							for( int i=1; i< map.get( key ).length; i++ )
+								for( int j=0; j< map.get( key )[i]; j++ ){
+									numAttacks ++;
+									char val = Controller.getCharIndexAry()[i];
+									attackWins += (Battle.getResult(attacker, val ) == attacker.getPlayerColorString()) ? 1 : 0;
+								}
+						}
 					}
 					chance[ x ][ y ] = (attackWins*100/numAttacks);
 				}
@@ -85,7 +134,7 @@ public class AiBeta {
 			}
 		}
 		
-		printStats();
+//		printStats();
 		
 		GameButton startButton = getButton();
 		GameButton endButton = paths[ startButton.x() ][ startButton.y() ].get( 1 );
