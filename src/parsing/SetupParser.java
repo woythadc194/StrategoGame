@@ -38,7 +38,7 @@ public class SetupParser {
 			ArrayList<GameButton> gbList = new ArrayList<GameButton> ();
 			for( int x=0; x<10; x++ ){
 				GameButton button = new GameButton( 40, x, y );		
-				GameButtonLogic.alterButton(button, 3, sc.next().charAt(0), Color.RED );										//VISIBILITY
+				GameButtonLogic.alterButton(button, 1, sc.next().charAt(0), Color.RED );										//VISIBILITY
 				gbList.add( button );
 			}
 			AIList.add( gbList );

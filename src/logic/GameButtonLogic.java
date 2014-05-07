@@ -114,27 +114,27 @@ public class GameButtonLogic {
 		waitTime( 10 );
 	
 		String result = Battle.getResult( attacker, defender );
-		
+		System.out.println( attacker + " vs " + defender + " " + result );																						//DEBUG
+			
 		if( result.equals( "INVALID" ) ){
 			;
 		} else if( result.equals( "NEITHER" ) ){
-			AiBeta.updateHOLYFUCKMAP( attacker, attacker.getPlayerColor() == Color.RED, true, true );
-			AiBeta.updateHOLYFUCKMAP( defender, defender.getPlayerColor() == Color.RED, false, true );
 			alterButton(attacker, 3, '~', Color.DARK_GRAY);
 			alterButton(defender, 3, '~', Color.DARK_GRAY);
 		} else if( result.equals( "WIN" ) ){
 			JOptionPane.showMessageDialog( null, "GameOver!" );
 			System.exit( 0 );
 		} else {
-			//if( result.equals( attacker.getPlayerColorString() ) )
+			if( result.equals( attacker.getPlayerColorString() ) ){ //attacker won
 				if( defender.getVal()!= '~' ){
-					AiBeta.updateHOLYFUCKMAP( defender, defender.getPlayerColor() == Color.RED, false, true );
 					alterButton(defender, 3, attacker.getVal(), attacker.getPlayerColor() );
 				}else{ //moving to empty space
-					AiBeta.updateHOLYFUCKMAP( defender, defender.getPlayerColor() == Color.RED, false, attacker.getVisibility() == 3 );
+//					System.out.println( "MOVING TO EMPTY SPACE" );																							//DEBUG
 					alterButton(defender, attacker.getVisibility(), attacker.getVal(), attacker.getPlayerColor() );
 				}
-			AiBeta.updateHOLYFUCKMAP( attacker, attacker.getPlayerColor() == Color.RED, true, true );
+			} else { //defender won
+				alterButton(defender, 3, defender.getVal(), defender.getPlayerColor() );
+			}
 			alterButton(attacker, 3, '~', Color.DARK_GRAY );
 		}
 		attacker.repaint();

@@ -33,6 +33,7 @@ public class AiBeta {
 	
 	public static void updateHOLYFUCKMAP( GameButton button, boolean AIPiece, boolean moved, boolean showing ){
 		//if AI piece
+		System.out.println( button + " AI:" + AIPiece + " Moved:" + moved + " Showing:" + showing );										//DEBUG
 		if( button.getVal() == '~' )
 			return;
 		if( !AIPiece ){
@@ -59,16 +60,17 @@ public class AiBeta {
 								HOLYFUCKMAP[ x ][ y ].get( key )[ index ]--;
 //							else if( getPossiblePieceCount( x, y, key ) == 1 )											//DEBUG
 //								System.out.println( "Discovered Piece " + button );										//DEBUG
-//							else if( getPossiblePieceCount( x, y, key ) < 1 )											//DEBUG
-//								System.out.println( "ERROR " + button );												//DEBUG
+							else if( getPossiblePieceCount( x, y, key ) < 1 )											//DEBUG
+								System.out.println( "ERROR " + button );												//DEBUG
 						}
 				for( boolean key : HOLYFUCKMAP[ button.x() ][ button.y() ].keySet() ){
-					int [] temp = new int [ 13 ];
+					int [] temp = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 					temp[ index ] = 1;
 					HOLYFUCKMAP[ button.x() ][ button.y() ].put( key, temp );
 				}
 			}
 		}// if( !AIPiece )
+		//printHOLYFUCKMAP(); 																												//DEBUG
 	}
 	
 	private static int getPossiblePieceCount( int x, int y, boolean key ){
@@ -85,6 +87,7 @@ public class AiBeta {
 	
 	@SuppressWarnings("unchecked")
 	public void makeMove1(){
+//		System.out.println( "AI MAKING MOVE" );																					//DEBUG
 		try{ Thread.sleep(1000); } catch( Exception e ){}
 
 		chance = new int[ 10 ][ 10 ];
@@ -103,16 +106,21 @@ public class AiBeta {
 					int attackWins = 0;
 					int numAttacks = 0;
 					for( GameButton defender : attackablePieces[ x ][ y ] ){
-						Map< Boolean, int[]> map = HOLYFUCKMAP[defender.x()][defender.y()];
-						for( boolean key : map.keySet() ){
-//							System.out.println( map );																	//DEBUG
-							for( int i=1; i< map.get( key ).length; i++ )
-								for( int j=0; j< map.get( key )[i]; j++ ){
-									numAttacks ++;
-									char val = Controller.getCharIndexAry()[i];
-									System.out.println( (Battle.getResult(attacker, val ) ) );
-									attackWins += (Battle.getResult(attacker, val ) == attacker.getPlayerColorString()) ? 1 : 0;
-								}
+						if( defender.getVisibility() != 3 ){
+							Map< Boolean, int[]> map = HOLYFUCKMAP[defender.x()][defender.y()];
+							for( boolean key : map.keySet() ){
+	//							System.out.println( map );																	//DEBUG
+								for( int i=1; i< map.get( key ).length; i++ )
+									for( int j=0; j< map.get( key )[i]; j++ ){
+										numAttacks ++;
+										char val = Controller.getCharIndexAry()[i];
+										attackWins += (Battle.getResult(attacker, val ) == attacker.getPlayerColorString()) ? 1 : 0;
+									}
+							}
+						} else {
+							numAttacks++;
+							char val = defender.getVal();
+							attackWins += (Battle.getResult(attacker, val ) == attacker.getPlayerColorString()) ? 1 : 0;
 						}
 					}
 					chance[ x ][ y ] = (attackWins*100/numAttacks);
@@ -140,7 +148,7 @@ public class AiBeta {
 //		printStats();
 		
 		GameButton startButton = getButton();
-		GameButton endButton = paths[ startButton.x() ][ startButton.y() ].get( 1 );
+		GameButton endButton = getButtonVictim();
 		GameButtonLogic.clicked( startButton );
 		GameButtonLogic.clicked( endButton );
 	}
@@ -161,6 +169,13 @@ public class AiBeta {
 			}
 		}
 		return choice;
+	}
+	
+	//TODO
+	//FIXME
+	private GameButton getButtonVictim(){
+		if( )
+		paths[ startButton.x() ][ startButton.y() ].get( 1 );
 	}
 
 	private ArrayList<GameButton> getPathToVictim( int x, int y ){
@@ -221,6 +236,7 @@ public class AiBeta {
 		return getPath( seen, newPossiblePaths );
 	}
 	
+	
 	@SuppressWarnings("unused")
 	private void printStats(){
 		printChances();
@@ -270,4 +286,42 @@ public class AiBeta {
 					System.out.println();
 				}
 	}
+	
+	public static void printHOLYFUCKMAP(){
+
+		for( int x=0; x<10; x++ ){
+			for( int y=0; y<10; y++ ){
+				for( boolean key : HOLYFUCKMAP[ y ][ x ].keySet() ){
+					System.out.print( ( ( key ) ? "T" : "F" ) + Arrays.toString( HOLYFUCKMAP[ y ][ x ].get( key ) ) + " /// " );
+				}
+			}
+			System.out.println();
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

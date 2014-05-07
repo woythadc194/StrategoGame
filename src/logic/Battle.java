@@ -15,8 +15,12 @@ public class Battle {
 		String defenderColor = defender.getPlayerColorString();
 		
 		//Invalid attacks
-		if( attackerColor.equals( defenderColor ) || attackWeight == 0 || attackWeight == 10 || attackWeight == 11 || attackWeight == 13 )
+		if( attackerColor.equals( defenderColor ) || attackWeight == 10 || attackWeight == 11 || attackWeight == 13 )
 			return "INVALID";
+		
+		//Empty space
+		if( defendWeight == 0 )
+			return attackerColor;
 		
 		//bomb
 		if( defendWeight == 10 )

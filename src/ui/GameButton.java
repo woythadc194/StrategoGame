@@ -171,6 +171,9 @@ public class GameButton extends JButton{
 		if( this.targeted )
 			g.setColor( Color.WHITE );
 		
+		if( visibility == 3 )
+			g.setColor( Color.GREEN );
+		
 		if( this.getVisibility() >=2 ){
 			if( this.getVal() == '1' )
 				g.fillRect( 18, 8, 5, 25 );
@@ -283,7 +286,7 @@ public class GameButton extends JButton{
 		s += getPlayerColorString().charAt( 0 );
 		s += getVal();
 		s += getVisibility();
-		s += (getReady() ? "T" : "F");
+//		s += (getReady() ? "T" : "F");
 		return s;
 	}
 

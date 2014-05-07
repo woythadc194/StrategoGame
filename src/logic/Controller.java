@@ -83,7 +83,7 @@ public class Controller {
 	}
 	
 	public static void switchTurns(){
-		setTurn(getPlayerTurn() == Color.RED ? Color.BLUE : Color.RED );
+		setTurn( getPlayerTurn() == Color.RED ? Color.BLUE : Color.RED );
 		ProbabilityCalculator pc = new ProbabilityCalculator();
 		ProbabilityCalculator.clearTargets();
 		pc.getAllBattleStats( getPlayerTurn() );
