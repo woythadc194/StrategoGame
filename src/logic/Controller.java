@@ -35,6 +35,7 @@ public class Controller {
 	private static GameButton selectedButton;
 	private static PieceOptButton [] optButtonAry;
 	private static GameButton[][] buttonMatrix;
+	private static int numTurns = 0;
 	
 	@SuppressWarnings("unused")
 	private static SelectionPanel sp;
@@ -83,6 +84,8 @@ public class Controller {
 	}
 	
 	public static void switchTurns(){
+		numTurns++;
+		System.out.println( "TURN NUMBER: " + numTurns );
 		setTurn( getPlayerTurn() == Color.RED ? Color.BLUE : Color.RED );
 		ProbabilityCalculator pc = new ProbabilityCalculator();
 		ProbabilityCalculator.clearTargets();

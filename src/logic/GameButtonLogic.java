@@ -8,7 +8,6 @@ import java.awt.Color;
 
 import javax.swing.JOptionPane;
 
-import ai.AiBeta;
 import ai.ProbabilityCalculator;
 
 import ui.GameButton;
@@ -114,7 +113,7 @@ public class GameButtonLogic {
 		waitTime( 10 );
 	
 		String result = Battle.getResult( attacker, defender );
-		System.out.println( attacker + " vs " + defender + " " + result );																						//DEBUG
+//		System.out.println( attacker + " vs " + defender + " " + result );																			//DEBUG
 			
 		if( result.equals( "INVALID" ) ){
 			;

@@ -15,7 +15,7 @@ public class AiBeta {
 	private static GameButton[][] buttonMatrix;
 	private static int [][] distances;
 	private static ArrayList<GameButton> [][] paths;
-	private static int [][] chance; 
+	private static int [][] chances; 
 	private static Map<Boolean, int[]> [][] HOLYFUCKMAP;
 	
 	@SuppressWarnings("unchecked")
@@ -33,7 +33,7 @@ public class AiBeta {
 	
 	public static void updateHOLYFUCKMAP( GameButton button, boolean AIPiece, boolean moved, boolean showing ){
 		//if AI piece
-		System.out.println( button + " AI:" + AIPiece + " Moved:" + moved + " Showing:" + showing );										//DEBUG
+//		System.out.println( button + " AI:" + AIPiece + " Moved:" + moved + " Showing:" + showing );										//DEBUG
 		if( button.getVal() == '~' )
 			return;
 		if( !AIPiece ){
@@ -90,7 +90,7 @@ public class AiBeta {
 //		System.out.println( "AI MAKING MOVE" );																					//DEBUG
 		try{ Thread.sleep(1000); } catch( Exception e ){}
 
-		chance = new int[ 10 ][ 10 ];
+		chances = new int[ 10 ][ 10 ];
 		attackablePieces = new ArrayList[ 10 ][ 10 ];
 		paths = new ArrayList[ 10 ][ 10 ];
 		distances = new int[ 10 ][ 10 ];
@@ -123,14 +123,14 @@ public class AiBeta {
 							attackWins += (Battle.getResult(attacker, val ) == attacker.getPlayerColorString()) ? 1 : 0;
 						}
 					}
-					chance[ x ][ y ] = (attackWins*100/numAttacks);
+					chances[ x ][ y ] = (attackWins*100/numAttacks);
 				}
 			}
 		
 		//Set up Paths
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
-				if( chance[x][y] != 0 ){
+				if( chances[x][y] != 0 ){
 					paths[ x ][ y ] = getPathToVictim( x, y );
 				}
 			}
@@ -139,7 +139,7 @@ public class AiBeta {
 		//Set up Distances
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
-				if( chance[x][y] != 0 ){
+				if( chances[x][y] != 0 ){
 					distances[ x ][ y ] = paths[ x ][ y ].size()-1;
 				}
 			}
@@ -148,7 +148,7 @@ public class AiBeta {
 //		printStats();
 		
 		GameButton startButton = getButton();
-		GameButton endButton = getButtonVictim();
+		GameButton endButton = getButtonVictim( startButton );
 		GameButtonLogic.clicked( startButton );
 		GameButtonLogic.clicked( endButton );
 	}
@@ -159,8 +159,8 @@ public class AiBeta {
 
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
-				if( chance[x][y] != 0 ){
-					double currentWeight = (double)chance[ x ][ y ] / (double)distances[ x ][ y ];
+				if( chances[x][y] != 0 ){
+					double currentWeight = (double)chances[ x ][ y ] / (double)distances[ x ][ y ];
 					if( currentWeight > weight ){
 						weight = currentWeight;
 						choice = buttonMatrix[ x ][ y ];
@@ -171,11 +171,9 @@ public class AiBeta {
 		return choice;
 	}
 	
-	//TODO
-	//FIXME
-	private GameButton getButtonVictim(){
-		if( )
-		paths[ startButton.x() ][ startButton.y() ].get( 1 );
+	private GameButton getButtonVictim( GameButton startButton ){
+		return paths[ startButton.x() ][ startButton.y() ].get( 1 );
+		
 	}
 
 	private ArrayList<GameButton> getPathToVictim( int x, int y ){
@@ -191,6 +189,13 @@ public class AiBeta {
 	}
 
 	private ArrayList<GameButton> getPath( ArrayList<GameButton> seen, ArrayList<ArrayList<GameButton>> possiblePaths ){
+		if( possiblePaths.size() == 0 ){
+			int x = seen.get( 0 ).x();
+			int y = seen.get( 0 ).y();
+			chances[ x ][ y ] = 0;
+			distances[ x ][ y ] = 0;
+			return null;
+		}
 		ArrayList<ArrayList<GameButton>> newPossiblePaths = new ArrayList<ArrayList<GameButton>>();
 		//Go through all possible paths so far
 		for( int i=0; i<possiblePaths.size(); i++ ){
@@ -203,6 +208,7 @@ public class AiBeta {
 			 */
 			GameButton current = list.get( list.size()-1 );
 			GameButton next = null;
+			
 			for( int k=0; k<4; k++ ){
 				int x, y;
 				if( k==0 ){ 	 x=current.x()+1; y=current.y(); }
@@ -210,21 +216,29 @@ public class AiBeta {
 				else if( k==2 ){ x=current.x(); y=current.y()+1; }
 				else{ 			 x=current.x(); y=current.y()-1; }
 				
-				try{ 
+				try{
+					boolean winning = true;
 					next = buttonMatrix[ x ][ y ];
 					// if next isnt black and isnt the color of start node
 					if( ( next.getPlayerColor() != Color.BLACK ) && ( next.getPlayerColor()!=list.get( 0 ).getPlayerColor()) ){
 						//and not in already seen
 						if( !seen.contains( next ) ){
 							seen.add( next );
+							if( next.getPlayerColor() == Color.BLUE ) 
+								if ( ( next.getVisibility() == 3 ) && ( Battle.getResult( list.get( 0 ), next ).equals( "BLUE" ) ) ){
+									winning = false;
+//									System.out.println( "Lost obvious battle " + k );													//DEBUG
+								}
 							//make copy of current list
 							ArrayList<GameButton> newList = new ArrayList<GameButton>();
 							for( int j=0; j<list.size(); j++ )
 								newList.add( list.get( j ) );
 							//add next to the new copy
-							newList.add( next );
-							if( next.getPlayerColor() == list.get( 0 ).getOpponetColor() )
-								return newList;
+							if( winning ){
+								newList.add( next );
+								if( next.getPlayerColor() == list.get( 0 ).getOpponetColor() )
+									return newList;
+							}
 							//add new list to the new possible paths
 							newPossiblePaths.add( newList );
 						}
@@ -232,6 +246,7 @@ public class AiBeta {
 				} catch( Exception e ){}
 			}
 		}
+//		System.out.println( newPossiblePaths );																					//DEBUG
 		possiblePaths = null;
 		return getPath( seen, newPossiblePaths );
 	}
@@ -248,7 +263,7 @@ public class AiBeta {
 		System.out.println( "CHANCES" );
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
-				String s = "" + chance[ y ][ x ];
+				String s = "" + chances[ y ][ x ];
 				if( s.length() != 2 )
 					s = " " + s;
 				System.out.print( s + " " );
