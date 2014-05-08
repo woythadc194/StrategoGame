@@ -32,7 +32,7 @@ public class SetupLogic {
 		
 		if( players==1 ){
 			Controller.setNumPlayers( players );
-			ArrayList<ArrayList<GameButton>> list = SetupParser.getAIList( cont );
+			ArrayList<ArrayList<GameButton>> list = SetupParser.getAIList( );
 			for( int y=0; y<4; y++ ){
 				for( int x=0; x<10; x++ ){
 					GameButton b1 = list.get( y ).get( x );
@@ -46,11 +46,13 @@ public class SetupLogic {
 		Controller.setPiecesAry( ControllerMaker.makeNumPiecesAry() );
 	}
 
-	public static void setPlacingRandomly( boolean placingRandomly ){
-		if( placingRandomly == false )
+	public static void setPlacing( int placementType ) throws FileNotFoundException{
+		if( placementType == 1 )
 			setHumanPlayers( 1 );
-		else if( placingRandomly == true )
+		else if( placementType == 0 )
 			setHumanAsRandom( );
+		else
+			setHumanAsParsed();
 	}
 	
 	/*
@@ -95,6 +97,19 @@ public class SetupLogic {
 				Controller.getPiecesAry()[opt]--;
 			}
 		System.out.println(cont.getGameBoard());
+	}
+	
+	public static void setHumanAsParsed() throws FileNotFoundException{
+		ArrayList<ArrayList<GameButton>> list = SetupParser.getHumanList( );
+		for( int x=0; x<10; x++ ){
+			for( int y=0; y<4; y++ ){
+				GameButton b1 = list.get( y ).get( x );
+				GameButton b2 = Controller.getButtonMatrix()[ x ][ y+6 ];
+				GameButtonLogic.alterButton(b2, b1.getVisibility(), b1.getVal(), b1.getPlayerColor() );
+				b2.setReady( true );
+				b2.repaint();
+			}
+		}
 	}
 	
 	public static Color getCurrentPlayer(){
