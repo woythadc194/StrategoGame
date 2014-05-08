@@ -26,28 +26,28 @@ public class RandomPane extends JFrame{
 		final JFrame randFrame = new JFrame( "Placement Options");
 		randFrame.setLayout( new GridLayout( 2, 1 ) );
 
-		JPanel pane1 = new JPanel();
-		pane1.setPreferredSize( new Dimension ( 200, 40 ) );
-		JButton button1 = new JButton( "Manual Setup" );
-		button1.addActionListener( new ActionListener(){
+		JPanel pane2 = new JPanel();
+		pane2.setPreferredSize( new Dimension ( 200, 40 ) );
+		JButton button2 = new JButton( "Manual Setup" );
+		button2.addActionListener( new ActionListener(){
 			public void actionPerformed( ActionEvent e ){
 				SetupLogic.setPlacingRandomly( false );
 				randFrame.dispose();
 			}
 		});
-		pane1.add(button1);
+		pane2.add(button2);
 		
-		JPanel pane2 = new JPanel();
-		pane2.setPreferredSize( new Dimension ( 200, 40 ) );
-		JButton button2 = new JButton( "Random Setup" );
-		button2.addActionListener( new ActionListener(){
+		JPanel pane1 = new JPanel();
+		pane1.setPreferredSize( new Dimension ( 200, 40 ) );
+		JButton button1 = new JButton( "Random Setup" );
+		button1.addActionListener( new ActionListener(){
 			public void actionPerformed( ActionEvent e ){
 				SetupLogic.setPlacingRandomly( true );
 				randFrame.dispose();
 			}
 		});
-		pane2.add(button2);
-		
+		pane1.add(button1);
+
 		randFrame.add(pane1);
 		randFrame.add(pane2);
 		randFrame.setLocation( 500, 300 );
