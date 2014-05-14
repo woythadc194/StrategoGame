@@ -85,6 +85,9 @@ public class Controller {
 	
 	public static void switchTurns(){
 		numTurns++;
+		AiBeta.printPossibleOpponentPieces();
+		AiBeta.printMovedAry();
+		AiBeta.printFoundOpponentPieces();
 		System.out.println( "TURN NUMBER: " + numTurns );
 		setTurn( getPlayerTurn() == Color.RED ? Color.BLUE : Color.RED );
 		ProbabilityCalculator pc = new ProbabilityCalculator();
@@ -95,7 +98,6 @@ public class Controller {
 		if( getPlayerTurn() == Color.RED )
 			AI.makeMove1();
 		//TODO
-		
 	}
 	
 	public static int[] getPiecesAry(){
@@ -146,7 +148,7 @@ public class Controller {
 		}
 		return 14; //ERROR
 	}
-
+	
 	public static int getSelectedPieceOpt(){
 		return Controller.selectedPieceOpt;
 	}

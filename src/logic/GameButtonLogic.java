@@ -8,9 +8,10 @@ import java.awt.Color;
 
 import javax.swing.JOptionPane;
 
-import ai.ProbabilityCalculator;
-
 import ui.GameButton;
+import ai.AiBeta;
+import ai.ProbabilityCalculator;
+//import ai.AiBeta;
 
 public class GameButtonLogic {
 	
@@ -115,9 +116,17 @@ public class GameButtonLogic {
 		String result = Battle.getResult( attacker, defender );
 //		System.out.println( attacker + " vs " + defender + " " + result );																			//DEBUG
 			
+
+		int defenderX = defender.x(); int defenderY = defender.y();
+		int attackerX = attacker.x(); int attackerY = attacker.y();
+		boolean defAlreadyShowing = defender.getVisibility() == 3;
+		boolean atkAlreadyShowing = attacker.getVisibility() == 3;
+		
 		if( result.equals( "INVALID" ) ){
 			;
 		} else if( result.equals( "NEITHER" ) ){
+			AiBeta.updateHOLYFUCKMAPafterDeath( attacker, attacker.getVisibility() == 3 );
+			AiBeta.updateHOLYFUCKMAPafterDeath( defender, defender.getVisibility() == 3 );
 			alterButton(attacker, 3, '~', Color.DARK_GRAY);
 			alterButton(defender, 3, '~', Color.DARK_GRAY);
 		} else if( result.equals( "WIN" ) ){
@@ -125,13 +134,33 @@ public class GameButtonLogic {
 			System.exit( 0 );
 		} else {
 			if( result.equals( attacker.getPlayerColorString() ) ){ //attacker won
-				if( defender.getVal()!= '~' ){
+
+				if( defender.getVal()!= '~' ){ //attacker won and not moving to empty space
+					
+					AiBeta.updateHOLYFUCKMAP( attacker, true, true, atkAlreadyShowing, attackerX, attackerY );
+					AiBeta.updateHOLYFUCKMAPafterDeath(defender, defAlreadyShowing);
 					alterButton(defender, 3, attacker.getVal(), attacker.getPlayerColor() );
+				
 				}else{ //moving to empty space
-//					System.out.println( "MOVING TO EMPTY SPACE" );																							//DEBUG
-					alterButton(defender, attacker.getVisibility(), attacker.getVal(), attacker.getPlayerColor() );
+					
+					if( Math.abs( attackerY - defenderY ) > 1 || Math.abs( attackerX - defenderX ) > 1 ){ //9 now showing
+						
+						AiBeta.updateHOLYFUCKMAP( attacker, true, true, atkAlreadyShowing, attackerX, attackerY );
+						alterButton(defender, 3, attacker.getVal(), attacker.getPlayerColor() );
+					
+					}else{ //move to empty and not 9
+						
+						AiBeta.updateHOLYFUCKMAP( attacker, true, false, atkAlreadyShowing, attackerX, attackerY );
+												
+						alterButton(defender, attacker.getVisibility(), attacker.getVal(), attacker.getPlayerColor() );
+					}
 				}
+			
 			} else { //defender won
+				
+				AiBeta.updateHOLYFUCKMAP( defender, false, true, defAlreadyShowing, defenderX, defenderY );
+				AiBeta.updateHOLYFUCKMAPafterDeath( attacker, atkAlreadyShowing );
+				
 				alterButton(defender, 3, defender.getVal(), defender.getPlayerColor() );
 			}
 			alterButton(attacker, 3, '~', Color.DARK_GRAY );

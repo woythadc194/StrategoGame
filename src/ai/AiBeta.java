@@ -10,92 +10,114 @@ import logic.GameButtonLogic;
 import ui.GameButton;
 
 public class AiBeta {
-	
+
 	private static ArrayList<GameButton>[][] attackablePieces;
 	private static GameButton[][] buttonMatrix;
 	private static int [][] distances;
 	private static ArrayList<GameButton> [][] paths;
 	private static int [][] chances; 
-	private static Map<Boolean, int[]> [][] HOLYFUCKMAP;
-	
-	@SuppressWarnings("unchecked")
+
+	private static int [] possibleOpponentPieces;
+	private static char [][] foundOpponentPieces;
+	private static boolean [][] movedAry;
+
+
 	public AiBeta(){
-		HOLYFUCKMAP = new HashMap[ 10 ][ 10 ];
+
+		buttonMatrix = Controller.getButtonMatrix();
+		possibleOpponentPieces = new int[ ]{ 0, 1, 1, 2, 3, 4, 4, 4, 5, 8, 6, 1, 1};
+		foundOpponentPieces = new char[ 10 ][ 10 ];
+		movedAry = new boolean[ 10 ][ 10 ];
+
 		for( int x=0; x<10; x++ ){
+
 			for( int y=0; y<10; y++ ){
-				int [] tempAry = new int[ ]{ 0, 1, 1, 2, 3, 4, 4, 4, 5, 8, 6, 1, 1};
-				Map<Boolean, int[]> temp = new HashMap< Boolean, int[] >();
-				temp.put( false, tempAry );
-				HOLYFUCKMAP[ x ][ y ] = temp;
+
+				foundOpponentPieces[ x ][ y ] = 'X';
+				movedAry[ x ][ y ] = false;
+
 			}
 		}
 	}
-	
-	public static void updateHOLYFUCKMAP( GameButton button, boolean AIPiece, boolean moved, boolean showing ){
-		//if AI piece
-//		System.out.println( button + " AI:" + AIPiece + " Moved:" + moved + " Showing:" + showing );										//DEBUG
+
+	public static void updateHOLYFUCKMAP( GameButton button, boolean moved, boolean showing, boolean alreadyShowing, int oldX, int oldY ){
+		if( button.getVal() == '~' ){
+
+		}else {//buttonVal() != '~'
+
+			if( button.getPlayerColor() == Color.BLUE ){
+
+				int newX = button.x();
+				int newY = button.y();
+				char buttonVal = button.getVal();
+				int targetIndex = Controller.getCharIndex( buttonVal );
+
+				if( moved || movedAry[ oldX ][ oldY ] ){ // moved or already moved
+					System.out.println("MOVED");
+					movedAry[ oldX ][ oldY ] = false;
+					movedAry[ newX ][ newY ] = true;
+
+					if( !alreadyShowing ) // now face up
+						possibleOpponentPieces[ targetIndex ]--;
+					if( showing ){
+						foundOpponentPieces[ newX ][ newY ] = buttonVal;
+						System.out.println("SHOWING");
+					}else{
+						foundOpponentPieces[ newX ][ newY ] = 'X';
+						System.out.println("HIDDEN");
+					}
+					foundOpponentPieces[ oldX ][ oldY ] = 'X';
+
+				} else { //never moved
+
+					if( showing && alreadyShowing ){ //already face up via attack
+						movedAry[ oldX ][ oldY ] = false;
+						foundOpponentPieces[ oldX ][ oldY ] = buttonVal;
+					}else if( showing ){ //just turned upwards via defending win
+						movedAry[ oldX ][ oldY ] = false;
+						foundOpponentPieces[ oldX ][ oldY ] = buttonVal;
+						possibleOpponentPieces[ targetIndex ] --;
+					} else{ //facedown
+						movedAry[ oldX ][ oldY ] = false;
+						foundOpponentPieces[ oldX ][ oldY ] = 'X';						
+					}
+				}
+			} // end BLUE
+		}// end ButtonVal() != '~'
+	} // end updateHolyFuckMap
+
+	public static void updateHOLYFUCKMAPafterDeath( GameButton button, boolean alreadyShowing ){
+
 		if( button.getVal() == '~' )
 			return;
-		if( !AIPiece ){
-			/*
-			 * remove bombs and flags from possible pieces 
-			 * also, set the key of the map to true 
-			 */
-			if( moved ){
-				for( boolean key : HOLYFUCKMAP[ button.x() ][ button.y() ].keySet() ){
-					Map<Boolean, int[]> temp = new HashMap< Boolean, int[] >();
-					temp.put( true, HOLYFUCKMAP[ button.x() ][ button.y() ].get( key ) );
-					HOLYFUCKMAP[ button.x() ][ button.y() ] = temp;
-//					System.out.println( HOLYFUCKMAPMATRIX[ button.x() ][ button.y() ].containsKey( false ) );								//DEBUG
-					HOLYFUCKMAP[ button.x() ][ button.y() ].get( true )[10] = 0;
-					HOLYFUCKMAP[ button.x() ][ button.y() ].get( true )[11] = 0;
-				}
-			}
-			if( showing ){
-				int index = Controller.getCharIndex( button.getVal() );
-				for( int x=0; x<10; x++ )
-					for( int y=0; y<10; y ++ )
-						for( boolean key : HOLYFUCKMAP[ x ][ y ].keySet() ){
-							if( getPossiblePieceCount( x, y, key ) > 1 )
-								HOLYFUCKMAP[ x ][ y ].get( key )[ index ]--;
-//							else if( getPossiblePieceCount( x, y, key ) == 1 )											//DEBUG
-//								System.out.println( "Discovered Piece " + button );										//DEBUG
-							else if( getPossiblePieceCount( x, y, key ) < 1 )											//DEBUG
-								System.out.println( "ERROR " + button );												//DEBUG
-						}
-				for( boolean key : HOLYFUCKMAP[ button.x() ][ button.y() ].keySet() ){
-					int [] temp = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-					temp[ index ] = 1;
-					HOLYFUCKMAP[ button.x() ][ button.y() ].put( key, temp );
-				}
-			}
-		}// if( !AIPiece )
-		//printHOLYFUCKMAP(); 																												//DEBUG
-	}
-	
-	private static int getPossiblePieceCount( int x, int y, boolean key ){
-		int num = 0;
-		for( int i=0; i< HOLYFUCKMAP[ x ][ y ].get( key ).length; i++ )
-			num += HOLYFUCKMAP[ x ][ y ].get( key )[ i ];
-		return num;
-		
-	}
-	
-	public static Map<Boolean, int[]> [][] getHOLYFUCKMAP(){
-		return AiBeta.HOLYFUCKMAP;
-	}
-	
+
+		if( button.getPlayerColor() == Color.BLUE ){
+
+			int x = button.x();
+			int y = button.y();
+			char buttonVal = button.getVal();
+			int targetIndex = Controller.getCharIndex( buttonVal );
+
+			if( !alreadyShowing )
+				possibleOpponentPieces[ targetIndex ]--;
+			movedAry[ x ][ y ] = false;
+			foundOpponentPieces[ x ][ y ] = 'X';
+
+
+
+		} //end if color == blue
+	}// END METHOD UPDATEHOLYFUCKMAP
+
 	@SuppressWarnings("unchecked")
 	public void makeMove1(){
-//		System.out.println( "AI MAKING MOVE" );																					//DEBUG
+		//		System.out.println( "AI MAKING MOVE" );																					//DEBUG
 		try{ Thread.sleep(1000); } catch( Exception e ){}
 
 		chances = new int[ 10 ][ 10 ];
 		attackablePieces = new ArrayList[ 10 ][ 10 ];
 		paths = new ArrayList[ 10 ][ 10 ];
 		distances = new int[ 10 ][ 10 ];
-		buttonMatrix = Controller.getButtonMatrix();
-		
+
 		//Set up chances
 		for( int x=0; x<10; x++ )
 			for( int y=0; y<10; y++ ){
@@ -107,26 +129,24 @@ public class AiBeta {
 					int numAttacks = 0;
 					for( GameButton defender : attackablePieces[ x ][ y ] ){
 						if( defender.getVisibility() != 3 ){
-							Map< Boolean, int[]> map = HOLYFUCKMAP[defender.x()][defender.y()];
-							for( boolean key : map.keySet() ){
-	//							System.out.println( map );																	//DEBUG
-								for( int i=1; i< map.get( key ).length; i++ )
-									for( int j=0; j< map.get( key )[i]; j++ ){
-										numAttacks ++;
-										char val = Controller.getCharIndexAry()[i];
-										attackWins += (Battle.getResult(attacker, val ) == attacker.getPlayerColorString()) ? 1 : 0;
-									}
-							}
-						} else {
+							for( int i=0; i<possibleOpponentPieces.length; i++ )
+								if( movedAry[ x ][ y ] && ( i==11 || i==12 ) ){
+									;
+								}else{
+									numAttacks ++;
+									char val = Controller.getCharIndexAry()[i];
+									attackWins += (Battle.getResult(attacker, val ) == attacker.getPlayerColorString()) ? 1 : 0;
+								}
+						} else { // visible piece
 							numAttacks++;
 							char val = defender.getVal();
-							attackWins += (Battle.getResult(attacker, val ) == attacker.getPlayerColorString()) ? 1 : 0;
+							attackWins += ( Battle.getResult(attacker, val ) == defender.getPlayerColorString() ) ? 0 : 1;
 						}
 					}
 					chances[ x ][ y ] = (attackWins*100/numAttacks);
 				}
 			}
-		
+
 		//Set up Paths
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
@@ -135,7 +155,7 @@ public class AiBeta {
 				}
 			}
 		}
-		
+
 		//Set up Distances
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
@@ -144,9 +164,9 @@ public class AiBeta {
 				}
 			}
 		}
-		
-//		printStats();
-		
+
+		//		printStats();
+
 		GameButton startButton = getButton();
 		GameButton endButton = getButtonVictim( startButton );
 		GameButtonLogic.clicked( startButton );
@@ -170,21 +190,21 @@ public class AiBeta {
 		}
 		return choice;
 	}
-	
+
 	private GameButton getButtonVictim( GameButton startButton ){
 		return paths[ startButton.x() ][ startButton.y() ].get( 1 );
-		
+
 	}
 
 	private ArrayList<GameButton> getPathToVictim( int x, int y ){
 		GameButton button = buttonMatrix[ x ][ y ];
 		ArrayList<ArrayList<GameButton>> possiblePaths = new ArrayList<ArrayList<GameButton>>();
 		ArrayList<GameButton> seen = new ArrayList<GameButton>();
-		
+
 		possiblePaths.add( new ArrayList<GameButton>() );
 		possiblePaths.get( 0 ).add( button );
 		seen.add( button );
-		
+
 		return getPath( seen, possiblePaths );
 	}
 
@@ -208,14 +228,14 @@ public class AiBeta {
 			 */
 			GameButton current = list.get( list.size()-1 );
 			GameButton next = null;
-			
+
 			for( int k=0; k<4; k++ ){
 				int x, y;
 				if( k==0 ){ 	 x=current.x()+1; y=current.y(); }
 				else if( k==1 ){ x=current.x()-1; y=current.y(); }
 				else if( k==2 ){ x=current.x(); y=current.y()+1; }
 				else{ 			 x=current.x(); y=current.y()-1; }
-				
+
 				try{
 					boolean winning = true;
 					next = buttonMatrix[ x ][ y ];
@@ -227,7 +247,7 @@ public class AiBeta {
 							if( next.getPlayerColor() == Color.BLUE ) 
 								if ( ( next.getVisibility() == 3 ) && ( Battle.getResult( list.get( 0 ), next ).equals( "BLUE" ) ) ){
 									winning = false;
-//									System.out.println( "Lost obvious battle " + k );													//DEBUG
+									//									System.out.println( "Lost obvious battle " + k );													//DEBUG
 								}
 							//make copy of current list
 							ArrayList<GameButton> newList = new ArrayList<GameButton>();
@@ -246,19 +266,18 @@ public class AiBeta {
 				} catch( Exception e ){}
 			}
 		}
-//		System.out.println( newPossiblePaths );																					//DEBUG
+		//		System.out.println( newPossiblePaths );																					//DEBUG
 		possiblePaths = null;
 		return getPath( seen, newPossiblePaths );
 	}
-	
-	
+
 	@SuppressWarnings("unused")
 	private void printStats(){
 		printChances();
 		printDistances();
 		printPaths();
 	}
-	
+
 	private void printChances(){
 		System.out.println( "CHANCES" );
 		for( int x=0; x<10; x++ ){
@@ -272,7 +291,7 @@ public class AiBeta {
 		}
 		System.out.println();
 	}
-	
+
 	private void printDistances(){
 		System.out.println( "DISTANCES" );
 		for( int x=0; x<10; x++ ){
@@ -286,9 +305,9 @@ public class AiBeta {
 		}		
 		System.out.println();
 	}
-	
+
 	private void printPaths(){
-		
+
 		System.out.println( "PATHS" );
 		for( int x=0; x<10; x++ )
 			for( int y=0; y<10; y++ )
@@ -301,42 +320,52 @@ public class AiBeta {
 					System.out.println();
 				}
 	}
-	
-	public static void printHOLYFUCKMAP(){
 
+	public static void printPossibleOpponentPieces(){
+		System.out.println( "*Possible Opponent Pieces*" );
+		System.out.print( "[ (" + Controller.getCharIndexAry()[ 0 ] + ","  + possibleOpponentPieces[ 0 ] + ") " );
+		for( int index=1; index<possibleOpponentPieces.length; index++ )
+			System.out.print( "(" + Controller.getCharIndexAry()[ index ] + ","  + possibleOpponentPieces[ index ] + " ) " );
+		System.out.println( "]\n" );
+	}
+
+	public static void printFoundOpponentPieces(){
+
+		System.out.println( "*Found Opponent Pieces*" );
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
-				for( boolean key : HOLYFUCKMAP[ y ][ x ].keySet() ){
-					System.out.print( ( ( key ) ? "T" : "F" ) + Arrays.toString( HOLYFUCKMAP[ y ][ x ].get( key ) ) + " /// " );
-				}
+				if( buttonMatrix[ y ][ x ].getPlayerColor() == Color.RED )
+					System.out.print( "0 " );
+				else if( buttonMatrix[ y ][ x ].getPlayerColor() == Color.BLUE )
+					if( foundOpponentPieces[ y ][ x ] == 'X' )
+						System.out.print( "# ");
+					else
+						System.out.print( foundOpponentPieces[ y ][ x ] + " " );
+				else 
+					System.out.print( buttonMatrix[ y ][ x ].getVal() + " " );
 			}
 			System.out.println();
 		}
+		System.out.println();
+	}
+
+	public static void printMovedAry(){
+		System.out.println( "*Moved Array*" );
+		for( int x=0; x<10; x++ ){
+			for( int y=0; y<10; y++ ){
+				if( buttonMatrix[ y ][ x ].getPlayerColor() == Color.RED )
+					System.out.print( "0 " );
+				else if( buttonMatrix[ y ][ x ].getPlayerColor() == Color.BLUE )
+					if( movedAry[ y ][ x ] )
+						System.out.print( "T " );
+					else 
+						System.out.print( "F " );
+				else 
+					System.out.print( buttonMatrix[ y ][ x ].getVal() + " " );
+			}
+			System.out.println();
+		}
+		System.out.println();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
