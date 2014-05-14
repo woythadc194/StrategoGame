@@ -9,7 +9,7 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 
 import ui.GameButton;
-import ai.AiBeta;
+import ai.AI;
 import ai.ProbabilityCalculator;
 //import ai.AiBeta;
 
@@ -115,20 +115,21 @@ public class GameButtonLogic {
 	
 		String result = Battle.getResult( attacker, defender );
 //		System.out.println( attacker + " vs " + defender + " " + result );																			//DEBUG
-			
 
 		int defenderX = defender.x(); int defenderY = defender.y();
 		int attackerX = attacker.x(); int attackerY = attacker.y();
-		boolean defAlreadyShowing = defender.getVisibility() == 3;
-		boolean atkAlreadyShowing = attacker.getVisibility() == 3;
-		
+		boolean alreadyShowingDef = defender.getVisibility() == 3;
+		boolean alreadyShowingAtk = attacker.getVisibility() == 3;
+
 		if( result.equals( "INVALID" ) ){
 			;
 		} else if( result.equals( "NEITHER" ) ){
-			AiBeta.updateHOLYFUCKMAPafterDeath( attacker, attacker.getVisibility() == 3 );
-			AiBeta.updateHOLYFUCKMAPafterDeath( defender, defender.getVisibility() == 3 );
+			
+			AI.updateStats( attacker, true, alreadyShowingAtk, 
+							defender, true, alreadyShowingDef, result);
 			alterButton(attacker, 3, '~', Color.DARK_GRAY);
 			alterButton(defender, 3, '~', Color.DARK_GRAY);
+			
 		} else if( result.equals( "WIN" ) ){
 			JOptionPane.showMessageDialog( null, "GameOver!" );
 			System.exit( 0 );
@@ -136,32 +137,35 @@ public class GameButtonLogic {
 			if( result.equals( attacker.getPlayerColorString() ) ){ //attacker won
 
 				if( defender.getVal()!= '~' ){ //attacker won and not moving to empty space
+
+					AI.updateStats( attacker, true, alreadyShowingAtk, 
+									defender, true, alreadyShowingDef, result);
 					
-					AiBeta.updateHOLYFUCKMAP( attacker, true, true, atkAlreadyShowing, attackerX, attackerY );
-					AiBeta.updateHOLYFUCKMAPafterDeath(defender, defAlreadyShowing);
 					alterButton(defender, 3, attacker.getVal(), attacker.getPlayerColor() );
 				
 				}else{ //moving to empty space
 					
 					if( Math.abs( attackerY - defenderY ) > 1 || Math.abs( attackerX - defenderX ) > 1 ){ //9 now showing
-						
-						AiBeta.updateHOLYFUCKMAP( attacker, true, true, atkAlreadyShowing, attackerX, attackerY );
+
+						AI.updateStats( attacker, true, alreadyShowingAtk, 
+										defender, false, alreadyShowingDef, result);
 						alterButton(defender, 3, attacker.getVal(), attacker.getPlayerColor() );
-					
-					}else{ //move to empty and not 9
-						
-						AiBeta.updateHOLYFUCKMAP( attacker, true, false, atkAlreadyShowing, attackerX, attackerY );
-												
+
+					}else{ //move to empty and not moved more than 1 space ( 9 )
+
+						AI.updateStats( attacker, false, alreadyShowingAtk, 
+										defender, false, alreadyShowingDef, result);
 						alterButton(defender, attacker.getVisibility(), attacker.getVal(), attacker.getPlayerColor() );
+
 					}
 				}
 			
 			} else { //defender won
-				
-				AiBeta.updateHOLYFUCKMAP( defender, false, true, defAlreadyShowing, defenderX, defenderY );
-				AiBeta.updateHOLYFUCKMAPafterDeath( attacker, atkAlreadyShowing );
-				
+
+				AI.updateStats( attacker, true, alreadyShowingAtk, 
+								defender, true, alreadyShowingDef, result);
 				alterButton(defender, 3, defender.getVal(), defender.getPlayerColor() );
+				
 			}
 			alterButton(attacker, 3, '~', Color.DARK_GRAY );
 		}

@@ -8,7 +8,7 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
-import ai.AiBeta;
+import ai.AI;
 import ai.ProbabilityCalculator;
 
 import ui.RandomPane;
@@ -30,7 +30,7 @@ public class Controller {
 	private static boolean selectionMade;
 	private static boolean ifNumPlayersSelected;
 	private static Color playerTurn;
-	private static AiBeta AI;
+	private static AI AI;
 	private static SetupLogic SULogic;
 	private static GameButton selectedButton;
 	private static PieceOptButton [] optButtonAry;
@@ -51,7 +51,7 @@ public class Controller {
 		Controller.setPiecesAry(ControllerMaker.makeNumPiecesAry() );
 		Controller.setIfNumPlayersSelected( false );
 		Controller.setCharIndexAry( ControllerMaker.makeCharIndexAry() );
-		Controller.AI = new AiBeta();
+		Controller.AI = new AI();
 		constructSetupPane();
 	}
 	
@@ -85,9 +85,9 @@ public class Controller {
 	
 	public static void switchTurns(){
 		numTurns++;
-		AiBeta.printPossibleOpponentPieces();
-		AiBeta.printMovedAry();
-		AiBeta.printFoundOpponentPieces();
+		AI.printPossibleOpponentPieces();
+		AI.printMovedAry();
+		AI.printFoundOpponentPieces();
 		System.out.println( "TURN NUMBER: " + numTurns );
 		setTurn( getPlayerTurn() == Color.RED ? Color.BLUE : Color.RED );
 		ProbabilityCalculator pc = new ProbabilityCalculator();
