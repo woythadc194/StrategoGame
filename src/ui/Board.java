@@ -5,12 +5,14 @@
 package ui;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -25,12 +27,29 @@ public class Board extends JPanel {
 	
 	private static Board b;
 	private static JFrame frame;
+	private static JPanel field;
+	private static JPanel graveyard;
 	private static boolean gameOver;
 	
 	public Board(){
 		super();
 
 		this.setPreferredSize( new Dimension( 400, 400 ) );
+		
+		FlowLayout flow = new FlowLayout( );
+		flow.setHgap( 0 );
+		flow.setVgap( 0 );
+		
+		field = new JPanel();
+		field.setLayout( flow );
+		field.setPreferredSize( new Dimension( 580, 400 ) );
+
+		graveyard = new JPanel();
+		graveyard.setPreferredSize( new Dimension( 160, 400 ) );
+		
+		field.add( this );
+		field.add( new SpacerButton( new Dimension ( 20, 400 ) ) );
+		field.add( graveyard );
 		
 		frame = new JFrame( "Stratego" );
 		setUpGridBag();
@@ -49,6 +68,9 @@ public class Board extends JPanel {
 		cont.setSULogic( new SetupLogic( cont ) );
 	}
 	
+	public static JPanel getGraveyard(){
+		return Board.graveyard;
+	}
 	
 	public void setUpGridBag(){
 		GridBagLayout gridbag = new GridBagLayout();
@@ -62,8 +84,8 @@ public class Board extends JPanel {
 			frame.add( menus );
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.gridwidth = 1;
-			gridbag.setConstraints( this, c );
-			frame.add( this );
+			gridbag.setConstraints( field, c );
+			frame.add( field );
 	}
 	
 

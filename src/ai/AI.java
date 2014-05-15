@@ -1,13 +1,15 @@
 package ai;
 
 import java.awt.Color;
-import java.util.*;
+import java.awt.Dimension;
+import java.util.ArrayList;
 
 import logic.Battle;
 import logic.Controller;
 import logic.GameButtonLogic;
-
+import ui.Board;
 import ui.GameButton;
+import ui.SpacerButton;
 
 public class AI {
 
@@ -56,17 +58,22 @@ public class AI {
 			if( result.equals( "NEITHER" ) ){				// blue attacked and stalemate
 
 				foundOpponentPieces[ attacker.x() ][ attacker.y() ] = 'X';
-				movedAry[ attacker.x() ][ attacker.y() ] = false;
+				movedAry[ attacker.x() ][ attacker.y() ] = false;				
+				Board.getGraveyard().add( new SpacerButton( new Dimension( 40, 40 ), defender.getVal() ) );
+				Board.getGraveyard().repaint();
 
 			} else if( result.equals( "BLUE" ) ){ 			// blue attacked and won
-				if( defender.getVal() == '~' )				//a space
+				if( defender.getVal() != '~' ){				// not moving to empty space
 					if( Math.abs( attacker.y() - defender.y() ) > 1 || Math.abs( attacker.x() - defender.x() ) > 1 ) //changes if 9 double moved
 						foundOpponentPieces[ defender.x() ][ defender.y() ] = attacker.getVal();
-					else 																		// else keep hidden
-						foundOpponentPieces[ defender.x() ][ defender.y() ] = (alreadyShowingAtk) ? attacker.getVal() : 'X';
-						else
-							foundOpponentPieces[ defender.x() ][ defender.y() ] = 'X';
+					else 																			// else keep hidden
+						foundOpponentPieces[ defender.x() ][ defender.y() ] = 'X';
+					Board.getGraveyard().add( new SpacerButton( new Dimension( 40, 40 ), defender.getVal() ) );
+					Board.getGraveyard().repaint();
 
+				}else{
+					foundOpponentPieces[ defender.x() ][ defender.y() ] = 'X';
+				}
 				movedAry[ defender.x() ][defender.y() ] = true;
 
 
@@ -88,6 +95,8 @@ public class AI {
 
 				foundOpponentPieces[ defender.x() ][ defender.y() ] = 'X';
 				movedAry[ defender.x() ][ defender.y() ] = false;
+				Board.getGraveyard().add( new SpacerButton( new Dimension( 40, 40 ), defender.getVal() ) );
+				Board.getGraveyard().repaint();
 
 			} else if( result.equals( "RED" ) ){ //red attacked and won
 
@@ -98,6 +107,8 @@ public class AI {
 
 				foundOpponentPieces[ defender.x() ][ defender.y() ] = defender.getVal();
 				movedAry[ defender.x() ][ defender.y() ] = false;
+				Board.getGraveyard().add( new SpacerButton( new Dimension( 40, 40 ), attacker.getVal() ) );
+				Board.getGraveyard().repaint();
 
 			}
 		}
@@ -106,8 +117,8 @@ public class AI {
 
 	@SuppressWarnings("unchecked")
 	public void makeMove1(){
-		//		System.out.println( "AI MAKING MOVE" );																					//DEBUG
-		try{ Thread.sleep(1000); } catch( Exception e ){}
+		System.out.println( "AI MAKING MOVE" );																					//DEBUG
+		try{ Thread.sleep(100); } catch( Exception e ){}
 
 		chances = new int[ 10 ][ 10 ];
 		attackablePieces = new ArrayList[ 10 ][ 10 ];
@@ -116,32 +127,50 @@ public class AI {
 
 		//Set up chances
 		for( int x=0; x<10; x++ )
+
 			for( int y=0; y<10; y++ ){
+
 				GameButton attacker = buttonMatrix[ x ][ y ];
-				if( attacker.getPlayerColor() == Color.RED)
+
+				if( attacker.getPlayerColor() == Color.RED && attacker.getVal()!= 'B' && attacker.getVal()!= 'F' )
+
 					attackablePieces[ x ][ y ] = ProbabilityCalculator.findTargets( attacker, false );
+
 				if( attackablePieces[ x ][ y ]!= null && !attackablePieces[ x ][ y ].isEmpty() ){
+
 					int attackWins = 0;
 					int numAttacks = 0;
+
 					for( GameButton defender : attackablePieces[ x ][ y ] ){
+
 						if( defender.getVisibility() != 3 ){
+
 							for( int i=0; i<possibleOpponentPieces.length; i++ )
+
 								if( movedAry[ x ][ y ] && ( i==11 || i==12 ) ){
+
 									;
+
 								}else{
+
 									numAttacks ++;
 									char val = Controller.getCharIndexAry()[i];
 									attackWins += (Battle.getResult(attacker, val ) == attacker.getPlayerColorString()) ? 1 : 0;
+
 								}
+
 						} else { // visible piece
+
 							numAttacks++;
-							char val = defender.getVal();
-							attackWins += ( Battle.getResult(attacker, val ) == defender.getPlayerColorString() ) ? 0 : 1;
+						char val = defender.getVal();
+						attackWins += ( Battle.getResult(attacker, val ) == defender.getPlayerColorString() ) ? 0 : 1;
+
 						}
 					}
 					chances[ x ][ y ] = (attackWins*100/numAttacks);
 				}
 			}
+		//		System.out.println( "Maded Chances" ); //DEBUG
 
 		//Set up Paths
 		for( int x=0; x<10; x++ ){
@@ -151,6 +180,7 @@ public class AI {
 				}
 			}
 		}
+		//		System.out.println( "Made Paths" ); //DEBUG
 
 		//Set up Distances
 		for( int x=0; x<10; x++ ){
@@ -160,12 +190,19 @@ public class AI {
 				}
 			}
 		}
+		//		System.out.println( "Made Distances" );
 
-//		printStats();
+		//		printStats();
 
 		GameButton startButton = getButton();
 		GameButton endButton = getButtonVictim( startButton );
+
+		System.out.println( "Chosing button " + startButton );
+		try{ Thread.sleep( 200 ); } catch (Exception e ){}
 		GameButtonLogic.clicked( startButton );
+
+		System.out.println( "Clicking space to move to " + endButton );
+		try{ Thread.sleep( 200 ); } catch (Exception e ){}
 		GameButtonLogic.clicked( endButton );
 	}
 
@@ -267,17 +304,15 @@ public class AI {
 		return getPath( seen, newPossiblePaths );
 	}
 
-	public	static void printStats(){
+	@SuppressWarnings("unused")
+	private void printStats(){
 		printChances();
 		printDistances();
-		printPossibleOpponentPieces();
-		printFoundOpponentPieces();
-		printMovedAry();
-		//printPaths();
+		printPaths();
 	}
 
-	private static void printChances(){
-		System.out.println( "*CHANCES*" );
+	private void printChances(){
+		System.out.println( "CHANCES" );
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
 				String s = "" + chances[ y ][ x ];
@@ -290,8 +325,8 @@ public class AI {
 		System.out.println();
 	}
 
-	private static void printDistances(){
-		System.out.println( "*DISTANCES*" );
+	private void printDistances(){
+		System.out.println( "DISTANCES" );
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
 				String s = "" + distances[ y ][ x ];
@@ -304,10 +339,9 @@ public class AI {
 		System.out.println();
 	}
 
-	@SuppressWarnings("unused")
 	private void printPaths(){
 
-		System.out.println( "*PATHS*" );
+		System.out.println( "PATHS" );
 		for( int x=0; x<10; x++ )
 			for( int y=0; y<10; y++ )
 				if( distances[ x ][ y ]!= 0 ){

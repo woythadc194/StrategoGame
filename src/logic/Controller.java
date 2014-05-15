@@ -84,17 +84,18 @@ public class Controller {
 	}
 	
 	public static void switchTurns(){
-		numTurns++;
-		System.out.println( ( (getPlayerTurn()==Color.BLUE) ? "BLUE" : "RED") + " TURN, NUMBER: " + numTurns );
 		setTurn( getPlayerTurn() == Color.RED ? Color.BLUE : Color.RED );
+
 		ProbabilityCalculator pc = new ProbabilityCalculator();
 		ProbabilityCalculator.clearTargets();
 		pc.getAllBattleStats( getPlayerTurn() );
-		
-		
+
+		System.out.println( "\n" + ( (getPlayerTurn()==Color.BLUE) ? "BLUE" : "RED") + " TURN, NUMBER: " + numTurns );
+		numTurns++;
+
 		if( getPlayerTurn() == Color.RED )
 			Atrie.makeMove1();
-		//TODO
+
 	}
 	
 	public static int[] getPiecesAry(){
@@ -236,7 +237,7 @@ public class Controller {
 		return Controller.selectedButton;
 	}
 	
-	public Board getGameBoard(){
+	public Board getBoard(){
 		return Controller.gb;
 	}
 	

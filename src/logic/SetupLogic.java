@@ -96,7 +96,7 @@ public class SetupLogic {
 				button.repaint();
 				Controller.getPiecesAry()[opt]--;
 			}
-		System.out.println(cont.getGameBoard());
+		System.out.println(cont.getBoard());
 	}
 	
 	public static void setHumanAsParsed() throws FileNotFoundException{

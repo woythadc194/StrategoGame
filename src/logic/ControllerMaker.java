@@ -52,7 +52,7 @@ public class ControllerMaker {
 		FlowLayout flow = new FlowLayout();
 		flow.setHgap( 0 );
 		flow.setVgap( 0 );
-		cont.getGameBoard().setLayout( flow );
+		cont.getBoard().setLayout( flow );
 
 		GameButton[][] buttonMatrix = new GameButton[ 10 ][ 10 ];
 		
@@ -74,7 +74,7 @@ public class ControllerMaker {
 					button.setReady( true );
 				}
 				
-				cont.getGameBoard().add( button );
+				cont.getBoard().add( button );
 			}
 		}
 		return buttonMatrix;
