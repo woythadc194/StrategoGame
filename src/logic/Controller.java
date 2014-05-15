@@ -30,7 +30,7 @@ public class Controller {
 	private static boolean selectionMade;
 	private static boolean ifNumPlayersSelected;
 	private static Color playerTurn;
-	private static AI AI;
+	private static AI Atrie;
 	private static SetupLogic SULogic;
 	private static GameButton selectedButton;
 	private static PieceOptButton [] optButtonAry;
@@ -51,7 +51,7 @@ public class Controller {
 		Controller.setPiecesAry(ControllerMaker.makeNumPiecesAry() );
 		Controller.setIfNumPlayersSelected( false );
 		Controller.setCharIndexAry( ControllerMaker.makeCharIndexAry() );
-		Controller.AI = new AI();
+		Controller.Atrie = new AI();
 		constructSetupPane();
 	}
 	
@@ -85,10 +85,7 @@ public class Controller {
 	
 	public static void switchTurns(){
 		numTurns++;
-		AI.printPossibleOpponentPieces();
-		AI.printMovedAry();
-		AI.printFoundOpponentPieces();
-		System.out.println( "TURN NUMBER: " + numTurns );
+		System.out.println( ( (getPlayerTurn()==Color.BLUE) ? "BLUE" : "RED") + " TURN, NUMBER: " + numTurns );
 		setTurn( getPlayerTurn() == Color.RED ? Color.BLUE : Color.RED );
 		ProbabilityCalculator pc = new ProbabilityCalculator();
 		ProbabilityCalculator.clearTargets();
@@ -96,7 +93,7 @@ public class Controller {
 		
 		
 		if( getPlayerTurn() == Color.RED )
-			AI.makeMove1();
+			Atrie.makeMove1();
 		//TODO
 	}
 	

@@ -1,6 +1,6 @@
 /**
-  * @author Dylan C. Woythal
-  */
+ * @author Dylan C. Woythal
+ */
 
 package logic;
 
@@ -14,7 +14,7 @@ import ai.ProbabilityCalculator;
 //import ai.AiBeta;
 
 public class GameButtonLogic {
-	
+
 	public static void alterButton(GameButton button, int visibility, char val, Color playerColor){
 		button.setColor( playerColor );
 		button.setVisibility(visibility);
@@ -31,13 +31,13 @@ public class GameButtonLogic {
 	}
 
 	private static void preGameClick( GameButton button ){
-		
+
 		int yMin = SetupLogic.getYMin();
 		int yMax = SetupLogic.getYMax();
 		int yLocal = button.y();
 		if( yLocal < yMin || yLocal > yMax )
 			return;
-		
+
 		if( button.getVal()!= '~' ){
 			int x = 0;
 			for( int index = 0; index < 13; index ++ )
@@ -49,13 +49,13 @@ public class GameButtonLogic {
 			GameButtonLogic.alterButton(button, 2, Controller.getCharIndexAry()[Controller.getSelectedPieceOpt()], SetupLogic.getCurrentPlayer() );
 		} else
 			alterButton( button, 3, '~', button.getPlayerColor() );
-		
+
 		int targetType = Controller.getSelectedPieceOpt();
 		if( targetType!= 0 )
 			Controller.getPiecesAry()[ targetType ]--;
 		PceOptBttnLogic.clicked( Controller.getOptButtonAry()[ targetType ] );
 	}
-	
+
 	private static void midGameClick( GameButton button ){
 
 		//Initial click isn't an X
@@ -78,7 +78,7 @@ public class GameButtonLogic {
 					Controller.clearSelectedButton();
 					ProbabilityCalculator.clearTargets();
 				}
-				
+
 				else if( button.isMovable() )
 					setUpBattle( button );
 
@@ -95,7 +95,7 @@ public class GameButtonLogic {
 			}
 		}
 	}
-	
+
 	private static void waitTime( long time ){
 		long start = System.currentTimeMillis();
 		while( System.currentTimeMillis() - start < time ){
@@ -109,12 +109,11 @@ public class GameButtonLogic {
 		GameButton defender = button;
 		commenceBattle(attacker, defender );
 	}
-	
+
 	public static void commenceBattle( GameButton attacker, GameButton defender ){
 		waitTime( 10 );
-	
+
 		String result = Battle.getResult( attacker, defender );
-//		System.out.println( attacker + " vs " + defender + " " + result );																			//DEBUG
 
 		int defenderX = defender.x(); int defenderY = defender.y();
 		int attackerX = attacker.x(); int attackerY = attacker.y();
@@ -124,12 +123,12 @@ public class GameButtonLogic {
 		if( result.equals( "INVALID" ) ){
 			;
 		} else if( result.equals( "NEITHER" ) ){
-			
+
 			AI.updateStats( attacker, true, alreadyShowingAtk, 
-							defender, true, alreadyShowingDef, result);
+					defender, true, alreadyShowingDef, result);
 			alterButton(attacker, 3, '~', Color.DARK_GRAY);
 			alterButton(defender, 3, '~', Color.DARK_GRAY);
-			
+
 		} else if( result.equals( "WIN" ) ){
 			JOptionPane.showMessageDialog( null, "GameOver!" );
 			System.exit( 0 );
@@ -139,33 +138,33 @@ public class GameButtonLogic {
 				if( defender.getVal()!= '~' ){ //attacker won and not moving to empty space
 
 					AI.updateStats( attacker, true, alreadyShowingAtk, 
-									defender, true, alreadyShowingDef, result);
-					
+							defender, true, alreadyShowingDef, result);
+
 					alterButton(defender, 3, attacker.getVal(), attacker.getPlayerColor() );
-				
+
 				}else{ //moving to empty space
-					
+
 					if( Math.abs( attackerY - defenderY ) > 1 || Math.abs( attackerX - defenderX ) > 1 ){ //9 now showing
 
 						AI.updateStats( attacker, true, alreadyShowingAtk, 
-										defender, false, alreadyShowingDef, result);
+								defender, alreadyShowingAtk, alreadyShowingDef, result);
 						alterButton(defender, 3, attacker.getVal(), attacker.getPlayerColor() );
 
 					}else{ //move to empty and not moved more than 1 space ( 9 )
 
 						AI.updateStats( attacker, false, alreadyShowingAtk, 
-										defender, false, alreadyShowingDef, result);
+								defender, false, alreadyShowingDef, result);
 						alterButton(defender, attacker.getVisibility(), attacker.getVal(), attacker.getPlayerColor() );
 
 					}
 				}
-			
+
 			} else { //defender won
 
 				AI.updateStats( attacker, true, alreadyShowingAtk, 
-								defender, true, alreadyShowingDef, result);
+						defender, true, alreadyShowingDef, result);
 				alterButton(defender, 3, defender.getVal(), defender.getPlayerColor() );
-				
+
 			}
 			alterButton(attacker, 3, '~', Color.DARK_GRAY );
 		}
@@ -175,6 +174,6 @@ public class GameButtonLogic {
 		Controller.switchTurns();
 
 	}
-	
-	
+
+
 }

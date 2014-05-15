@@ -43,61 +43,62 @@ public class AI {
 	}
 
 	public static void updateStats( GameButton attacker, boolean nowShowingAtk, boolean alreadyShowingAtk, 
-									GameButton defender, boolean nowShowingDef, boolean alreadyShowingDef, String result ){
+			GameButton defender, boolean nowShowingDef, boolean alreadyShowingDef, String result ){
 		if( result.equals( "INVALID" ) )
 			return;
-		
+
 		if( attacker.getPlayerColor() == Color.BLUE ){
-			
+
 			if( !alreadyShowingAtk )
 				if( nowShowingAtk )
 					possibleOpponentPieces[ Controller.getCharIndex( attacker.getVal() ) ] --;
-			
+
 			if( result.equals( "NEITHER" ) ){				// blue attacked and stalemate
 
 				foundOpponentPieces[ attacker.x() ][ attacker.y() ] = 'X';
 				movedAry[ attacker.x() ][ attacker.y() ] = false;
-				
+
 			} else if( result.equals( "BLUE" ) ){ 			// blue attacked and won
-				if( defender.getVal() != '~' )				//a space
+				if( defender.getVal() == '~' )				//a space
 					if( Math.abs( attacker.y() - defender.y() ) > 1 || Math.abs( attacker.x() - defender.x() ) > 1 ) //changes if 9 double moved
 						foundOpponentPieces[ defender.x() ][ defender.y() ] = attacker.getVal();
-					else 																			// else keep hidden
-						foundOpponentPieces[ defender.x() ][ defender.y() ] = 'X';
-				else
-					foundOpponentPieces[ defender.x() ][ defender.y() ] = 'X';
+					else 																		// else keep hidden
+						foundOpponentPieces[ defender.x() ][ defender.y() ] = (alreadyShowingAtk) ? attacker.getVal() : 'X';
+						else
+							foundOpponentPieces[ defender.x() ][ defender.y() ] = 'X';
+
 				movedAry[ defender.x() ][defender.y() ] = true;
-				
-				
+
+
 			} else {  //blue attacked but lost
-				
+
 				foundOpponentPieces[ attacker.x() ][ attacker.y() ] = 'X';
 				movedAry[ attacker.x() ][ attacker.y() ] = false;
-				
+
 			}
 		} // end attack == blue
-		
-		
+
+
 		if( defender.getPlayerColor() == Color.BLUE ){
 			if( !alreadyShowingDef )
 				if( nowShowingDef )
 					possibleOpponentPieces[ Controller.getCharIndex( defender.getVal() ) ]--;
-			
+
 			if( result.equals( "NEITHER" ) ){ //red attacked and stalemate
-			
+
 				foundOpponentPieces[ defender.x() ][ defender.y() ] = 'X';
 				movedAry[ defender.x() ][ defender.y() ] = false;
-			
+
 			} else if( result.equals( "RED" ) ){ //red attacked and won
-				
+
 				foundOpponentPieces[ defender.x() ][ defender.y() ] = 'X';
 				movedAry[ defender.x() ][ defender.y() ] = false;	
-				
+
 			} else{ //red attacked and lost
 
 				foundOpponentPieces[ defender.x() ][ defender.y() ] = defender.getVal();
 				movedAry[ defender.x() ][ defender.y() ] = false;
-				
+
 			}
 		}
 
@@ -160,7 +161,7 @@ public class AI {
 			}
 		}
 
-		//		printStats();
+//		printStats();
 
 		GameButton startButton = getButton();
 		GameButton endButton = getButtonVictim( startButton );
@@ -266,15 +267,17 @@ public class AI {
 		return getPath( seen, newPossiblePaths );
 	}
 
-	@SuppressWarnings("unused")
-	private void printStats(){
+	public	static void printStats(){
 		printChances();
 		printDistances();
-		printPaths();
+		printPossibleOpponentPieces();
+		printFoundOpponentPieces();
+		printMovedAry();
+		//printPaths();
 	}
 
-	private void printChances(){
-		System.out.println( "CHANCES" );
+	private static void printChances(){
+		System.out.println( "*CHANCES*" );
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
 				String s = "" + chances[ y ][ x ];
@@ -287,8 +290,8 @@ public class AI {
 		System.out.println();
 	}
 
-	private void printDistances(){
-		System.out.println( "DISTANCES" );
+	private static void printDistances(){
+		System.out.println( "*DISTANCES*" );
 		for( int x=0; x<10; x++ ){
 			for( int y=0; y<10; y++ ){
 				String s = "" + distances[ y ][ x ];
@@ -301,9 +304,10 @@ public class AI {
 		System.out.println();
 	}
 
+	@SuppressWarnings("unused")
 	private void printPaths(){
 
-		System.out.println( "PATHS" );
+		System.out.println( "*PATHS*" );
 		for( int x=0; x<10; x++ )
 			for( int y=0; y<10; y++ )
 				if( distances[ x ][ y ]!= 0 ){
